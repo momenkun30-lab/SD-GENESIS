@@ -1,118 +1,572 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>لوحة التحكم — Release Dock</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css" />
-<link rel="stylesheet" href="/css/admin.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SD GENESIS - لوحة التحكم الاحترافية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        [data-section-panel] { display: none; }
+        [data-section-panel].active { display: block; }
+    </style>
 </head>
-<body class="admin-body">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
 
-  <!-- Login screen -->
-  <section id="login-screen" class="login-screen">
-    <form id="login-form" class="login-card">
-      <p class="hero__eyebrow">admin.auth</p>
-      <h1 class="login-title">دخول لوحة التحكم</h1>
-      <label class="field">
-        <span>اسم المستخدم</span>
-        <input type="text" name="username" autocomplete="username" required />
-      </label>
-      <label class="field">
-        <span>كلمة المرور</span>
-        <input type="password" name="password" autocomplete="current-password" required />
-      </label>
-      <button type="submit" class="btn-download">تسجيل الدخول</button>
-      <p class="login-error" id="login-error" hidden></p>
-    </form>
-  </section>
-
-  <!-- Dashboard -->
-  <div id="dashboard" class="dashboard" hidden>
-    <header class="topbar">
-      <div class="topbar__inner">
-        <a class="brand" href="/">
-          <span class="brand__mark"><span class="brand__dot"></span></span>
-          <span class="brand__text">Release<span class="brand__accent">Dock</span> <small style="color:var(--text-dim);font-size:0.6em;">Admin</small></span>
-        </a>
-        <div class="topbar__meta">
-          <span class="status-pill" id="admin-username"></span>
-          <button class="topbar__admin-link" id="logout-btn" style="background:none;border:1px solid var(--border);cursor:pointer;">تسجيل الخروج</button>
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="login-screen" class="fixed inset-0 z-[100] bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4">
+    <form id="login-form" class="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-xl">
+        <div class="flex items-center gap-2 mb-6">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm">SD</div>
+            <span class="font-bold text-lg">SD GENESIS</span>
         </div>
-      </div>
+        <h1 class="text-xl font-bold mb-1">دخول لوحة التحكم</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">أدخل بياناتك للمتابعة</p>
+        <label class="block mb-4">
+            <span class="text-sm font-medium text-slate-600 dark:text-slate-400">اسم المستخدم</span>
+            <input type="text" name="username" required autocomplete="username"
+                class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </label>
+        <label class="block mb-6">
+            <span class="text-sm font-medium text-slate-600 dark:text-slate-400">كلمة المرور</span>
+            <input type="password" name="password" required autocomplete="current-password"
+                class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </label>
+        <button type="submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">تسجيل الدخول</button>
+        <p id="login-error" class="text-sm text-red-500 mt-3 hidden"></p>
+    </form>
+</div>
+
+<!-- ============ APP SHELL (hidden until authenticated) ============ -->
+<div id="app-shell" class="hidden">
+
+    <!-- Top Bar -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <button id="sidebarToggle" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm">SD</div>
+                <span class="font-bold text-lg hidden sm:block">SD GENESIS</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-4">
+            <button id="themeToggle" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </button>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold" id="avatar-initial">A</div>
+                <span class="text-sm font-medium hidden sm:block" id="admin-username-label">المشرف</span>
+                <button id="logout-btn" class="text-xs text-slate-400 hover:text-red-500 transition-colors mr-2">تسجيل الخروج</button>
+            </div>
+        </div>
     </header>
 
-    <main class="dash-main">
-      <section class="dash-stats" id="dash-stats"></section>
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed lg:sticky top-0 right-0 h-screen w-64 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 transform translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 overflow-y-auto">
+            <div class="p-4 space-y-1">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 px-3">القائمة الرئيسية</div>
 
-      <section class="dash-panel">
-        <div class="dash-panel__header">
-          <h2>التطبيقات</h2>
-          <button class="btn-primary" id="new-app-btn">+ رفع تطبيق جديد</button>
-        </div>
-        <div class="table-wrap">
-          <table class="apps-table" id="apps-table">
-            <thead>
-              <tr>
-                <th></th><th>الاسم</th><th>الإصدار</th><th>الحجم</th><th>الحالة</th><th>تنزيلات</th><th></th>
-              </tr>
-            </thead>
-            <tbody id="apps-tbody"></tbody>
-          </table>
-        </div>
-      </section>
-    </main>
-  </div>
+                <button data-nav="dashboard" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    لوحة التحكم
+                </button>
+                <button data-nav="apps" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    إدارة التطبيقات
+                </button>
+                <button data-nav="analytics" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m18 0v-6a2 2 0 00-2-2h-2a2 2 0 00-2 2v6m-6 0v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m18 0V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v6"/></svg>
+                    التحليلات
+                </button>
 
-  <!-- App edit/create modal -->
-  <div class="modal-overlay" id="app-form-modal" hidden>
-    <div class="modal" style="max-width:560px;">
-      <button class="modal__close" id="form-modal-close">✕</button>
-      <h2 id="form-title" class="modal-title" style="margin-bottom:20px;">تطبيق جديد</h2>
-      <form id="app-form" class="app-form">
-        <input type="hidden" name="id" />
-        <label class="field">
-          <span>اسم التطبيق</span>
-          <input type="text" name="name" required />
-        </label>
-        <label class="field">
-          <span>الوصف</span>
-          <textarea name="description" rows="3"></textarea>
-        </label>
-        <div class="field-row">
-          <label class="field">
-            <span>رقم الإصدار</span>
-            <input type="text" name="version" placeholder="1.0.0" />
-          </label>
-          <label class="field field-check">
-            <input type="checkbox" name="published" />
-            <span>منشور للمستخدمين</span>
-          </label>
-        </div>
-        <label class="field">
-          <span>سجل التحديثات (Changelog)</span>
-          <textarea name="changelog" rows="3" placeholder="- إصلاح كذا&#10;- تحسين كذا"></textarea>
-        </label>
-        <label class="field">
-          <span>أيقونة التطبيق</span>
-          <input type="file" name="icon" accept="image/*" />
-        </label>
-        <label class="field">
-          <span>صور واجهة التطبيق (حتى 8 صور)</span>
-          <input type="file" name="screenshots" accept="image/*" multiple />
-        </label>
-        <label class="field">
-          <span>ملف التطبيق (apk / exe / zip / dmg …)</span>
-          <input type="file" name="file" />
-        </label>
-        <p class="form-error" id="form-error" hidden></p>
-        <button type="submit" class="btn-download" id="form-submit">حفظ التطبيق</button>
-      </form>
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-6 mb-2 px-3">قريبًا</div>
+                <button data-nav="songs" data-soon="إدارة الأغاني" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+                    إدارة الأغاني <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="storage" data-soon="التخزين السحابي" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                    التخزين السحابي <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="users" data-soon="إدارة المستخدمين" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    إدارة المستخدمين <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="notifications" data-soon="الإشعارات" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                    الإشعارات <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="security" data-soon="الأمان" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    الأمان <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="backup" data-soon="النسخ الاحتياطي" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                    النسخ الاحتياطي <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+            </div>
+        </aside>
+
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-4 lg:p-8 overflow-x-hidden">
+
+            <!-- ===== DASHBOARD (real data) ===== -->
+            <div data-section-panel="dashboard" class="active space-y-6">
+                <div>
+                    <h1 class="text-2xl font-bold">لوحة التحكم</h1>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">نظرة عامة — بيانات حقيقية من قاعدة البيانات</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                        </div>
+                        <div class="text-2xl font-bold" id="stat-total-apps">—</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">إجمالي التطبيقات</div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        </div>
+                        <div class="text-2xl font-bold" id="stat-total-downloads">—</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">إجمالي التنزيلات</div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+                        <div class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                        </div>
+                        <div class="text-lg font-bold truncate" id="stat-top-app">—</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">الأكثر تنزيلًا</div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                        التطبيقات الأكثر تحميلًا
+                    </h3>
+                    <div id="dash-top-apps" class="space-y-3 text-sm text-slate-400">جارٍ التحميل…</div>
+                </div>
+            </div>
+
+            <!-- ===== APPS (real CRUD) ===== -->
+            <div data-section-panel="apps" class="space-y-6">
+                <div class="flex items-center justify-between flex-wrap gap-3">
+                    <div>
+                        <h1 class="text-2xl font-bold">إدارة التطبيقات</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">إضافة، تعديل، حذف، ونشر التطبيقات</p>
+                    </div>
+                    <button id="new-app-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        إضافة تطبيق جديد
+                    </button>
+                </div>
+
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex flex-wrap gap-3">
+                    <input type="text" id="apps-search" placeholder="البحث في التطبيقات..." autocomplete="off"
+                        class="flex-1 min-w-[200px] bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <select id="apps-filter" class="bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2 text-sm">
+                        <option value="all">جميع الحالات</option>
+                        <option value="published">منشور</option>
+                        <option value="draft">مسودة</option>
+                    </select>
+                </div>
+
+                <div id="apps-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <p class="text-slate-400 text-sm">جارٍ التحميل…</p>
+                </div>
+            </div>
+
+            <!-- ===== ANALYTICS (real daily downloads) ===== -->
+            <div data-section-panel="analytics" class="space-y-6">
+                <div>
+                    <h1 class="text-2xl font-bold">التحليلات</h1>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">التنزيلات اليومية خلال آخر 30 يومًا — بيانات حقيقية</p>
+                </div>
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                    <div id="analytics-chart" class="h-56 flex items-end justify-start gap-1.5 overflow-x-auto scrollbar-hide">
+                        <p class="text-slate-400 text-sm">جارٍ التحميل…</p>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                    <h3 class="font-bold text-lg mb-4">الأكثر تنزيلًا</h3>
+                    <div id="analytics-top-apps" class="space-y-3 text-sm text-slate-400">جارٍ التحميل…</div>
+                </div>
+            </div>
+
+            <!-- ===== COMING SOON template (shared by songs/storage/users/notifications/security/backup) ===== -->
+            <template id="coming-soon-template">
+                <div class="flex flex-col items-center justify-center text-center py-24 bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-300 dark:border-slate-700">
+                    <div class="w-14 h-14 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h2 class="text-lg font-bold soon-title">قريبًا</h2>
+                    <p class="text-slate-400 text-sm mt-1">هذه الميزة قيد التطوير وستتوفر في تحديث قادم.</p>
+                </div>
+            </template>
+            <div data-section-panel="songs"></div>
+            <div data-section-panel="storage"></div>
+            <div data-section-panel="users"></div>
+            <div data-section-panel="notifications"></div>
+            <div data-section-panel="security"></div>
+            <div data-section-panel="backup"></div>
+
+        </main>
     </div>
-  </div>
+</div>
 
-  <script src="/js/admin.js"></script>
+<!-- ============ APP CREATE/EDIT MODAL ============ -->
+<div id="app-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
+        <button id="form-modal-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
+        <h2 id="form-title" class="text-lg font-bold mb-5">تطبيق جديد</h2>
+        <form id="app-form" class="space-y-4">
+            <input type="hidden" name="id">
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">اسم التطبيق</span>
+                <input type="text" name="name" required class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">الوصف</span>
+                <textarea name="description" rows="3" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea>
+            </label>
+            <div class="flex gap-4 items-end">
+                <label class="block flex-1">
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-400">رقم الإصدار</span>
+                    <input type="text" name="version" placeholder="1.0.0" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </label>
+                <label class="flex items-center gap-2 pb-2.5 text-sm">
+                    <input type="checkbox" name="published" class="w-4 h-4">
+                    منشور للمستخدمين
+                </label>
+            </div>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">سجل التحديثات</span>
+                <textarea name="changelog" rows="3" placeholder="- إصلاح كذا&#10;- تحسين كذا" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea>
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">أيقونة التطبيق</span>
+                <input type="file" name="icon" accept="image/*" class="mt-1 w-full text-sm text-slate-500">
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">صور واجهة التطبيق (حتى 8 صور)</span>
+                <input type="file" name="screenshots" accept="image/*" multiple class="mt-1 w-full text-sm text-slate-500">
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">ملف التطبيق (apk / exe / zip / dmg …)</span>
+                <input type="file" name="file" class="mt-1 w-full text-sm text-slate-500">
+            </label>
+            <p id="form-error" class="text-sm text-red-500 hidden"></p>
+            <button type="submit" id="form-submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">حفظ التطبيق</button>
+        </form>
+    </div>
+</div>
+
+<script>
+/* ============ THEME ============ */
+const THEME_KEY = 'sdgenesis-theme';
+function applyTheme(t) { document.documentElement.classList.toggle('dark', t === 'dark'); }
+applyTheme(localStorage.getItem(THEME_KEY) || 'light');
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+  applyTheme(next);
+  localStorage.setItem(THEME_KEY, next);
+});
+
+/* ============ SIDEBAR (mobile) ============ */
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+function toggleSidebar(open) {
+  const isOpen = open ?? sidebar.classList.contains('translate-x-full');
+  sidebar.classList.toggle('translate-x-full', !isOpen);
+  sidebarOverlay.classList.toggle('hidden', !isOpen);
+}
+document.getElementById('sidebarToggle').addEventListener('click', () => toggleSidebar(true));
+sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
+
+/* ============ NAVIGATION ============ */
+const navButtons = document.querySelectorAll('.nav-item');
+const panels = document.querySelectorAll('[data-section-panel]');
+const comingSoonTemplate = document.getElementById('coming-soon-template');
+
+function renderComingSoon(section, title) {
+  const panel = document.querySelector(`[data-section-panel="${section}"]`);
+  if (panel.dataset.rendered) return;
+  const clone = comingSoonTemplate.content.cloneNode(true);
+  clone.querySelector('.soon-title').textContent = title;
+  panel.appendChild(clone);
+  panel.dataset.rendered = '1';
+}
+
+function navigate(section) {
+  panels.forEach((p) => p.classList.toggle('active', p.dataset.sectionPanel === section));
+  navButtons.forEach((b) => {
+    const active = b.dataset.nav === section;
+    b.classList.toggle('bg-blue-50', active && !b.classList.contains('nav-item--soon'));
+    b.classList.toggle('dark:bg-blue-900/20', active && !b.classList.contains('nav-item--soon'));
+    b.classList.toggle('text-blue-600', active && !b.classList.contains('nav-item--soon'));
+    b.classList.toggle('dark:text-blue-400', active && !b.classList.contains('nav-item--soon'));
+    if (!b.classList.contains('nav-item--soon')) {
+      b.classList.toggle('text-slate-600', !active);
+      b.classList.toggle('dark:text-slate-400', !active);
+    }
+  });
+  if (['songs', 'storage', 'users', 'notifications', 'security', 'backup'].includes(section)) {
+    const btn = document.querySelector(`[data-nav="${section}"]`);
+    renderComingSoon(section, btn.dataset.soon);
+  }
+  if (section === 'apps') loadApps();
+  if (section === 'analytics') loadAnalytics();
+  toggleSidebar(false);
+}
+navButtons.forEach((btn) => btn.addEventListener('click', () => navigate(btn.dataset.nav)));
+navigate('dashboard');
+
+/* ============ API HELPER ============ */
+async function api(path, options = {}) {
+  const res = await fetch(`/api/admin${path}`, { credentials: 'same-origin', ...options });
+  if (res.status === 401) { showLogin(); throw new Error('unauthorized'); }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'حدث خطأ');
+  return data;
+}
+
+/* ============ AUTH ============ */
+const loginScreen = document.getElementById('login-screen');
+const appShell = document.getElementById('app-shell');
+const loginForm = document.getElementById('login-form');
+const loginError = document.getElementById('login-error');
+
+function showLogin() { loginScreen.classList.remove('hidden'); appShell.classList.add('hidden'); }
+function showDashboard(username) {
+  loginScreen.classList.add('hidden');
+  appShell.classList.remove('hidden');
+  document.getElementById('admin-username-label').textContent = username;
+  document.getElementById('avatar-initial').textContent = username.charAt(0).toUpperCase();
+  loadStats();
+  loadApps();
+}
+
+async function checkSession() {
+  try { const me = await api('/me'); showDashboard(me.username); }
+  catch { showLogin(); }
+}
+
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  loginError.classList.add('hidden');
+  const fd = new FormData(loginForm);
+  try {
+    const res = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showDashboard(data.username);
+  } catch (err) {
+    loginError.textContent = err.message || 'تعذر تسجيل الدخول';
+    loginError.classList.remove('hidden');
+  }
+});
+
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  await fetch('/api/admin/logout', { method: 'POST' });
+  showLogin();
+});
+
+/* ============ FORMATTERS ============ */
+function formatSize(bytes) {
+  if (!bytes) return '—';
+  const units = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
+  let i = 0, val = bytes;
+  while (val >= 1024 && i < units.length - 1) { val /= 1024; i++; }
+  return `${val.toFixed(val < 10 && i > 0 ? 1 : 0)} ${units[i]}`;
+}
+
+/* ============ DASHBOARD STATS ============ */
+async function loadStats() {
+  try {
+    const stats = await api('/stats');
+    document.getElementById('stat-total-apps').textContent = stats.totals.apps;
+    document.getElementById('stat-total-downloads').textContent = stats.totals.downloads.toLocaleString('en-US');
+    document.getElementById('stat-top-app').textContent = stats.topApps[0]?.name || '—';
+
+    const list = document.getElementById('dash-top-apps');
+    if (!stats.topApps.length) {
+      list.innerHTML = '<p class="text-slate-400">لا توجد تنزيلات بعد</p>';
+    } else {
+      list.innerHTML = stats.topApps.map((a, i) => `
+        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0">${i + 1}</div>
+          <div class="flex-1 min-w-0">
+            <div class="font-medium text-sm truncate text-slate-800 dark:text-slate-200">${a.name}</div>
+            <div class="text-xs text-slate-400">${a.download_count.toLocaleString('en-US')} تنزيل</div>
+          </div>
+        </div>`).join('');
+    }
+    window.__lastStats = stats;
+  } catch {}
+}
+
+async function loadAnalytics() {
+  try {
+    const stats = window.__lastStats || await api('/stats');
+    const chart = document.getElementById('analytics-chart');
+    if (!stats.daily.length) {
+      chart.innerHTML = '<p class="text-slate-400 text-sm">لا توجد بيانات تنزيل مسجّلة بعد.</p>';
+    } else {
+      const max = Math.max(...stats.daily.map((d) => d.count), 1);
+      chart.innerHTML = stats.daily.map((d) => `
+        <div class="flex flex-col items-center gap-1 shrink-0" style="width:28px">
+          <div class="w-full bg-gradient-to-t from-blue-500 to-purple-400 rounded-t-md" style="height:${Math.max((d.count / max) * 180, 4)}px" title="${d.day}: ${d.count}"></div>
+          <span class="text-[9px] text-slate-400 rotate-45 origin-top-right">${d.day.slice(5)}</span>
+        </div>`).join('');
+    }
+    const topList = document.getElementById('analytics-top-apps');
+    topList.innerHTML = stats.topApps.length
+      ? stats.topApps.map((a, i) => `
+        <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
+          <span class="text-slate-700 dark:text-slate-300">${i + 1}. ${a.name}</span>
+          <span class="font-bold text-slate-800 dark:text-slate-200">${a.download_count.toLocaleString('en-US')}</span>
+        </div>`).join('')
+      : '<p class="text-slate-400">لا توجد بيانات بعد</p>';
+  } catch {}
+}
+
+/* ============ APPS CRUD ============ */
+let appsCache = [];
+const appsGrid = document.getElementById('apps-grid');
+const appsSearch = document.getElementById('apps-search');
+const appsFilter = document.getElementById('apps-filter');
+
+async function loadApps() {
+  try {
+    appsCache = await api('/apps');
+    renderApps();
+  } catch {}
+}
+
+function renderApps() {
+  const q = appsSearch.value.trim().toLowerCase();
+  const filter = appsFilter.value;
+  const list = appsCache.filter((a) => {
+    const matchesSearch = a.name.toLowerCase().includes(q);
+    const matchesFilter = filter === 'all' || (filter === 'published' ? a.published : !a.published);
+    return matchesSearch && matchesFilter;
+  });
+
+  if (!list.length) {
+    appsGrid.innerHTML = '<p class="text-slate-400 text-sm col-span-full text-center py-10">لا توجد تطبيقات مطابقة</p>';
+    return;
+  }
+
+  appsGrid.innerHTML = list.map((app) => `
+    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+      <div class="flex items-start gap-4">
+        ${app.icon_url
+          ? `<img src="${app.icon_url}" class="w-16 h-16 rounded-2xl object-cover shrink-0" alt="">`
+          : `<div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-xl shrink-0">${app.name.charAt(0)}</div>`}
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="font-bold text-base truncate">${app.name}</h3>
+            <span class="shrink-0 px-2 py-1 text-xs rounded-full ${app.published ? 'bg-green-50 dark:bg-green-900/20 text-green-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">${app.published ? 'منشور' : 'مسودة'}</span>
+          </div>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${app.description || 'لا يوجد وصف'}</p>
+          <div class="flex items-center gap-4 mt-3 text-xs text-slate-400">
+            <span>v${app.version}</span>
+            <span>${formatSize(app.size_bytes)}</span>
+            <span>⬇ ${(app.download_count || 0).toLocaleString('en-US')}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+        <button data-edit="${app._id}" class="flex-1 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">تعديل</button>
+        <button data-delete="${app._id}" class="flex-1 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">حذف</button>
+      </div>
+    </div>`).join('');
+
+  appsGrid.querySelectorAll('[data-edit]').forEach((b) =>
+    b.addEventListener('click', () => openForm(appsCache.find((a) => a._id === b.dataset.edit))));
+  appsGrid.querySelectorAll('[data-delete]').forEach((b) =>
+    b.addEventListener('click', () => deleteApp(b.dataset.delete)));
+}
+appsSearch.addEventListener('input', renderApps);
+appsFilter.addEventListener('change', renderApps);
+
+async function deleteApp(id) {
+  if (!confirm('هل تريد حذف هذا التطبيق نهائيًا؟')) return;
+  try { await api(`/apps/${id}`, { method: 'DELETE' }); loadApps(); loadStats(); }
+  catch (err) { alert(err.message); }
+}
+
+/* ============ APP FORM MODAL ============ */
+const formModal = document.getElementById('app-form-modal');
+const appForm = document.getElementById('app-form');
+const formTitle = document.getElementById('form-title');
+const formError = document.getElementById('form-error');
+
+function openForm(app = null) {
+  appForm.reset();
+  formError.classList.add('hidden');
+  formTitle.textContent = app ? `تعديل: ${app.name}` : 'تطبيق جديد';
+  appForm.elements.id.value = app?._id || '';
+  if (app) {
+    appForm.elements.name.value = app.name;
+    appForm.elements.description.value = app.description || '';
+    appForm.elements.version.value = app.version || '';
+    appForm.elements.changelog.value = app.changelog || '';
+    appForm.elements.published.checked = !!app.published;
+  }
+  formModal.classList.remove('hidden');
+}
+document.getElementById('new-app-btn').addEventListener('click', () => openForm());
+document.getElementById('form-modal-close').addEventListener('click', () => formModal.classList.add('hidden'));
+formModal.addEventListener('click', (e) => { if (e.target === formModal) formModal.classList.add('hidden'); });
+
+appForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  formError.classList.add('hidden');
+  const id = appForm.elements.id.value;
+  const fd = new FormData(appForm);
+  fd.set('published', appForm.elements.published.checked ? 'true' : 'false');
+
+  const submitBtn = document.getElementById('form-submit');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'جارٍ الحفظ…';
+
+  try {
+    await api(id ? `/apps/${id}` : '/apps', { method: id ? 'PUT' : 'POST', body: fd });
+    formModal.classList.add('hidden');
+    loadApps();
+    loadStats();
+  } catch (err) {
+    formError.textContent = err.message;
+    formError.classList.remove('hidden');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'حفظ التطبيق';
+  }
+});
+
+checkSession();
+</script>
 </body>
 </html>
