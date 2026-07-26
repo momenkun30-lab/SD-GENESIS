@@ -1,11 +1,22 @@
+/* ---------- Nav solidify on scroll ---------- */
+const nav = document.getElementById('site-nav');
+function onScroll() { nav.classList.toggle('is-solid', window.scrollY > 40); }
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+/* ---------- Footer year ---------- */
+const footerYear = document.getElementById('footer-year');
+if (footerYear) footerYear.textContent = new Date().getFullYear();
+
+/* ---------- Catalog (real data) ---------- */
 const grid = document.getElementById('catalog-grid');
 const emptyState = document.getElementById('empty-state');
 const searchInput = document.getElementById('search-input');
 const modal = document.getElementById('app-modal');
 const modalBody = document.getElementById('modal-body');
 const modalClose = document.getElementById('modal-close');
-const statApps = document.getElementById('stat-apps');
-const statDownloads = document.getElementById('stat-downloads');
+const tickerApps = document.getElementById('ticker-apps');
+const tickerDownloads = document.getElementById('ticker-downloads');
 
 let apps = [];
 
@@ -18,14 +29,27 @@ function formatSize(bytes) {
 }
 
 function formatDate(iso) {
-  try {
-    return new Date(iso + 'Z').toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
-  } catch { return iso; }
+  try { return new Date(iso + 'Z').toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }); }
+  catch { return iso; }
 }
 
-function renderStats() {
-  statApps.textContent = apps.length;
-  statDownloads.textContent = apps.reduce((sum, a) => sum + a.download_count, 0).toLocaleString('en-US');
+function animateNumber(el, target) {
+  if (!el) return;
+  const start = 0;
+  const duration = 900;
+  const startTime = performance.now();
+  function tick(now) {
+    const p = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(start + (target - start) * eased).toLocaleString('en-US');
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+function renderTicker() {
+  animateNumber(tickerApps, apps.length);
+  animateNumber(tickerDownloads, apps.reduce((sum, a) => sum + (a.download_count || 0), 0));
 }
 
 function cardHTML(app) {
@@ -44,7 +68,7 @@ function cardHTML(app) {
       <p class="app-card__desc">${app.description || 'لا يوجد وصف بعد.'}</p>
       <div class="app-card__meta">
         <span>${formatSize(app.size_bytes)} · ${formatDate(app.updated_at)}</span>
-        <span class="app-card__downloads">⬇ ${app.download_count.toLocaleString('en-US')}</span>
+        <span class="app-card__downloads">⬇ ${(app.download_count || 0).toLocaleString('en-US')}</span>
       </div>
     </article>`;
 }
@@ -67,10 +91,10 @@ async function loadApps() {
   try {
     const res = await fetch('/api/apps');
     apps = await res.json();
-    renderStats();
+    renderTicker();
     render(apps);
   } catch {
-    grid.innerHTML = '<p style="color:var(--text-muted)">تعذّر تحميل التطبيقات، حاول لاحقًا.</p>';
+    grid.innerHTML = '<p style="color:var(--text-muted)">تعذّر تحميل الأعمال، حاول لاحقًا.</p>';
   }
 }
 
@@ -103,16 +127,16 @@ async function openModal(slug) {
     <div class="modal-facts">
       <div class="modal-fact"><span>الحجم</span><strong>${formatSize(app.size_bytes)}</strong></div>
       <div class="modal-fact"><span>آخر تحديث</span><strong>${formatDate(app.updated_at)}</strong></div>
-      <div class="modal-fact"><span>التنزيلات</span><strong>${app.download_count.toLocaleString('en-US')}</strong></div>
+      <div class="modal-fact"><span>التنزيلات</span><strong>${(app.download_count || 0).toLocaleString('en-US')}</strong></div>
     </div>
     ${shots}
     ${changelog}
-    <button class="btn-download" id="download-btn">⬇ تنزيل التطبيق</button>
+    <button class="btn btn--gold" style="width:100%" id="download-btn">⬇ تنزيل</button>
   `;
 
   document.getElementById('download-btn').addEventListener('click', () => {
     window.location.href = `/api/apps/${app.slug}/download`;
-    setTimeout(loadApps, 1200); // refresh the real counter shortly after
+    setTimeout(loadApps, 1200);
   });
 
   modal.hidden = false;
@@ -126,5 +150,13 @@ searchInput.addEventListener('input', () => {
   const q = searchInput.value.trim().toLowerCase();
   render(apps.filter((a) => a.name.toLowerCase().includes(q) || (a.description || '').toLowerCase().includes(q)));
 });
+
+/* ---------- Mobile nav burger (simple smooth-scroll close) ---------- */
+const burger = document.getElementById('nav-burger');
+if (burger) {
+  burger.addEventListener('click', () => {
+    document.querySelector('.nav__links')?.classList.toggle('nav__links--open');
+  });
+}
 
 loadApps();
