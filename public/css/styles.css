@@ -292,6 +292,7 @@ img { max-width: 100%; display: block; }
   position: fixed; inset: 0; background: rgba(6,6,6,0.78); backdrop-filter: blur(6px);
   display: flex; align-items: flex-end; justify-content: center; z-index: 200;
 }
+.modal-overlay[hidden] { display: none !important; }
 @media (min-width: 720px) { .modal-overlay { align-items: center; padding: 24px; } }
 .modal {
   background: var(--panel); border: 1px solid var(--border); border-radius: 20px 20px 0 0;
