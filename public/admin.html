@@ -541,6 +541,26 @@ document.getElementById('new-app-btn').addEventListener('click', () => openForm(
 document.getElementById('form-modal-close').addEventListener('click', () => formModal.classList.add('hidden'));
 formModal.addEventListener('click', (e) => { if (e.target === formModal) formModal.classList.add('hidden'); });
 
+function uploadWithProgress(path, method, formData, onProgress) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, `/api/admin${path}`);
+    xhr.withCredentials = true;
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () => {
+      let data = {};
+      try { data = JSON.parse(xhr.responseText); } catch {}
+      if (xhr.status === 401) { showLogin(); return reject(new Error('unauthorized')); }
+      if (xhr.status >= 200 && xhr.status < 300) resolve(data);
+      else reject(new Error(data.error || `فشل الرفع (رمز ${xhr.status})`));
+    };
+    xhr.onerror = () => reject(new Error('انقطع الاتصال بالخادم أثناء الرفع — تحقق من شبكتك وحاول مجددًا'));
+    xhr.send(formData);
+  });
+}
+
 appForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   formError.classList.add('hidden');
@@ -550,14 +570,29 @@ appForm.addEventListener('submit', async (e) => {
 
   const submitBtn = document.getElementById('form-submit');
   submitBtn.disabled = true;
-  submitBtn.textContent = 'جارٍ الحفظ…';
+
+  let lastProgress = -1;
+  let stallTimer = null;
+  const resetStallWarning = () => {
+    clearTimeout(stallTimer);
+    stallTimer = setTimeout(() => {
+      submitBtn.textContent = `الرفع بطيء جدًا (متوقف عند ${lastProgress}%)… لا تغلق الصفحة`;
+    }, 20000);
+  };
+  resetStallWarning();
 
   try {
-    await api(id ? `/apps/${id}` : '/apps', { method: id ? 'PUT' : 'POST', body: fd });
+    await uploadWithProgress(id ? `/apps/${id}` : '/apps', id ? 'PUT' : 'POST', fd, (pct) => {
+      lastProgress = pct;
+      submitBtn.textContent = pct < 100 ? `جارٍ رفع الملفات… ${pct}%` : 'جارٍ الحفظ في قاعدة البيانات…';
+      resetStallWarning();
+    });
+    clearTimeout(stallTimer);
     formModal.classList.add('hidden');
     loadApps();
     loadStats();
   } catch (err) {
+    clearTimeout(stallTimer);
     formError.textContent = err.message;
     formError.classList.remove('hidden');
   } finally {
