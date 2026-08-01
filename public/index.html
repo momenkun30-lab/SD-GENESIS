@@ -1,246 +1,740 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SD GENESIS — هندسة برمجيات من طراز عالمي</title>
-<meta name="description" content="SD GENESIS: تطوير برمجيات، مواقع، تطبيقات جوال وسطح مكتب، حلول ذكاء اصطناعي وسحابة." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SD GENESIS | نحول أفكارك إلى واقع رقمي</title>
+    <meta name="description" content="SD GENESIS — شركة سودانية متخصصة في تصميم المواقع، تطوير التطبيقات، وإنتاج الفيديوهات التسويقية.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: { 300:'#F5E08C', 400:'#F5D060', 500:'#D4AF37', 600:'#B8960C', 700:'#8B6F00' },
+                        dark: { 950:'#020202', 900:'#050505', 800:'#0a0a0a', 700:'#111111', 600:'#1a1a1a', 500:'#222222', 400:'#333333', 300:'#555555' }
+                    },
+                    fontFamily: { cairo:['Cairo','sans-serif'], inter:['Inter','sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { font-family:'Cairo',sans-serif; background:#050505; color:#fff; overflow-x:hidden; }
+
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:#0a0a0a; }
+        ::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:3px; }
+        ::-webkit-scrollbar-thumb:hover { background:#F5D060; }
+        ::selection { background:rgba(212,175,55,0.3); color:#F5D060; }
+
+        .gradient-text {
+            background:linear-gradient(135deg,#F5E08C,#D4AF37,#B8960C,#D4AF37,#F5E08C);
+            background-size:200% auto;
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            background-clip:text;
+            animation:shimmer 4s linear infinite;
+        }
+        @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
+
+        .hero-video-bg {
+            position:absolute; inset:0; z-index:0;
+            width:100%; height:100%; object-fit:cover;
+            opacity:0.25;
+            filter:brightness(0.6) saturate(0.8);
+        }
+        .hero-overlay {
+            position:absolute; inset:0; z-index:1;
+            background:
+                radial-gradient(ellipse at 50% 50%, rgba(5,5,5,0.3) 0%, rgba(5,5,5,0.85) 70%),
+                linear-gradient(180deg, rgba(5,5,5,0.5) 0%, rgba(5,5,5,0.2) 50%, rgba(5,5,5,0.9) 100%);
+        }
+        #matrix-canvas { position:absolute; inset:0; z-index:2; width:100%; height:100%; pointer-events:none; }
+
+        .navbar-glass {
+            background:rgba(5,5,5,0.75); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+            border-bottom:1px solid rgba(255,255,255,0.04); transition:all .3s ease;
+        }
+        .navbar-glass.scrolled { background:rgba(5,5,5,0.95); border-bottom-color:rgba(212,175,55,0.1); }
+
+        .btn-gold {
+            background:linear-gradient(135deg,#D4AF37,#F5D060); color:#050505; font-weight:700;
+            transition:all .3s ease; position:relative; overflow:hidden;
+        }
+        .btn-gold::before {
+            content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+            transition:left .6s ease;
+        }
+        .btn-gold:hover::before { left:100%; }
+        .btn-gold:hover { transform:translateY(-2px); box-shadow:0 10px 35px rgba(212,175,55,0.35); }
+        .btn-gold:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+
+        .btn-outline { border:1px solid rgba(212,175,55,0.4); color:#D4AF37; font-weight:600; transition:all .3s ease; }
+        .btn-outline:hover { background:rgba(212,175,55,0.08); border-color:#D4AF37; transform:translateY(-2px); }
+
+        .service-card { transition:all .45s cubic-bezier(.175,.885,.32,1.275); border:1px solid rgba(212,175,55,0.08); }
+        .service-card:hover { transform:translateY(-14px); border-color:rgba(212,175,55,0.3); box-shadow:0 25px 60px rgba(212,175,55,0.08), 0 0 50px rgba(212,175,55,0.04); }
+        .service-card:hover .card-icon { transform:scale(1.15) rotate(5deg); box-shadow:0 0 35px rgba(212,175,55,0.3); }
+        .card-icon { transition:all .45s cubic-bezier(.175,.885,.32,1.275); }
+
+        .app-card { transition:all .4s ease; border:1px solid rgba(255,255,255,0.04); cursor:pointer; }
+        .app-card:hover { transform:translateY(-10px); border-color:rgba(212,175,55,0.2); box-shadow:0 20px 50px rgba(0,0,0,0.5); }
+        .app-icon-wrap img, .app-icon-wrap .app-icon-fallback { transition:all .4s ease; }
+        .app-card:hover .app-icon-wrap img, .app-card:hover .app-icon-wrap .app-icon-fallback { transform:scale(1.08); }
+
+        .form-input {
+            background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
+            color:#fff; transition:all .3s ease;
+        }
+        .form-input:focus { outline:none; border-color:rgba(212,175,55,0.5); box-shadow:0 0 25px rgba(212,175,55,0.06); background:rgba(255,255,255,0.05); }
+        .form-input::placeholder { color:#444; }
+
+        .section-divider { height:1px; background:linear-gradient(to right,transparent,rgba(212,175,55,0.15),transparent); }
+
+        .orb { position:absolute; border-radius:50%; filter:blur(100px); pointer-events:none; }
+        @keyframes pulse-orb { 0%,100%{opacity:.12;transform:scale(1)} 50%{opacity:.22;transform:scale(1.05)} }
+
+        @keyframes bounce-down { 0%,20%,50%,80%,100%{transform:translateY(0)} 40%{transform:translateY(12px)} 60%{transform:translateY(6px)} }
+        .scroll-indicator { animation:bounce-down 2.5s ease-in-out infinite; }
+
+        .back-to-top { opacity:0; visibility:hidden; transition:all .3s ease; }
+        .back-to-top.visible { opacity:1; visibility:visible; }
+
+        .mobile-menu { transform:translateX(100%); transition:transform .45s cubic-bezier(.16,1,.3,1); }
+        .mobile-menu.open { transform:translateX(0); }
+
+        .toast { transform:translateY(30px); opacity:0; transition:all .4s cubic-bezier(.16,1,.3,1); }
+        .toast.show { transform:translateY(0); opacity:1; }
+
+        .loading-screen {
+            position:fixed; inset:0; background:#050505; z-index:9999;
+            display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px;
+            transition:opacity .6s ease, visibility .6s ease;
+        }
+        .loading-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+        .loader { width:44px; height:44px; border:2px solid rgba(212,175,55,0.1); border-top-color:#D4AF37; border-radius:50%; animation:spin .7s linear infinite; }
+        @keyframes spin { to{transform:rotate(360deg)} }
+
+        body::after {
+            content:''; position:fixed; inset:0; opacity:.025; z-index:9998; pointer-events:none;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .logo-img { height:48px; width:auto; object-fit:contain; }
+        .star-gold { color:#D4AF37; }
+
+        .video-fallback { display:none; position:absolute; inset:0; z-index:0; background:radial-gradient(ellipse at center, #0a0a0a 0%, #050505 100%); }
+
+        .status-badge { font-size:10px; font-weight:700; padding:3px 10px; border-radius:999px; letter-spacing:.02em; }
+        .status-badge--live { background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(74,222,128,0.25); }
+
+        .app-modal-overlay {
+            position:fixed; inset:0; z-index:200; background:rgba(2,2,2,0.85); backdrop-filter:blur(8px);
+            display:flex; align-items:flex-end; justify-content:center;
+        }
+        @media (min-width:720px){ .app-modal-overlay{ align-items:center; padding:24px; } }
+        .app-modal-overlay[hidden] { display:none !important; }
+        .app-modal {
+            background:#0a0a0a; border:1px solid rgba(212,175,55,0.15); border-radius:24px 24px 0 0;
+            max-width:640px; width:100%; max-height:88vh; overflow-y:auto; position:relative; padding:32px;
+        }
+        @media (min-width:720px){ .app-modal{ border-radius:24px; } }
+        .app-modal-close {
+            position:absolute; top:18px; left:18px; width:34px; height:34px; border-radius:50%;
+            background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); color:#999;
+            display:flex; align-items:center; justify-content:center; cursor:pointer;
+        }
+        .app-modal-close:hover { color:#D4AF37; border-color:rgba(212,175,55,0.3); }
+        .app-modal-shots { display:flex; gap:10px; overflow-x:auto; margin:20px 0; padding-bottom:4px; }
+        .app-modal-shots img { height:160px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); }
+        .app-modal-fact { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:12px 14px; }
+        .app-modal-fact span { display:block; color:#666; font-size:11px; margin-bottom:4px; }
+        .app-modal-fact strong { color:#fff; font-family:'Inter',monospace; }
+        .app-modal-changelog {
+            font-family:'Inter',monospace; font-size:13px; color:#999; white-space:pre-wrap;
+            background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:14px; margin:18px 0;
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- ================= NAV ================= -->
-  <header class="nav" id="site-nav">
-    <div class="nav__inner">
-      <a class="nav__brand" href="/">
-        <span class="nav__mark">SD</span>
-        <span class="nav__word">GENESIS</span>
-      </a>
-      <nav class="nav__links">
-        <a href="#services">الخدمات</a>
-        <a href="#catalog">الأعمال</a>
-        <a href="#why">لماذا نحن</a>
-        <a href="#contact" class="nav__cta">تواصل معنا</a>
-      </nav>
-      <button class="nav__burger" id="nav-burger" aria-label="القائمة">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
+<div class="loading-screen" id="loadingScreen">
+    <span class="brand-logo-wrap h-16 flex items-center opacity-80">
+        <img class="brand-logo-img h-16" alt="SD GENESIS" hidden>
+        <span class="brand-logo-text text-2xl font-black gradient-text">SD GENESIS</span>
+    </span>
+    <div class="loader"></div>
+</div>
 
-  <!-- ================= HERO ================= -->
-  <section class="hero">
-    <div class="hero__media">
-      <div class="hero__fallback"></div>
-      <video class="hero__video" autoplay muted loop playsinline poster="/video/hero-poster.jpg">
-        <source src="/video/hero.mp4" type="video/mp4" />
-      </video>
-      <div class="hero__overlay"></div>
-    </div>
-
-    <div class="hero__content">
-      <p class="hero__eyebrow" data-reveal>SD GENESIS · MMXXVI</p>
-      <h1 class="hero__title" data-reveal>
-        هندسة برمجيات<br /><em>بمعايير عالمية.</em>
-      </h1>
-      <p class="hero__lede" data-reveal>
-        نبني المواقع والتطبيقات والأنظمة الذكية والحلول السحابية بدقة هندسية
-        والتزام لا يساوم على الجودة — من الفكرة إلى الإطلاق.
-      </p>
-      <div class="hero__actions" data-reveal>
-        <a href="#catalog" class="btn btn--gold">استعرض أعمالنا</a>
-        <a href="#contact" class="btn btn--ghost">ابدأ مشروعك</a>
-      </div>
-    </div>
-
-    <div class="hero__ticker" aria-live="polite">
-      <div class="hero__ticker-item">
-        <span class="hero__ticker-value" id="ticker-apps">—</span>
-        <span class="hero__ticker-label">إصدار منشور</span>
-      </div>
-      <div class="hero__ticker-sep"></div>
-      <div class="hero__ticker-item">
-        <span class="hero__ticker-value" id="ticker-downloads">—</span>
-        <span class="hero__ticker-label">تنزيل موثّق</span>
-      </div>
-      <div class="hero__ticker-sep"></div>
-      <div class="hero__ticker-item">
-        <span class="hero__ticker-value">100%</span>
-        <span class="hero__ticker-label">بيانات حقيقية</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= SERVICES ================= -->
-  <section class="services" id="services">
-    <div class="section__inner">
-      <p class="section__eyebrow">ما نقدمه</p>
-      <h2 class="section__title">خدمات هندسية متكاملة</h2>
-
-      <div class="services__grid">
-        <div class="service">
-          <span class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M8 4L2 12L8 20M16 4L22 12L16 20" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <h3>تطوير البرمجيات</h3>
-          <p>أنظمة وبرمجيات مخصّصة مبنية على أسس هندسية صلبة وقابلة للتوسّع.</p>
+<nav class="navbar-glass fixed top-0 left-0 right-0 z-50" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16 lg:h-20">
+            <a href="#hero" class="flex-shrink-0">
+                <span class="brand-logo-wrap flex items-center">
+                    <img class="brand-logo-img logo-img" alt="SD GENESIS" hidden>
+                    <span class="brand-logo-text text-xl font-black gradient-text">SD GENESIS</span>
+                </span>
+            </a>
+            <div class="hidden lg:flex items-center gap-8">
+                <a href="#hero" class="text-sm font-medium text-white/70 hover:text-gold-400 transition-colors duration-300">الرئيسية</a>
+                <a href="#services" class="text-sm font-medium text-white/70 hover:text-gold-400 transition-colors duration-300">خدماتنا</a>
+                <a href="#apps" class="text-sm font-medium text-white/70 hover:text-gold-400 transition-colors duration-300">تطبيقاتنا</a>
+                <a href="#contact" class="text-sm font-medium text-white/70 hover:text-gold-400 transition-colors duration-300">تواصل معنا</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="hidden sm:inline-flex btn-gold px-6 py-2.5 rounded-full text-sm font-bold">ابدأ الآن</a>
+                <button id="menuToggle" class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-white/5 transition-colors" aria-label="القائمة">
+                    <span class="menu-line w-5 h-0.5 bg-white/80 rounded transition-all duration-300"></span>
+                    <span class="menu-line w-5 h-0.5 bg-white/80 rounded transition-all duration-300"></span>
+                    <span class="menu-line w-3.5 h-0.5 bg-white/80 rounded transition-all duration-300 self-start mr-[10px]"></span>
+                </button>
+            </div>
         </div>
-        <div class="service">
-          <span class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/><path d="M3 12h18M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z" stroke="currentColor" stroke-width="1.4"/></svg>
-          </span>
-          <h3>مواقع الويب</h3>
-          <p>واجهات سريعة وأنيقة، مبنية بمعايير أداء وتجربة استخدام عالية.</p>
-        </div>
-        <div class="service">
-          <span class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="6" y="2" width="12" height="20" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M10 18h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          </span>
-          <h3>تطبيقات الجوال</h3>
-          <p>تطبيقات أصيلة على iOS وAndroid بتجربة استخدام سلسة ومصقولة.</p>
-        </div>
-        <div class="service">
-          <span class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          </span>
-          <h3>تطبيقات سطح المكتب</h3>
-          <p>برمجيات مكتبية موثوقة لـ Windows وmacOS وLinux.</p>
-        </div>
-        <div class="service">
-          <span class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4"/></svg>
-          </span>
-          <h3>الذكاء الاصطناعي</h3>
-          <p>حلول ذكاء اصطناعي عملية، مدمجة بدقة في منتجك الفعلي.</p>
-        </div>
-        <div class="service">
-          <span class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M7 18a4 4 0 01-.5-7.97A5.5 5.5 0 0117 9a4.5 4.5 0 01-1 8.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <h3>الحلول السحابية</h3>
-          <p>بنية تحتية سحابية مستقرة وآمنة، مصمّمة لتنمو مع مشروعك.</p>
-        </div>
-      </div>
     </div>
-  </section>
+</nav>
 
-  <!-- ================= CATALOG (real data) ================= -->
-  <section class="catalog" id="catalog">
-    <div class="section__inner">
-      <div class="catalog__header">
-        <div>
-          <p class="section__eyebrow">أعمالنا</p>
-          <h2 class="section__title">إصدارات موثّقة، لا أرقام مزيّنة</h2>
+<div class="mobile-menu fixed inset-0 z-40 bg-dark-900/98 backdrop-blur-xl lg:hidden" id="mobileMenu">
+    <div class="flex flex-col items-center justify-center h-full gap-8">
+        <a href="#hero" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">الرئيسية</a>
+        <a href="#services" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">خدماتنا</a>
+        <a href="#apps" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">تطبيقاتنا</a>
+        <a href="#contact" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">تواصل معنا</a>
+        <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="btn-gold px-8 py-3 rounded-full text-base font-bold mt-4">ابدأ الآن</a>
+    </div>
+</div>
+
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <video class="hero-video-bg" autoplay muted loop playsinline preload="auto"></video>
+    <div class="hero-overlay"></div>
+    <div class="video-fallback" id="videoFallback"></div>
+
+    <div class="orb w-[500px] h-[500px] bg-gold-500 top-[-10%] right-[-10%] z-[1]" style="animation:pulse-orb 6s ease-in-out infinite"></div>
+    <div class="orb w-[400px] h-[400px] bg-amber-700 bottom-[-5%] left-[-5%] z-[1]" style="animation:pulse-orb 8s ease-in-out infinite 2s"></div>
+    <div class="orb w-[300px] h-[300px] bg-yellow-900 top-[40%] left-[30%] z-[1]" style="animation:pulse-orb 7s ease-in-out infinite 1s"></div>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
+        <div data-aos="fade-down" data-aos-duration="800">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold-500/20 bg-gold-500/5 text-gold-400 text-xs font-semibold tracking-wider mb-8">
+                <i class="fa-solid fa-bolt text-[10px]"></i> نقود التحول الرقمي
+            </span>
         </div>
-        <label class="search">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <input type="text" id="search-input" placeholder="ابحث في الأعمال…" autocomplete="off" />
-        </label>
-      </div>
-
-      <div id="catalog-grid" class="catalog__grid" aria-live="polite"></div>
-      <div id="empty-state" class="empty-state" hidden>
-        <p>لا توجد إصدارات منشورة بعد.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= WHY US ================= -->
-  <section class="why" id="why">
-    <div class="section__inner">
-      <p class="section__eyebrow">لماذا SD GENESIS</p>
-      <h2 class="section__title">دقّة هندسية، لا وعود تسويقية</h2>
-
-      <div class="why__grid">
-        <div class="why__item">
-          <span class="why__num">مباشر</span>
-          <h3>شفافية كاملة</h3>
-          <p>كل رقم تشاهده على منصتنا حقيقي ومأخوذ من قاعدة البيانات مباشرة — بلا تجميل.</p>
+        <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-6">
+            نحول أفكارك إلى<br><span class="gradient-text">واقع رقمي</span>
+        </h1>
+        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" class="text-base sm:text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+            شركة سودانية رائدة في تصميم وتطوير المواقع والتطبيقات وإنتاج الفيديوهات التسويقية. نصنع تجارب رقمية استثنائية تلهم وتُحدث فرقًا حقيقيًا.
+        </p>
+        <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="btn-gold px-8 py-3.5 rounded-full text-sm sm:text-base w-full sm:w-auto text-center">
+                <i class="fa-solid fa-rocket ml-2"></i>ابدأ مشروعك الآن
+            </a>
+            <a href="#services" class="btn-outline px-8 py-3.5 rounded-full text-sm sm:text-base w-full sm:w-auto text-center">
+                اكتشف خدماتنا <i class="fa-solid fa-arrow-down mr-2 text-xs"></i>
+            </a>
         </div>
-        <div class="why__item">
-          <span class="why__num">صلب</span>
-          <h3>بنية موثوقة</h3>
-          <p>أنظمة مبنية لتستمر، لا لتُعرض فقط — أمان وأداء مدروسان من الأساس.</p>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 scroll-indicator">
+        <div class="w-6 h-10 rounded-full border-2 border-white/15 flex justify-center pt-2">
+            <div class="w-1 h-2.5 bg-gold-500 rounded-full animate-bounce"></div>
         </div>
-        <div class="why__item">
-          <span class="why__num">دقيق</span>
-          <h3>تفاصيل مدروسة</h3>
-          <p>كل تفصيل بصري وتقني يُصنع بعناية، من التايبوغرافيا إلى بنية الكود.</p>
+    </div>
+</section>
+
+<section class="relative py-16 sm:py-20 border-y border-white/[0.03]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-4">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="0">
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-2" id="stat-apps">0</div>
+                <p class="text-white/40 text-sm font-medium">تطبيق منشور — بيانات حقيقية</p>
+            </div>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="150">
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-2" id="stat-downloads">0</div>
+                <p class="text-white/40 text-sm font-medium">تنزيل موثّق — بيانات حقيقية</p>
+            </div>
+            <div class="text-center col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-2">السودان</div>
+                <p class="text-white/40 text-sm font-medium">مقر الشركة</p>
+            </div>
         </div>
-        <div class="why__item">
-          <span class="why__num">شريك</span>
-          <h3>التزام طويل الأمد</h3>
-          <p>لا نسلّم مشروعًا وننسحب — نبقى شريكًا في نموّه واستقراره.</p>
+    </div>
+</section>
+
+<section id="services" class="relative py-24 sm:py-32">
+    <div class="orb w-[350px] h-[350px] bg-gold-600 top-[20%] left-[-5%]" style="animation:pulse-orb 9s ease-in-out infinite"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">ما نقدمه</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4">خدماتنا <span class="gradient-text">الاحترافية</span></h2>
+            <p class="text-white/40 max-w-xl mx-auto text-base">نقدم حلولًا رقمية شاملة مصممة لتلبية احتياجات عملك وتحقيق أهدافك</p>
         </div>
-      </div>
+        <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-aos="fade-up" data-aos-delay="0">
+                <div class="card-icon w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center text-gold-400 text-3xl border border-gold-500/10">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 group-hover:text-gold-400 transition-colors">تصميم المواقع الإلكترونية</h3>
+                <p class="text-white/40 text-sm leading-relaxed">مواقع عصرية وسريعة ومتجاوبة مع جميع الأجهزة، مبنية بأحدث التقنيات لضمان أفضل تجربة للمستخدم وتصدر نتائج البحث.</p>
+            </div>
+            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-aos="fade-up" data-aos-delay="150">
+                <div class="card-icon w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center text-gold-400 text-3xl border border-gold-500/10">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 group-hover:text-gold-400 transition-colors">تصميم التطبيقات</h3>
+                <p class="text-white/40 text-sm leading-relaxed">تطبيقات ذكية لنظامي iOS وAndroid بتصميم جذاب وأداء عالي، من الفكرة إلى الإطلاق على المتاجر بأفضل معايير الجودة.</p>
+            </div>
+            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-aos="fade-up" data-aos-delay="300">
+                <div class="card-icon w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center text-gold-400 text-3xl border border-gold-500/10">
+                    <i class="fa-solid fa-film"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 group-hover:text-gold-400 transition-colors">إنتاج الفيديوهات التسويقية</h3>
+                <p class="text-white/40 text-sm leading-relaxed">فيديوهات احترافية تسوّق علامتك التجارية بإبداع، من السيناريو إلى المونتاج بمؤثرات بصرية صادمة تزيد من مبيعاتك.</p>
+            </div>
+        </div>
     </div>
-  </section>
+</section>
 
-  <!-- ================= TRUST STRIP ================= -->
-  <section class="trust">
-    <div class="section__inner">
-      <p class="trust__label">مبني على بنية تحتية موثوقة</p>
-      <div class="trust__row">
-        <span>MongoDB Atlas</span>
-        <span>Supabase Storage</span>
-        <span>Node.js</span>
-        <span>Render</span>
-      </div>
-    </div>
-  </section>
+<div class="section-divider max-w-4xl mx-auto"></div>
 
-  <!-- ================= CTA ================= -->
-  <section class="cta" id="contact">
-    <div class="cta__inner">
-      <p class="section__eyebrow section__eyebrow--center">لنبدأ</p>
-      <h2 class="cta__title">لديك فكرة تستحق التنفيذ بإتقان؟</h2>
-      <p class="cta__lede">راسلنا وسنحوّلها إلى منتج برمجي متكامل، من الأساس إلى الإطلاق.</p>
-      <a href="mailto:hello@sdgenesis.dev" class="btn btn--gold btn--lg">راسلنا الآن</a>
-    </div>
-  </section>
+<section id="apps" class="relative py-24 sm:py-32">
+    <div class="orb w-[400px] h-[400px] bg-amber-800 bottom-[10%] right-[-8%]" style="animation:pulse-orb 7s ease-in-out infinite 1s"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">متجر SD GENESIS</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4">تطبيقات <span class="gradient-text">نفتخر بها</span></h2>
+            <p class="text-white/40 max-w-xl mx-auto text-base">تطبيقاتنا الرسمية — تنزيلات وأعداد حقيقية موثّقة من قاعدة بياناتنا مباشرة</p>
+        </div>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="footer__inner">
-      <div class="footer__brand">
-        <span class="nav__mark">SD</span>
-        <span class="nav__word">GENESIS</span>
-      </div>
-      <nav class="footer__links">
-        <a href="#services">الخدمات</a>
-        <a href="#catalog">الأعمال</a>
-        <a href="#why">لماذا نحن</a>
-        <a href="#contact">تواصل معنا</a>
-        <a href="/admin" class="footer__admin">لوحة التحكم</a>
-      </nav>
-      <div class="footer__social">
-        <a href="#" aria-label="X">X</a>
-        <a href="#" aria-label="GitHub">GitHub</a>
-        <a href="#" aria-label="LinkedIn">in</a>
-      </div>
+        <div id="apps-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <p class="text-white/30 text-sm col-span-full text-center py-10">جارٍ تحميل التطبيقات…</p>
+        </div>
+        <div id="apps-empty" class="text-center py-16 text-white/30" hidden>
+            <i class="fa-solid fa-box-open text-3xl mb-4 block"></i>
+            لا توجد تطبيقات منشورة بعد — تابعونا قريبًا.
+        </div>
     </div>
-    <p class="footer__copy">© <span id="footer-year"></span> SD GENESIS. جميع الحقوق محفوظة.</p>
-  </footer>
+</section>
 
-  <!-- ================= APP DETAIL MODAL ================= -->
-  <!-- ================= APP DETAIL MODAL (temporarily disabled for X-mark diagnostic test) ================= -->
-  <!--
-  <div class="modal-overlay" id="app-modal" hidden>
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <button class="modal__close" id="modal-close" aria-label="إغلاق">✕</button>
-      <div class="modal__body" id="modal-body"></div>
-    </div>
-  </div>
-  -->
-  <div class="modal-overlay" id="app-modal" hidden>
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <button class="modal__close" id="modal-close" aria-label="إغلاق">Close</button>
-      <div class="modal__body" id="modal-body"></div>
-    </div>
-  </div>
+<div class="section-divider max-w-4xl mx-auto"></div>
 
-  <script src="/js/main.js"></script>
+<section id="contact" class="relative py-24 sm:py-32">
+    <div class="orb w-[450px] h-[450px] bg-gold-600 bottom-[-10%] left-[10%]" style="animation:pulse-orb 10s ease-in-out infinite 2s"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">تواصل معنا</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4">لنبدأ <span class="gradient-text">مشروعك</span></h2>
+            <p class="text-white/40 max-w-xl mx-auto text-base">أسرع طريقة للتواصل معنا هي واتساب — نرد خلال دقائق</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
+            <div data-aos="fade-right">
+                <a href="https://wa.me/249904131357" target="_blank" rel="noopener"
+                   class="btn-gold w-full py-5 rounded-2xl text-base font-bold flex items-center justify-center gap-3 mb-4">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> تواصل عبر واتساب الآن
+                </a>
+                <p class="text-white/30 text-xs text-center mb-8">أو راسلنا عبر النموذج وسيُفتح تطبيق البريد لديك تلقائيًا</p>
+
+                <form id="contactForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">الاسم الكامل</label>
+                        <input type="text" id="cf-name" required placeholder="أدخل اسمك الكامل" class="form-input w-full px-5 py-3.5 rounded-xl text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">البريد الإلكتروني</label>
+                        <input type="email" id="cf-email" required placeholder="example@email.com" class="form-input w-full px-5 py-3.5 rounded-xl text-sm font-inter" dir="ltr">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">الرسالة</label>
+                        <textarea id="cf-message" required rows="5" placeholder="اخبرنا عن مشروعك..." class="form-input w-full px-5 py-3.5 rounded-xl text-sm resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="btn-gold w-full py-4 rounded-xl text-sm font-bold">
+                        <i class="fa-solid fa-envelope ml-2"></i>إرسال عبر البريد الإلكتروني
+                    </button>
+                </form>
+            </div>
+
+            <div data-aos="fade-left" class="space-y-8">
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4 p-4 rounded-xl bg-dark-700/30 border border-white/[0.03] hover:border-gold-500/10 transition-colors">
+                        <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-solid fa-location-dot"></i></div>
+                        <div><p class="font-semibold text-sm mb-0.5">المقر</p><p class="text-white/40 text-sm">السودان</p></div>
+                    </div>
+                    <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="flex items-start gap-4 p-4 rounded-xl bg-dark-700/30 border border-white/[0.03] hover:border-gold-500/10 transition-colors">
+                        <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div><p class="font-semibold text-sm mb-0.5">واتساب</p><p class="text-white/40 text-sm font-inter" dir="ltr">+249 90 413 1357</p></div>
+                    </a>
+                    <a href="mailto:sdgenesis1@gmail.com" class="flex items-start gap-4 p-4 rounded-xl bg-dark-700/30 border border-white/[0.03] hover:border-gold-500/10 transition-colors">
+                        <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-solid fa-envelope"></i></div>
+                        <div><p class="font-semibold text-sm mb-0.5">البريد الإلكتروني</p><p class="text-white/40 text-sm font-inter" dir="ltr">sdgenesis1@gmail.com</p></div>
+                    </a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="https://www.tiktok.com/@sdgenesis7?_r=1&_t=ZS-98VsCqYIz0E" target="_blank" rel="noopener" aria-label="TikTok" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-tiktok text-sm"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61592704981488" target="_blank" rel="noopener" aria-label="Facebook" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+                    <a href="https://whatsapp.com/channel/0029VbDHr6mEawdwfBNxh03B" target="_blank" rel="noopener" aria-label="قناة واتساب" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-solid fa-tower-broadcast text-sm"></i></a>
+                    <a href="https://wa.me/249904131357" target="_blank" rel="noopener" aria-label="واتساب مباشر" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="border-t border-white/[0.03] bg-dark-800/50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-12">
+            <div class="sm:col-span-2 lg:col-span-1">
+                <span class="brand-logo-wrap flex items-center mb-4">
+                    <img class="brand-logo-img logo-img" alt="SD GENESIS" hidden>
+                    <span class="brand-logo-text text-lg font-black gradient-text">SD GENESIS</span>
+                </span>
+                <p class="text-white/35 text-sm leading-relaxed">شركة سودانية رائدة في التحول الرقمي، نصنع تجارب تقنية استثنائية تُلهم وتُحدث فرقًا حقيقيًا.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm mb-4 text-white/80">روابط سريعة</h4>
+                <ul class="space-y-2.5">
+                    <li><a href="#hero" class="text-white/35 text-sm hover:text-gold-400 transition-colors">الرئيسية</a></li>
+                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">خدماتنا</a></li>
+                    <li><a href="#apps" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تطبيقاتنا</a></li>
+                    <li><a href="#contact" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تواصل معنا</a></li>
+                    <li><a href="/admin" class="text-white/20 text-xs hover:text-gold-400 transition-colors">لوحة التحكم</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm mb-4 text-white/80">خدماتنا</h4>
+                <ul class="space-y-2.5">
+                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تصميم المواقع</a></li>
+                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تطوير التطبيقات</a></li>
+                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">الفيديوهات التسويقية</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm mb-4 text-white/80">تابعنا</h4>
+                <div class="flex items-center gap-2.5">
+                    <a href="https://www.tiktok.com/@sdgenesis7?_r=1&_t=ZS-98VsCqYIz0E" target="_blank" rel="noopener" aria-label="TikTok" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-tiktok text-xs"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61592704981488" target="_blank" rel="noopener" aria-label="Facebook" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                    <a href="https://wa.me/249904131357" target="_blank" rel="noopener" aria-label="WhatsApp" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-whatsapp text-xs"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="section-divider mb-6"></div>
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p class="text-white/25 text-xs">© <span id="footer-year"></span> SD GENESIS. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+</footer>
+
+<button id="backToTop" class="back-to-top fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 flex items-center justify-center hover:bg-gold-500/20 hover:scale-110 transition-all duration-300" aria-label="العودة للأعلى">
+    <i class="fa-solid fa-chevron-up text-sm"></i>
+</button>
+
+<div id="toast" class="toast fixed bottom-6 right-6 z-50 bg-dark-600 border border-gold-500/20 rounded-xl px-6 py-4 flex items-center gap-3 shadow-2xl">
+    <div class="w-8 h-8 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-solid fa-check text-sm"></i></div>
+    <p id="toastMessage" class="text-sm font-medium">تم الإرسال بنجاح!</p>
+</div>
+
+<div class="app-modal-overlay" id="app-modal" hidden>
+    <div class="app-modal">
+        <button class="app-modal-close" id="app-modal-close" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+        <div id="app-modal-body"></div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+AOS.init({ duration:800, easing:'ease-out-cubic', once:true, offset:80 });
+
+window.addEventListener('load', () => {
+    setTimeout(() => { document.getElementById('loadingScreen').classList.add('hidden'); }, 800);
+});
+
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+const heroVideo = document.querySelector('.hero-video-bg');
+const videoFallback = document.getElementById('videoFallback');
+heroVideo.addEventListener('error', () => { videoFallback.style.display = 'block'; heroVideo.style.display = 'none'; });
+
+async function applyBranding() {
+    try {
+        const res = await fetch('/api/settings');
+        const settings = await res.json();
+
+        if (settings.hero_video_url) {
+            heroVideo.src = settings.hero_video_url;
+            heroVideo.load();
+        }
+        setTimeout(() => { if (heroVideo.readyState < 2) videoFallback.style.display = 'block'; }, 3500);
+
+        if (settings.logo_url) {
+            document.querySelectorAll('.brand-logo-img').forEach((img) => {
+                img.addEventListener('load', () => {
+                    img.hidden = false;
+                    img.closest('.brand-logo-wrap').querySelector('.brand-logo-text').hidden = true;
+                }, { once: true });
+                img.addEventListener('error', () => { img.hidden = true; }, { once: true });
+                img.src = settings.logo_url;
+            });
+        }
+    } catch {
+        setTimeout(() => { if (heroVideo.readyState < 2) videoFallback.style.display = 'block'; }, 3500);
+    }
+}
+applyBranding();
+
+(function() {
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    function getFontSize() { return window.innerWidth < 768 ? 14 : 18; }
+    let fontSize = getFontSize(), columns, drops;
+
+    function initMatrix() {
+        fontSize = getFontSize();
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+        columns = Math.floor(canvas.width / fontSize);
+        drops = [];
+        for (let i = 0; i < columns; i++) drops[i] = Math.random() * -50;
+    }
+    const chars = '01';
+    let matrixAnimId;
+
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(5, 5, 5, 0.08)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.font = fontSize + 'px "Inter", monospace';
+        for (let i = 0; i < drops.length; i++) {
+            const char = chars[Math.floor(Math.random() * chars.length)];
+            const x = i * fontSize, y = drops[i] * fontSize;
+            ctx.fillStyle = 'rgba(0, 255, 136, 0.9)';
+            ctx.shadowColor = '#00ff88'; ctx.shadowBlur = 15;
+            ctx.fillText(char, x, y);
+            ctx.shadowBlur = 0;
+            if (drops[i] > 1) { ctx.fillStyle = 'rgba(0, 255, 136, 0.5)'; ctx.fillText(chars[Math.floor(Math.random()*chars.length)], x, y - fontSize); }
+            if (drops[i] > 2) { ctx.fillStyle = 'rgba(0, 255, 136, 0.25)'; ctx.fillText(chars[Math.floor(Math.random()*chars.length)], x, y - fontSize*2); }
+            if (drops[i] > 3) { ctx.fillStyle = 'rgba(0, 255, 136, 0.1)'; ctx.fillText(chars[Math.floor(Math.random()*chars.length)], x, y - fontSize*3); }
+            const speed = Math.random();
+            drops[i] += speed < 0.6 ? 0.8 : speed < 0.9 ? 1.2 : 2.0;
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = Math.random() * -20;
+        }
+        matrixAnimId = requestAnimationFrame(drawMatrix);
+    }
+
+    initMatrix(); drawMatrix();
+    window.addEventListener('resize', initMatrix);
+    new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (!entry.isIntersecting) cancelAnimationFrame(matrixAnimId); else drawMatrix(); });
+    }, { threshold: 0.1 }).observe(document.getElementById('hero'));
+})();
+
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.pageYOffset > 50); });
+
+const menuToggle = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+let menuOpen = false;
+menuToggle.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    const lines = menuToggle.querySelectorAll('.menu-line');
+    if (menuOpen) {
+        lines[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
+        lines[1].style.opacity = '0';
+        lines[2].style.transform = 'rotate(-45deg) translate(4px, -4px)';
+        lines[2].style.width = '20px'; lines[2].style.marginRight = '0';
+    } else {
+        lines[0].style.transform = ''; lines[1].style.opacity = '';
+        lines[2].style.transform = ''; lines[2].style.width = ''; lines[2].style.marginRight = '';
+    }
+});
+document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+        menuOpen = false; mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+        const lines = menuToggle.querySelectorAll('.menu-line');
+        lines[0].style.transform = ''; lines[1].style.opacity = '';
+        lines[2].style.transform = ''; lines[2].style.width = ''; lines[2].style.marginRight = '';
+    });
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => { backToTop.classList.toggle('visible', window.pageYOffset > 500); });
+backToTop.addEventListener('click', () => { window.scrollTo({ top:0, behavior:'smooth' }); });
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMessage').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const message = document.getElementById('cf-message').value.trim();
+    const subject = encodeURIComponent(`تواصل جديد من ${name} — عبر موقع SD GENESIS`);
+    const body = encodeURIComponent(`الاسم: ${name}\nالبريد: ${email}\n\nالرسالة:\n${message}`);
+    window.location.href = `mailto:sdgenesis1@gmail.com?subject=${subject}&body=${body}`;
+    showToast('سيُفتح تطبيق البريد لديك لإتمام الإرسال');
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+        e.preventDefault();
+        const t = document.querySelector(this.getAttribute('href'));
+        if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 80, behavior:'smooth' });
+    });
+});
+
+let realApps = [];
+
+function formatSize(bytes) {
+    if (!bytes) return '—';
+    const units = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
+    let i = 0, val = bytes;
+    while (val >= 1024 && i < units.length - 1) { val /= 1024; i++; }
+    return `${val.toFixed(val < 10 && i > 0 ? 1 : 0)} ${units[i]}`;
+}
+function formatDate(iso) {
+    try { return new Date(iso + 'Z').toLocaleDateString('ar-EG', { year:'numeric', month:'short', day:'numeric' }); }
+    catch { return iso; }
+}
+function animateNumber(el, target) {
+    if (!el) return;
+    const duration = 1000, startTime = performance.now();
+    function tick(now) {
+        const p = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased).toLocaleString('en-US');
+        if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
+
+function appIconHTML(app) {
+    if (app.icon_url) return `<img src="${app.icon_url}" class="w-20 h-20 rounded-2xl object-cover shadow-lg" alt="">`;
+    return `<div class="app-icon-fallback w-20 h-20 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-700 flex items-center justify-center text-dark-900 text-3xl font-black">${app.name.charAt(0)}</div>`;
+}
+
+function appCardHTML(app) {
+    return `
+    <div class="app-card bg-dark-700/40 backdrop-blur-sm rounded-2xl overflow-hidden" data-slug="${app.slug}">
+        <div class="h-48 bg-gradient-to-br from-dark-600 to-dark-900 flex items-center justify-center app-icon-wrap">
+            ${appIconHTML(app)}
+        </div>
+        <div class="p-6">
+            <div class="flex items-center justify-between gap-2 mb-2">
+                <h3 class="text-lg font-bold truncate">${app.name}</h3>
+                <span class="status-badge status-badge--live shrink-0">متاح</span>
+            </div>
+            <p class="text-white/40 text-sm mb-4 leading-relaxed line-clamp-2">${app.description || 'لا يوجد وصف بعد.'}</p>
+            <div class="flex items-center gap-3 text-[11px] text-white/30 font-inter mb-4" dir="ltr">
+                <span>v${app.version}</span><span>·</span><span>${formatSize(app.size_bytes)}</span><span>·</span><span>⬇ ${(app.download_count||0).toLocaleString('en-US')}</span>
+            </div>
+            <div class="flex gap-2">
+                <button class="app-detail-btn btn-outline px-4 py-2.5 rounded-full text-xs flex-1" data-slug="${app.slug}">التفاصيل</button>
+                <button class="app-download-btn btn-gold px-4 py-2.5 rounded-full text-xs flex-1" data-slug="${app.slug}">
+                    <i class="fa-solid fa-download ml-1"></i>تنزيل
+                </button>
+            </div>
+        </div>
+    </div>`;
+}
+
+async function loadApps() {
+    const grid = document.getElementById('apps-grid');
+    const empty = document.getElementById('apps-empty');
+    try {
+        const res = await fetch('/api/apps');
+        realApps = await res.json();
+
+        animateNumber(document.getElementById('stat-apps'), realApps.length);
+        animateNumber(document.getElementById('stat-downloads'), realApps.reduce((s,a)=>s+(a.download_count||0),0));
+
+        if (!realApps.length) {
+            grid.innerHTML = '';
+            empty.hidden = false;
+            return;
+        }
+        empty.hidden = true;
+        grid.innerHTML = realApps.map(appCardHTML).join('');
+
+        grid.querySelectorAll('.app-detail-btn').forEach(btn =>
+            btn.addEventListener('click', (e) => { e.stopPropagation(); openAppModal(btn.dataset.slug); }));
+        grid.querySelectorAll('.app-download-btn').forEach(btn =>
+            btn.addEventListener('click', (e) => { e.stopPropagation(); triggerDownload(btn.dataset.slug); }));
+        grid.querySelectorAll('.app-card').forEach(card =>
+            card.addEventListener('click', () => openAppModal(card.dataset.slug)));
+    } catch {
+        grid.innerHTML = '<p class="text-white/30 text-sm col-span-full text-center py-10">تعذّر تحميل التطبيقات، حاول لاحقًا.</p>';
+    }
+}
+
+function triggerDownload(slug) {
+    window.location.href = `/api/apps/${slug}/download`;
+    setTimeout(loadApps, 1500);
+}
+
+async function openAppModal(slug) {
+    const res = await fetch(`/api/apps/${slug}`);
+    if (!res.ok) return;
+    const app = await res.json();
+    const body = document.getElementById('app-modal-body');
+
+    const shots = app.screenshots && app.screenshots.length
+        ? `<div class="app-modal-shots">${app.screenshots.map(s => `<img src="${s}" alt="" loading="lazy">`).join('')}</div>`
+        : '';
+    const changelog = app.changelog
+        ? `<div class="app-modal-changelog">${app.changelog.replace(/</g,'&lt;')}</div>`
+        : '';
+
+    body.innerHTML = `
+        <div class="flex items-center gap-4 mb-2">
+            ${appIconHTML(app)}
+            <div>
+                <h2 class="text-xl font-black mb-1">${app.name}</h2>
+                <span class="status-badge status-badge--live">متاح للتنزيل</span>
+            </div>
+        </div>
+        <p class="text-white/50 text-sm leading-relaxed my-5">${app.description || ''}</p>
+        <div class="grid grid-cols-3 gap-2.5 mb-2">
+            <div class="app-modal-fact"><span>الإصدار</span><strong>v${app.version}</strong></div>
+            <div class="app-modal-fact"><span>الحجم</span><strong>${formatSize(app.size_bytes)}</strong></div>
+            <div class="app-modal-fact"><span>التنزيلات</span><strong>${(app.download_count||0).toLocaleString('en-US')}</strong></div>
+        </div>
+        <p class="text-white/25 text-xs mt-3">آخر تحديث: ${formatDate(app.updated_at)} · المطوّر: SD GENESIS</p>
+        ${shots}
+        ${changelog}
+        <button class="btn-gold w-full py-4 rounded-xl text-sm font-bold mt-2" id="modal-download-btn">
+            <i class="fa-solid fa-download ml-2"></i>تنزيل الآن
+        </button>
+    `;
+    document.getElementById('modal-download-btn').addEventListener('click', () => triggerDownload(app.slug));
+    document.getElementById('app-modal').hidden = false;
+}
+
+document.getElementById('app-modal-close').addEventListener('click', () => { document.getElementById('app-modal').hidden = true; });
+document.getElementById('app-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'app-modal') document.getElementById('app-modal').hidden = true;
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.getElementById('app-modal').hidden = true; });
+
+loadApps();
+</script>
+
 </body>
 </html>
