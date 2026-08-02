@@ -55,10 +55,11 @@
             filter:drop-shadow(0 0 18px rgba(220,225,235,0.35)) drop-shadow(0 0 40px rgba(200,210,225,0.15));
         }
         .hero-logo {
-            display:block; height:110px; width:auto; margin:0 auto 28px;
+            display:block; height:150px; width:auto; max-width:min(60vw, 260px);
+            margin:0 auto 28px; object-fit:contain;
             filter:drop-shadow(0 0 25px rgba(212,175,55,0.35)) drop-shadow(0 0 55px rgba(212,175,55,0.15));
         }
-        @media (max-width:640px) { .hero-logo { height:78px; } }
+        @media (max-width:640px) { .hero-logo { height:110px; max-width:55vw; margin-bottom:20px; } }
 
         .hero-video-bg {
             position:absolute; inset:0; z-index:0;
