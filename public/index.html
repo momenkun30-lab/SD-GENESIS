@@ -46,6 +46,20 @@
         }
         @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
 
+        .silver-text {
+            background:linear-gradient(135deg,#ffffff,#cfd4da,#9aa1ab,#e8ebef,#ffffff);
+            background-size:200% auto;
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            background-clip:text;
+            animation:shimmer 5s linear infinite;
+            filter:drop-shadow(0 0 18px rgba(220,225,235,0.35)) drop-shadow(0 0 40px rgba(200,210,225,0.15));
+        }
+        .hero-logo {
+            height:110px; width:auto; margin:0 auto 28px;
+            filter:drop-shadow(0 0 25px rgba(212,175,55,0.35)) drop-shadow(0 0 55px rgba(212,175,55,0.15));
+        }
+        @media (max-width:640px) { .hero-logo { height:78px; } }
+
         .hero-video-bg {
             position:absolute; inset:0; z-index:0;
             width:100%; height:100%; object-fit:cover;
@@ -193,7 +207,7 @@
                 <a href="#contact" class="text-sm font-medium text-white/70 hover:text-gold-400 transition-colors duration-300">تواصل معنا</a>
             </div>
             <div class="flex items-center gap-3">
-                <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="hidden sm:inline-flex btn-gold px-6 py-2.5 rounded-full text-sm font-bold">ابدأ الآن</a>
+                <a href="https://wa.me/249911920216" target="_blank" rel="noopener" class="hidden sm:inline-flex btn-gold px-6 py-2.5 rounded-full text-sm font-bold">ابدأ الآن</a>
                 <button id="menuToggle" class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-white/5 transition-colors" aria-label="القائمة">
                     <span class="menu-line w-5 h-0.5 bg-white/80 rounded transition-all duration-300"></span>
                     <span class="menu-line w-5 h-0.5 bg-white/80 rounded transition-all duration-300"></span>
@@ -210,7 +224,7 @@
         <a href="#services" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">خدماتنا</a>
         <a href="#apps" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">تطبيقاتنا</a>
         <a href="#contact" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">تواصل معنا</a>
-        <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="btn-gold px-8 py-3 rounded-full text-base font-bold mt-4">ابدأ الآن</a>
+        <a href="https://wa.me/249911920216" target="_blank" rel="noopener" class="btn-gold px-8 py-3 rounded-full text-base font-bold mt-4">ابدأ الآن</a>
     </div>
 </div>
 
@@ -226,19 +240,15 @@
     <canvas id="matrix-canvas"></canvas>
 
     <div class="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
-        <div data-aos="fade-down" data-aos-duration="800">
-            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold-500/20 bg-gold-500/5 text-gold-400 text-xs font-semibold tracking-wider mb-8">
-                <i class="fa-solid fa-bolt text-[10px]"></i> نقود التحول الرقمي
-            </span>
-        </div>
-        <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-6">
-            نحول أفكارك إلى<br><span class="gradient-text">واقع رقمي</span>
+        <img src="/img/logo.jpg" alt="SD GENESIS" class="hero-logo" data-aos="fade-down" data-aos-duration="900">
+        <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="150" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-6 silver-text">
+            نحن من نصنع المستقبل 🚀
         </h1>
-        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" class="text-base sm:text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-            شركة سودانية رائدة في تصميم وتطوير المواقع والتطبيقات وإنتاج الفيديوهات التسويقية. نصنع تجارب رقمية استثنائية تلهم وتُحدث فرقًا حقيقيًا.
+        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" class="text-base sm:text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+            نحول الأفكار إلى واقع
         </p>
-        <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600" class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="btn-gold px-8 py-3.5 rounded-full text-sm sm:text-base w-full sm:w-auto text-center">
+        <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="450" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="https://wa.me/249911920216" target="_blank" rel="noopener" class="btn-gold px-8 py-3.5 rounded-full text-sm sm:text-base w-full sm:w-auto text-center">
                 <i class="fa-solid fa-rocket ml-2"></i>ابدأ مشروعك الآن
             </a>
             <a href="#services" class="btn-outline px-8 py-3.5 rounded-full text-sm sm:text-base w-full sm:w-auto text-center">
@@ -341,7 +351,7 @@
 
         <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
             <div data-aos="fade-right">
-                <a href="https://wa.me/249904131357" target="_blank" rel="noopener"
+                <a href="https://wa.me/249911920216" target="_blank" rel="noopener"
                    class="btn-gold w-full py-5 rounded-2xl text-base font-bold flex items-center justify-center gap-3 mb-4">
                     <i class="fa-brands fa-whatsapp text-xl"></i> تواصل عبر واتساب الآن
                 </a>
@@ -372,9 +382,9 @@
                         <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-solid fa-location-dot"></i></div>
                         <div><p class="font-semibold text-sm mb-0.5">المقر</p><p class="text-white/40 text-sm">السودان</p></div>
                     </div>
-                    <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="flex items-start gap-4 p-4 rounded-xl bg-dark-700/30 border border-white/[0.03] hover:border-gold-500/10 transition-colors">
+                    <a href="https://wa.me/249911920216" target="_blank" rel="noopener" class="flex items-start gap-4 p-4 rounded-xl bg-dark-700/30 border border-white/[0.03] hover:border-gold-500/10 transition-colors">
                         <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-brands fa-whatsapp"></i></div>
-                        <div><p class="font-semibold text-sm mb-0.5">واتساب</p><p class="text-white/40 text-sm font-inter" dir="ltr">+249 90 413 1357</p></div>
+                        <div><p class="font-semibold text-sm mb-0.5">واتساب</p><p class="text-white/40 text-sm font-inter" dir="ltr">+249 91 192 0216</p></div>
                     </a>
                     <a href="mailto:sdgenesis1@gmail.com" class="flex items-start gap-4 p-4 rounded-xl bg-dark-700/30 border border-white/[0.03] hover:border-gold-500/10 transition-colors">
                         <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-solid fa-envelope"></i></div>
@@ -385,7 +395,7 @@
                     <a href="https://www.tiktok.com/@sdgenesis7?_r=1&_t=ZS-98VsCqYIz0E" target="_blank" rel="noopener" aria-label="TikTok" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-tiktok text-sm"></i></a>
                     <a href="https://www.facebook.com/profile.php?id=61592704981488" target="_blank" rel="noopener" aria-label="Facebook" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-facebook-f text-sm"></i></a>
                     <a href="https://whatsapp.com/channel/0029VbDHr6mEawdwfBNxh03B" target="_blank" rel="noopener" aria-label="قناة واتساب" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-solid fa-tower-broadcast text-sm"></i></a>
-                    <a href="https://wa.me/249904131357" target="_blank" rel="noopener" aria-label="واتساب مباشر" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+                    <a href="https://wa.me/249911920216" target="_blank" rel="noopener" aria-label="واتساب مباشر" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-whatsapp text-sm"></i></a>
                 </div>
             </div>
         </div>
@@ -425,7 +435,7 @@
                 <div class="flex items-center gap-2.5">
                     <a href="https://www.tiktok.com/@sdgenesis7?_r=1&_t=ZS-98VsCqYIz0E" target="_blank" rel="noopener" aria-label="TikTok" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-tiktok text-xs"></i></a>
                     <a href="https://www.facebook.com/profile.php?id=61592704981488" target="_blank" rel="noopener" aria-label="Facebook" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-facebook-f text-xs"></i></a>
-                    <a href="https://wa.me/249904131357" target="_blank" rel="noopener" aria-label="WhatsApp" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-whatsapp text-xs"></i></a>
+                    <a href="https://wa.me/249911920216" target="_blank" rel="noopener" aria-label="WhatsApp" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-whatsapp text-xs"></i></a>
                 </div>
             </div>
         </div>
