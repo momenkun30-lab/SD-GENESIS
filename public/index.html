@@ -3,738 +3,733 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SD GENESIS | نحول أفكارك إلى واقع رقمي</title>
-    <meta name="description" content="SD GENESIS — شركة سودانية متخصصة في تصميم المواقع، تطوير التطبيقات، وإنتاج الفيديوهات التسويقية.">
+    <title>SD GENESIS - لوحة التحكم الاحترافية</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        gold: { 300:'#F5E08C', 400:'#F5D060', 500:'#D4AF37', 600:'#B8960C', 700:'#8B6F00' },
-                        dark: { 950:'#020202', 900:'#050505', 800:'#0a0a0a', 700:'#111111', 600:'#1a1a1a', 500:'#222222', 400:'#333333', 300:'#555555' }
-                    },
-                    fontFamily: { cairo:['Cairo','sans-serif'], inter:['Inter','sans-serif'] }
-                }
-            }
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } }
         }
     </script>
-
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior:smooth; }
-        body { font-family:'Cairo',sans-serif; background:#050505; color:#fff; overflow-x:hidden; }
-
-        ::-webkit-scrollbar { width:6px; }
-        ::-webkit-scrollbar-track { background:#0a0a0a; }
-        ::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:3px; }
-        ::-webkit-scrollbar-thumb:hover { background:#F5D060; }
-        ::selection { background:rgba(212,175,55,0.3); color:#F5D060; }
-
-        .gradient-text {
-            background:linear-gradient(135deg,#F5E08C,#D4AF37,#B8960C,#D4AF37,#F5E08C);
-            background-size:200% auto;
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-            background-clip:text;
-            animation:shimmer 4s linear infinite;
-        }
-        @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
-
-        .hero-video-bg {
-            position:absolute; inset:0; z-index:0;
-            width:100%; height:100%; object-fit:cover;
-            opacity:0.25;
-            filter:brightness(0.6) saturate(0.8);
-        }
-        .hero-overlay {
-            position:absolute; inset:0; z-index:1;
-            background:
-                radial-gradient(ellipse at 50% 50%, rgba(5,5,5,0.3) 0%, rgba(5,5,5,0.85) 70%),
-                linear-gradient(180deg, rgba(5,5,5,0.5) 0%, rgba(5,5,5,0.2) 50%, rgba(5,5,5,0.9) 100%);
-        }
-        #matrix-canvas { position:absolute; inset:0; z-index:2; width:100%; height:100%; pointer-events:none; }
-
-        .navbar-glass {
-            background:rgba(5,5,5,0.75); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
-            border-bottom:1px solid rgba(255,255,255,0.04); transition:all .3s ease;
-        }
-        .navbar-glass.scrolled { background:rgba(5,5,5,0.95); border-bottom-color:rgba(212,175,55,0.1); }
-
-        .btn-gold {
-            background:linear-gradient(135deg,#D4AF37,#F5D060); color:#050505; font-weight:700;
-            transition:all .3s ease; position:relative; overflow:hidden;
-        }
-        .btn-gold::before {
-            content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
-            background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
-            transition:left .6s ease;
-        }
-        .btn-gold:hover::before { left:100%; }
-        .btn-gold:hover { transform:translateY(-2px); box-shadow:0 10px 35px rgba(212,175,55,0.35); }
-        .btn-gold:disabled { opacity:.6; cursor:not-allowed; transform:none; }
-
-        .btn-outline { border:1px solid rgba(212,175,55,0.4); color:#D4AF37; font-weight:600; transition:all .3s ease; }
-        .btn-outline:hover { background:rgba(212,175,55,0.08); border-color:#D4AF37; transform:translateY(-2px); }
-
-        .service-card { transition:all .45s cubic-bezier(.175,.885,.32,1.275); border:1px solid rgba(212,175,55,0.08); }
-        .service-card:hover { transform:translateY(-14px); border-color:rgba(212,175,55,0.3); box-shadow:0 25px 60px rgba(212,175,55,0.08), 0 0 50px rgba(212,175,55,0.04); }
-        .service-card:hover .card-icon { transform:scale(1.15) rotate(5deg); box-shadow:0 0 35px rgba(212,175,55,0.3); }
-        .card-icon { transition:all .45s cubic-bezier(.175,.885,.32,1.275); }
-
-        .app-card { transition:all .4s ease; border:1px solid rgba(255,255,255,0.04); cursor:pointer; }
-        .app-card:hover { transform:translateY(-10px); border-color:rgba(212,175,55,0.2); box-shadow:0 20px 50px rgba(0,0,0,0.5); }
-        .app-icon-wrap img, .app-icon-wrap .app-icon-fallback { transition:all .4s ease; }
-        .app-card:hover .app-icon-wrap img, .app-card:hover .app-icon-wrap .app-icon-fallback { transform:scale(1.08); }
-
-        .form-input {
-            background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
-            color:#fff; transition:all .3s ease;
-        }
-        .form-input:focus { outline:none; border-color:rgba(212,175,55,0.5); box-shadow:0 0 25px rgba(212,175,55,0.06); background:rgba(255,255,255,0.05); }
-        .form-input::placeholder { color:#444; }
-
-        .section-divider { height:1px; background:linear-gradient(to right,transparent,rgba(212,175,55,0.15),transparent); }
-
-        .orb { position:absolute; border-radius:50%; filter:blur(100px); pointer-events:none; }
-        @keyframes pulse-orb { 0%,100%{opacity:.12;transform:scale(1)} 50%{opacity:.22;transform:scale(1.05)} }
-
-        @keyframes bounce-down { 0%,20%,50%,80%,100%{transform:translateY(0)} 40%{transform:translateY(12px)} 60%{transform:translateY(6px)} }
-        .scroll-indicator { animation:bounce-down 2.5s ease-in-out infinite; }
-
-        .back-to-top { opacity:0; visibility:hidden; transition:all .3s ease; }
-        .back-to-top.visible { opacity:1; visibility:visible; }
-
-        .mobile-menu { transform:translateX(100%); transition:transform .45s cubic-bezier(.16,1,.3,1); }
-        .mobile-menu.open { transform:translateX(0); }
-
-        .toast { transform:translateY(30px); opacity:0; transition:all .4s cubic-bezier(.16,1,.3,1); }
-        .toast.show { transform:translateY(0); opacity:1; }
-
-        .loading-screen {
-            position:fixed; inset:0; background:#050505; z-index:9999;
-            display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px;
-            transition:opacity .6s ease, visibility .6s ease;
-        }
-        .loading-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
-        .loader { width:44px; height:44px; border:2px solid rgba(212,175,55,0.1); border-top-color:#D4AF37; border-radius:50%; animation:spin .7s linear infinite; }
-        @keyframes spin { to{transform:rotate(360deg)} }
-
-        body::after {
-            content:''; position:fixed; inset:0; opacity:.025; z-index:9998; pointer-events:none;
-            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-
-        .logo-img { height:48px; width:auto; object-fit:contain; }
-        .star-gold { color:#D4AF37; }
-
-        .video-fallback { display:none; position:absolute; inset:0; z-index:0; background:radial-gradient(ellipse at center, #0a0a0a 0%, #050505 100%); }
-
-        .status-badge { font-size:10px; font-weight:700; padding:3px 10px; border-radius:999px; letter-spacing:.02em; }
-        .status-badge--live { background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(74,222,128,0.25); }
-
-        .app-modal-overlay {
-            position:fixed; inset:0; z-index:200; background:rgba(2,2,2,0.85); backdrop-filter:blur(8px);
-            display:flex; align-items:flex-end; justify-content:center;
-        }
-        @media (min-width:720px){ .app-modal-overlay{ align-items:center; padding:24px; } }
-        .app-modal-overlay[hidden] { display:none !important; }
-        .app-modal {
-            background:#0a0a0a; border:1px solid rgba(212,175,55,0.15); border-radius:24px 24px 0 0;
-            max-width:640px; width:100%; max-height:88vh; overflow-y:auto; position:relative; padding:32px;
-        }
-        @media (min-width:720px){ .app-modal{ border-radius:24px; } }
-        .app-modal-close {
-            position:absolute; top:18px; left:18px; width:34px; height:34px; border-radius:50%;
-            background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); color:#999;
-            display:flex; align-items:center; justify-content:center; cursor:pointer;
-        }
-        .app-modal-close:hover { color:#D4AF37; border-color:rgba(212,175,55,0.3); }
-        .app-modal-shots { display:flex; gap:10px; overflow-x:auto; margin:20px 0; padding-bottom:4px; }
-        .app-modal-shots img { height:160px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); }
-        .app-modal-fact { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:12px 14px; }
-        .app-modal-fact span { display:block; color:#666; font-size:11px; margin-bottom:4px; }
-        .app-modal-fact strong { color:#fff; font-family:'Inter',monospace; }
-        .app-modal-changelog {
-            font-family:'Inter',monospace; font-size:13px; color:#999; white-space:pre-wrap;
-            background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:14px; margin:18px 0;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        [data-section-panel] { display: none; }
+        [data-section-panel].active { display: block; }
     </style>
 </head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
 
-<body>
-
-<div class="loading-screen" id="loadingScreen">
-    <span class="brand-logo-wrap h-16 flex items-center opacity-80">
-        <img class="brand-logo-img h-16" alt="SD GENESIS" hidden>
-        <span class="brand-logo-text text-2xl font-black gradient-text">SD GENESIS</span>
-    </span>
-    <div class="loader"></div>
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="login-screen" class="fixed inset-0 z-[100] bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4 pb-32">
+    <form id="login-form" class="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-xl">
+        <div class="flex items-center gap-2 mb-6">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm">SD</div>
+            <span class="font-bold text-lg">SD GENESIS</span>
+        </div>
+        <h1 class="text-xl font-bold mb-1">دخول لوحة التحكم</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">أدخل بياناتك للمتابعة</p>
+        <label class="block mb-4">
+            <span class="text-sm font-medium text-slate-600 dark:text-slate-400">اسم المستخدم</span>
+            <input type="text" name="username" required autocomplete="username"
+                class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </label>
+        <label class="block mb-6">
+            <span class="text-sm font-medium text-slate-600 dark:text-slate-400">كلمة المرور</span>
+            <input type="password" name="password" required autocomplete="current-password"
+                class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </label>
+        <button type="submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">تسجيل الدخول</button>
+        <p id="login-error" class="text-sm text-red-500 mt-3 hidden"></p>
+    </form>
 </div>
 
-<nav class="navbar-glass fixed top-0 left-0 right-0 z-50" id="navbar">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16 lg:h-20">
-            <a href="#hero" class="flex-shrink-0">
-                <span class="brand-logo-wrap flex items-center">
-                    <img class="brand-logo-img logo-img" alt="SD GENESIS" hidden>
-                    <span class="brand-logo-text text-xl font-black gradient-text">SD GENESIS</span>
-                </span>
-            </a>
-            <div class="hidden lg:flex items-center gap-8">
-                <a href="#hero" class="text-sm font-medium text-white/70 hover:text-gold-400 transition-colors duration-300">الرئيسية</a>
-                <a href="#services" class="text-sm font-medium text-white/70 hover:text-gold-400 transition-colors duration-300">خدماتنا</a>
-                <a href="#apps" class="text-sm font-medium text-white/70 hover:text-gold-400 transition-colors duration-300">تطبيقاتنا</a>
-                <a href="#contact" class="text-sm font-medium text-white/70 hover:text-gold-400 transition-colors duration-300">تواصل معنا</a>
+<!-- ============ APP SHELL (hidden until authenticated) ============ -->
+<div id="app-shell" class="hidden">
+
+    <!-- Top Bar -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <button id="sidebarToggle" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm">SD</div>
+                <span class="font-bold text-lg hidden sm:block">SD GENESIS</span>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="hidden sm:inline-flex btn-gold px-6 py-2.5 rounded-full text-sm font-bold">ابدأ الآن</a>
-                <button id="menuToggle" class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-white/5 transition-colors" aria-label="القائمة">
-                    <span class="menu-line w-5 h-0.5 bg-white/80 rounded transition-all duration-300"></span>
-                    <span class="menu-line w-5 h-0.5 bg-white/80 rounded transition-all duration-300"></span>
-                    <span class="menu-line w-3.5 h-0.5 bg-white/80 rounded transition-all duration-300 self-start mr-[10px]"></span>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-4">
+            <button id="themeToggle" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </button>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold" id="avatar-initial">A</div>
+                <span class="text-sm font-medium hidden sm:block" id="admin-username-label">المشرف</span>
+                <button id="logout-btn" class="text-xs text-slate-400 hover:text-red-500 transition-colors mr-2">تسجيل الخروج</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed lg:sticky top-0 right-0 h-screen w-64 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 transform translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 overflow-y-auto">
+            <div class="p-4 space-y-1">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 px-3">القائمة الرئيسية</div>
+
+                <button data-nav="dashboard" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    لوحة التحكم
+                </button>
+                <button data-nav="apps" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    إدارة التطبيقات
+                </button>
+                <button data-nav="analytics" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m18 0v-6a2 2 0 00-2-2h-2a2 2 0 00-2 2v6m-6 0v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m18 0V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v6"/></svg>
+                    التحليلات
+                </button>
+                <button data-nav="branding" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h14a2 2 0 012 2v9m-4 8v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6m10 0H7"/></svg>
+                    الهوية البصرية
+                </button>
+
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-6 mb-2 px-3">قريبًا</div>
+                <button data-nav="songs" data-soon="إدارة الأغاني" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+                    إدارة الأغاني <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="storage" data-soon="التخزين السحابي" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                    التخزين السحابي <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="users" data-soon="إدارة المستخدمين" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    إدارة المستخدمين <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="notifications" data-soon="الإشعارات" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                    الإشعارات <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="security" data-soon="الأمان" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    الأمان <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
+                </button>
+                <button data-nav="backup" data-soon="النسخ الاحتياطي" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                    النسخ الاحتياطي <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
                 </button>
             </div>
-        </div>
-    </div>
-</nav>
+        </aside>
 
-<div class="mobile-menu fixed inset-0 z-40 bg-dark-900/98 backdrop-blur-xl lg:hidden" id="mobileMenu">
-    <div class="flex flex-col items-center justify-center h-full gap-8">
-        <a href="#hero" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">الرئيسية</a>
-        <a href="#services" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">خدماتنا</a>
-        <a href="#apps" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">تطبيقاتنا</a>
-        <a href="#contact" class="mobile-link text-2xl font-bold text-white/80 hover:text-gold-400 transition-colors">تواصل معنا</a>
-        <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="btn-gold px-8 py-3 rounded-full text-base font-bold mt-4">ابدأ الآن</a>
-    </div>
-</div>
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
 
-<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-    <video class="hero-video-bg" autoplay muted loop playsinline preload="auto"></video>
-    <div class="hero-overlay"></div>
-    <div class="video-fallback" id="videoFallback"></div>
+        <!-- Main Content -->
+        <main class="flex-1 p-4 lg:p-8 pb-32 overflow-x-hidden">
 
-    <div class="orb w-[500px] h-[500px] bg-gold-500 top-[-10%] right-[-10%] z-[1]" style="animation:pulse-orb 6s ease-in-out infinite"></div>
-    <div class="orb w-[400px] h-[400px] bg-amber-700 bottom-[-5%] left-[-5%] z-[1]" style="animation:pulse-orb 8s ease-in-out infinite 2s"></div>
-    <div class="orb w-[300px] h-[300px] bg-yellow-900 top-[40%] left-[30%] z-[1]" style="animation:pulse-orb 7s ease-in-out infinite 1s"></div>
-
-    <canvas id="matrix-canvas"></canvas>
-
-    <div class="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
-        <div data-aos="fade-down" data-aos-duration="800">
-            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold-500/20 bg-gold-500/5 text-gold-400 text-xs font-semibold tracking-wider mb-8">
-                <i class="fa-solid fa-bolt text-[10px]"></i> نقود التحول الرقمي
-            </span>
-        </div>
-        <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-6">
-            نحول أفكارك إلى<br><span class="gradient-text">واقع رقمي</span>
-        </h1>
-        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" class="text-base sm:text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-            شركة سودانية رائدة في تصميم وتطوير المواقع والتطبيقات وإنتاج الفيديوهات التسويقية. نصنع تجارب رقمية استثنائية تلهم وتُحدث فرقًا حقيقيًا.
-        </p>
-        <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600" class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="btn-gold px-8 py-3.5 rounded-full text-sm sm:text-base w-full sm:w-auto text-center">
-                <i class="fa-solid fa-rocket ml-2"></i>ابدأ مشروعك الآن
-            </a>
-            <a href="#services" class="btn-outline px-8 py-3.5 rounded-full text-sm sm:text-base w-full sm:w-auto text-center">
-                اكتشف خدماتنا <i class="fa-solid fa-arrow-down mr-2 text-xs"></i>
-            </a>
-        </div>
-    </div>
-
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 scroll-indicator">
-        <div class="w-6 h-10 rounded-full border-2 border-white/15 flex justify-center pt-2">
-            <div class="w-1 h-2.5 bg-gold-500 rounded-full animate-bounce"></div>
-        </div>
-    </div>
-</section>
-
-<section class="relative py-16 sm:py-20 border-y border-white/[0.03]">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-4">
-            <div class="text-center" data-aos="fade-up" data-aos-delay="0">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-2" id="stat-apps">0</div>
-                <p class="text-white/40 text-sm font-medium">تطبيق منشور — بيانات حقيقية</p>
-            </div>
-            <div class="text-center" data-aos="fade-up" data-aos-delay="150">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-2" id="stat-downloads">0</div>
-                <p class="text-white/40 text-sm font-medium">تنزيل موثّق — بيانات حقيقية</p>
-            </div>
-            <div class="text-center col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="300">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-2">السودان</div>
-                <p class="text-white/40 text-sm font-medium">مقر الشركة</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="services" class="relative py-24 sm:py-32">
-    <div class="orb w-[350px] h-[350px] bg-gold-600 top-[20%] left-[-5%]" style="animation:pulse-orb 9s ease-in-out infinite"></div>
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        <div class="text-center mb-16" data-aos="fade-up">
-            <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">ما نقدمه</span>
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4">خدماتنا <span class="gradient-text">الاحترافية</span></h2>
-            <p class="text-white/40 max-w-xl mx-auto text-base">نقدم حلولًا رقمية شاملة مصممة لتلبية احتياجات عملك وتحقيق أهدافك</p>
-        </div>
-        <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
-            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-aos="fade-up" data-aos-delay="0">
-                <div class="card-icon w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center text-gold-400 text-3xl border border-gold-500/10">
-                    <i class="fa-solid fa-globe"></i>
+            <!-- ===== DASHBOARD (real data) ===== -->
+            <div data-section-panel="dashboard" class="active space-y-6">
+                <div>
+                    <h1 class="text-2xl font-bold">لوحة التحكم</h1>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">نظرة عامة — بيانات حقيقية من قاعدة البيانات</p>
                 </div>
-                <h3 class="text-xl font-bold mb-3 group-hover:text-gold-400 transition-colors">تصميم المواقع الإلكترونية</h3>
-                <p class="text-white/40 text-sm leading-relaxed">مواقع عصرية وسريعة ومتجاوبة مع جميع الأجهزة، مبنية بأحدث التقنيات لضمان أفضل تجربة للمستخدم وتصدر نتائج البحث.</p>
-            </div>
-            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-aos="fade-up" data-aos-delay="150">
-                <div class="card-icon w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center text-gold-400 text-3xl border border-gold-500/10">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                        </div>
+                        <div class="text-2xl font-bold" id="stat-total-apps">—</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">إجمالي التطبيقات</div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        </div>
+                        <div class="text-2xl font-bold" id="stat-total-downloads">—</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">إجمالي التنزيلات</div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+                        <div class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                        </div>
+                        <div class="text-lg font-bold truncate" id="stat-top-app">—</div>
+                        <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">الأكثر تنزيلًا</div>
+                    </div>
                 </div>
-                <h3 class="text-xl font-bold mb-3 group-hover:text-gold-400 transition-colors">تصميم التطبيقات</h3>
-                <p class="text-white/40 text-sm leading-relaxed">تطبيقات ذكية لنظامي iOS وAndroid بتصميم جذاب وأداء عالي، من الفكرة إلى الإطلاق على المتاجر بأفضل معايير الجودة.</p>
-            </div>
-            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-aos="fade-up" data-aos-delay="300">
-                <div class="card-icon w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center text-gold-400 text-3xl border border-gold-500/10">
-                    <i class="fa-solid fa-film"></i>
+
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                        التطبيقات الأكثر تحميلًا
+                    </h3>
+                    <div id="dash-top-apps" class="space-y-3 text-sm text-slate-400">جارٍ التحميل…</div>
                 </div>
-                <h3 class="text-xl font-bold mb-3 group-hover:text-gold-400 transition-colors">إنتاج الفيديوهات التسويقية</h3>
-                <p class="text-white/40 text-sm leading-relaxed">فيديوهات احترافية تسوّق علامتك التجارية بإبداع، من السيناريو إلى المونتاج بمؤثرات بصرية صادمة تزيد من مبيعاتك.</p>
             </div>
-        </div>
-    </div>
-</section>
 
-<div class="section-divider max-w-4xl mx-auto"></div>
-
-<section id="apps" class="relative py-24 sm:py-32">
-    <div class="orb w-[400px] h-[400px] bg-amber-800 bottom-[10%] right-[-8%]" style="animation:pulse-orb 7s ease-in-out infinite 1s"></div>
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        <div class="text-center mb-16" data-aos="fade-up">
-            <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">متجر SD GENESIS</span>
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4">تطبيقات <span class="gradient-text">نفتخر بها</span></h2>
-            <p class="text-white/40 max-w-xl mx-auto text-base">تطبيقاتنا الرسمية — تنزيلات وأعداد حقيقية موثّقة من قاعدة بياناتنا مباشرة</p>
-        </div>
-
-        <div id="apps-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <p class="text-white/30 text-sm col-span-full text-center py-10">جارٍ تحميل التطبيقات…</p>
-        </div>
-        <div id="apps-empty" class="text-center py-16 text-white/30" hidden>
-            <i class="fa-solid fa-box-open text-3xl mb-4 block"></i>
-            لا توجد تطبيقات منشورة بعد — تابعونا قريبًا.
-        </div>
-    </div>
-</section>
-
-<div class="section-divider max-w-4xl mx-auto"></div>
-
-<section id="contact" class="relative py-24 sm:py-32">
-    <div class="orb w-[450px] h-[450px] bg-gold-600 bottom-[-10%] left-[10%]" style="animation:pulse-orb 10s ease-in-out infinite 2s"></div>
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        <div class="text-center mb-16" data-aos="fade-up">
-            <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">تواصل معنا</span>
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4">لنبدأ <span class="gradient-text">مشروعك</span></h2>
-            <p class="text-white/40 max-w-xl mx-auto text-base">أسرع طريقة للتواصل معنا هي واتساب — نرد خلال دقائق</p>
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
-            <div data-aos="fade-right">
-                <a href="https://wa.me/249904131357" target="_blank" rel="noopener"
-                   class="btn-gold w-full py-5 rounded-2xl text-base font-bold flex items-center justify-center gap-3 mb-4">
-                    <i class="fa-brands fa-whatsapp text-xl"></i> تواصل عبر واتساب الآن
-                </a>
-                <p class="text-white/30 text-xs text-center mb-8">أو راسلنا عبر النموذج وسيُفتح تطبيق البريد لديك تلقائيًا</p>
-
-                <form id="contactForm" class="space-y-5">
+            <!-- ===== APPS (real CRUD) ===== -->
+            <div data-section-panel="apps" class="space-y-6">
+                <div class="flex items-center justify-between flex-wrap gap-3">
                     <div>
-                        <label class="block text-sm font-medium text-white/60 mb-2">الاسم الكامل</label>
-                        <input type="text" id="cf-name" required placeholder="أدخل اسمك الكامل" class="form-input w-full px-5 py-3.5 rounded-xl text-sm">
+                        <h1 class="text-2xl font-bold">إدارة التطبيقات</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">إضافة، تعديل، حذف، ونشر التطبيقات</p>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-white/60 mb-2">البريد الإلكتروني</label>
-                        <input type="email" id="cf-email" required placeholder="example@email.com" class="form-input w-full px-5 py-3.5 rounded-xl text-sm font-inter" dir="ltr">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-white/60 mb-2">الرسالة</label>
-                        <textarea id="cf-message" required rows="5" placeholder="اخبرنا عن مشروعك..." class="form-input w-full px-5 py-3.5 rounded-xl text-sm resize-none"></textarea>
-                    </div>
-                    <button type="submit" class="btn-gold w-full py-4 rounded-xl text-sm font-bold">
-                        <i class="fa-solid fa-envelope ml-2"></i>إرسال عبر البريد الإلكتروني
+                    <button id="new-app-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        إضافة تطبيق جديد
                     </button>
-                </form>
+                </div>
+
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex flex-wrap gap-3">
+                    <input type="text" id="apps-search" placeholder="البحث في التطبيقات..." autocomplete="off"
+                        class="flex-1 min-w-[200px] bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <select id="apps-filter" class="bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2 text-sm">
+                        <option value="all">جميع الحالات</option>
+                        <option value="published">منشور</option>
+                        <option value="draft">مسودة</option>
+                    </select>
+                </div>
+
+                <div id="apps-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <p class="text-slate-400 text-sm">جارٍ التحميل…</p>
+                </div>
             </div>
 
-            <div data-aos="fade-left" class="space-y-8">
-                <div class="space-y-4">
-                    <div class="flex items-start gap-4 p-4 rounded-xl bg-dark-700/30 border border-white/[0.03] hover:border-gold-500/10 transition-colors">
-                        <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-solid fa-location-dot"></i></div>
-                        <div><p class="font-semibold text-sm mb-0.5">المقر</p><p class="text-white/40 text-sm">السودان</p></div>
+            <!-- ===== BRANDING (hero video + logo upload) ===== -->
+            <div data-section-panel="branding" class="space-y-6">
+                <div>
+                    <h1 class="text-2xl font-bold">الهوية البصرية</h1>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">فيديو الخلفية والشعار المعروضان بالصفحة الرئيسية</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+                        <h3 class="font-bold text-sm mb-3">فيديو خلفية الصفحة الرئيسية</h3>
+                        <div id="branding-video-current" class="text-xs text-slate-400 mb-3">جارٍ التحقق…</div>
+                        <input type="file" id="branding-video-input" accept="video/mp4" class="w-full text-sm text-slate-500 mb-3">
+                        <p class="text-[11px] text-slate-400 mb-3">MP4 فقط، بحد أقصى ~49 ميجابايت (حد Supabase المجاني). يُفضّل مقطع قصير مضغوط بدون صوت.</p>
+                        <div class="flex gap-2">
+                            <button id="branding-video-upload-btn" class="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">رفع / استبدال</button>
+                            <button id="branding-video-remove-btn" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-red-500 rounded-lg text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">حذف</button>
+                        </div>
+                        <p id="branding-video-status" class="text-xs mt-2 hidden"></p>
                     </div>
-                    <a href="https://wa.me/249904131357" target="_blank" rel="noopener" class="flex items-start gap-4 p-4 rounded-xl bg-dark-700/30 border border-white/[0.03] hover:border-gold-500/10 transition-colors">
-                        <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-brands fa-whatsapp"></i></div>
-                        <div><p class="font-semibold text-sm mb-0.5">واتساب</p><p class="text-white/40 text-sm font-inter" dir="ltr">+249 90 413 1357</p></div>
-                    </a>
-                    <a href="mailto:sdgenesis1@gmail.com" class="flex items-start gap-4 p-4 rounded-xl bg-dark-700/30 border border-white/[0.03] hover:border-gold-500/10 transition-colors">
-                        <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-solid fa-envelope"></i></div>
-                        <div><p class="font-semibold text-sm mb-0.5">البريد الإلكتروني</p><p class="text-white/40 text-sm font-inter" dir="ltr">sdgenesis1@gmail.com</p></div>
-                    </a>
-                </div>
-                <div class="flex items-center gap-3">
-                    <a href="https://www.tiktok.com/@sdgenesis7?_r=1&_t=ZS-98VsCqYIz0E" target="_blank" rel="noopener" aria-label="TikTok" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-tiktok text-sm"></i></a>
-                    <a href="https://www.facebook.com/profile.php?id=61592704981488" target="_blank" rel="noopener" aria-label="Facebook" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-facebook-f text-sm"></i></a>
-                    <a href="https://whatsapp.com/channel/0029VbDHr6mEawdwfBNxh03B" target="_blank" rel="noopener" aria-label="قناة واتساب" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-solid fa-tower-broadcast text-sm"></i></a>
-                    <a href="https://wa.me/249904131357" target="_blank" rel="noopener" aria-label="واتساب مباشر" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+                        <h3 class="font-bold text-sm mb-3">شعار الشركة</h3>
+                        <div id="branding-logo-current" class="mb-3 h-16 flex items-center text-xs text-slate-400">جارٍ التحقق…</div>
+                        <input type="file" id="branding-logo-input" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="w-full text-sm text-slate-500 mb-3">
+                        <p class="text-[11px] text-slate-400 mb-3">يُفضّل PNG بخلفية شفافة، ارتفاع حوالي 100-200 بكسل.</p>
+                        <div class="flex gap-2">
+                            <button id="branding-logo-upload-btn" class="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">رفع / استبدال</button>
+                            <button id="branding-logo-remove-btn" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-red-500 rounded-lg text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">حذف</button>
+                        </div>
+                        <p id="branding-logo-status" class="text-xs mt-2 hidden"></p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
 
-<footer class="border-t border-white/[0.03] bg-dark-800/50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-12">
-            <div class="sm:col-span-2 lg:col-span-1">
-                <span class="brand-logo-wrap flex items-center mb-4">
-                    <img class="brand-logo-img logo-img" alt="SD GENESIS" hidden>
-                    <span class="brand-logo-text text-lg font-black gradient-text">SD GENESIS</span>
-                </span>
-                <p class="text-white/35 text-sm leading-relaxed">شركة سودانية رائدة في التحول الرقمي، نصنع تجارب تقنية استثنائية تُلهم وتُحدث فرقًا حقيقيًا.</p>
-            </div>
-            <div>
-                <h4 class="font-bold text-sm mb-4 text-white/80">روابط سريعة</h4>
-                <ul class="space-y-2.5">
-                    <li><a href="#hero" class="text-white/35 text-sm hover:text-gold-400 transition-colors">الرئيسية</a></li>
-                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">خدماتنا</a></li>
-                    <li><a href="#apps" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تطبيقاتنا</a></li>
-                    <li><a href="#contact" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تواصل معنا</a></li>
-                    <li><a href="/admin" class="text-white/20 text-xs hover:text-gold-400 transition-colors">لوحة التحكم</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-sm mb-4 text-white/80">خدماتنا</h4>
-                <ul class="space-y-2.5">
-                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تصميم المواقع</a></li>
-                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تطوير التطبيقات</a></li>
-                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">الفيديوهات التسويقية</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-sm mb-4 text-white/80">تابعنا</h4>
-                <div class="flex items-center gap-2.5">
-                    <a href="https://www.tiktok.com/@sdgenesis7?_r=1&_t=ZS-98VsCqYIz0E" target="_blank" rel="noopener" aria-label="TikTok" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-tiktok text-xs"></i></a>
-                    <a href="https://www.facebook.com/profile.php?id=61592704981488" target="_blank" rel="noopener" aria-label="Facebook" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-facebook-f text-xs"></i></a>
-                    <a href="https://wa.me/249904131357" target="_blank" rel="noopener" aria-label="WhatsApp" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-whatsapp text-xs"></i></a>
+            <!-- ===== ANALYTICS (real daily downloads) ===== -->
+            <div data-section-panel="analytics" class="space-y-6">
+                <div>
+                    <h1 class="text-2xl font-bold">التحليلات</h1>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">التنزيلات اليومية خلال آخر 30 يومًا — بيانات حقيقية</p>
+                </div>
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                    <div id="analytics-chart" class="h-56 flex items-end justify-start gap-1.5 overflow-x-auto scrollbar-hide">
+                        <p class="text-slate-400 text-sm">جارٍ التحميل…</p>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+                    <h3 class="font-bold text-lg mb-4">الأكثر تنزيلًا</h3>
+                    <div id="analytics-top-apps" class="space-y-3 text-sm text-slate-400">جارٍ التحميل…</div>
                 </div>
             </div>
-        </div>
-        <div class="section-divider mb-6"></div>
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p class="text-white/25 text-xs">© <span id="footer-year"></span> SD GENESIS. جميع الحقوق محفوظة.</p>
-        </div>
-    </div>
-</footer>
 
-<button id="backToTop" class="back-to-top fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 flex items-center justify-center hover:bg-gold-500/20 hover:scale-110 transition-all duration-300" aria-label="العودة للأعلى">
-    <i class="fa-solid fa-chevron-up text-sm"></i>
-</button>
+            <!-- ===== COMING SOON template (shared by songs/storage/users/notifications/security/backup) ===== -->
+            <template id="coming-soon-template">
+                <div class="flex flex-col items-center justify-center text-center py-24 bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-300 dark:border-slate-700">
+                    <div class="w-14 h-14 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h2 class="text-lg font-bold soon-title">قريبًا</h2>
+                    <p class="text-slate-400 text-sm mt-1">هذه الميزة قيد التطوير وستتوفر في تحديث قادم.</p>
+                </div>
+            </template>
+            <div data-section-panel="songs"></div>
+            <div data-section-panel="storage"></div>
+            <div data-section-panel="users"></div>
+            <div data-section-panel="notifications"></div>
+            <div data-section-panel="security"></div>
+            <div data-section-panel="backup"></div>
 
-<div id="toast" class="toast fixed bottom-6 right-6 z-50 bg-dark-600 border border-gold-500/20 rounded-xl px-6 py-4 flex items-center gap-3 shadow-2xl">
-    <div class="w-8 h-8 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-solid fa-check text-sm"></i></div>
-    <p id="toastMessage" class="text-sm font-medium">تم الإرسال بنجاح!</p>
-</div>
-
-<div class="app-modal-overlay" id="app-modal" hidden>
-    <div class="app-modal">
-        <button class="app-modal-close" id="app-modal-close" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
-        <div id="app-modal-body"></div>
+        </main>
     </div>
 </div>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- ============ APP CREATE/EDIT MODAL ============ -->
+<div id="app-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
+        <button id="form-modal-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
+        <h2 id="form-title" class="text-lg font-bold mb-5">تطبيق جديد</h2>
+        <form id="app-form" class="space-y-4">
+            <input type="hidden" name="id">
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">اسم التطبيق</span>
+                <input type="text" name="name" required class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">الوصف</span>
+                <textarea name="description" rows="3" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea>
+            </label>
+            <div class="flex gap-4 items-end">
+                <label class="block flex-1">
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-400">رقم الإصدار</span>
+                    <input type="text" name="version" placeholder="1.0.0" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </label>
+                <label class="flex items-center gap-2 pb-2.5 text-sm">
+                    <input type="checkbox" name="published" class="w-4 h-4">
+                    منشور للمستخدمين
+                </label>
+            </div>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">سجل التحديثات</span>
+                <textarea name="changelog" rows="3" placeholder="- إصلاح كذا&#10;- تحسين كذا" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea>
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">أيقونة التطبيق</span>
+                <input type="file" name="icon" accept="image/*" class="mt-1 w-full text-sm text-slate-500">
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">صور واجهة التطبيق (حتى 8 صور)</span>
+                <input type="file" name="screenshots" accept="image/*" multiple class="mt-1 w-full text-sm text-slate-500">
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">ملف التطبيق (apk / exe / zip / dmg …)</span>
+                <input type="file" name="file" class="mt-1 w-full text-sm text-slate-500">
+            </label>
+            <p id="form-error" class="text-sm text-red-500 hidden"></p>
+            <button type="submit" id="form-submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">حفظ التطبيق</button>
+        </form>
+    </div>
+</div>
 
 <script>
-AOS.init({ duration:800, easing:'ease-out-cubic', once:true, offset:80 });
-
-window.addEventListener('load', () => {
-    setTimeout(() => { document.getElementById('loadingScreen').classList.add('hidden'); }, 800);
+/* ============ THEME ============ */
+const THEME_KEY = 'sdgenesis-theme';
+function applyTheme(t) { document.documentElement.classList.toggle('dark', t === 'dark'); }
+applyTheme(localStorage.getItem(THEME_KEY) || 'light');
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+  applyTheme(next);
+  localStorage.setItem(THEME_KEY, next);
 });
 
-document.getElementById('footer-year').textContent = new Date().getFullYear();
-
-const heroVideo = document.querySelector('.hero-video-bg');
-const videoFallback = document.getElementById('videoFallback');
-heroVideo.addEventListener('error', () => { videoFallback.style.display = 'block'; heroVideo.style.display = 'none'; });
-
-async function applyBranding() {
-    try {
-        const res = await fetch('/api/settings');
-        const settings = await res.json();
-
-        if (settings.hero_video_url) {
-            heroVideo.src = settings.hero_video_url;
-            heroVideo.load();
-        }
-        setTimeout(() => { if (heroVideo.readyState < 2) videoFallback.style.display = 'block'; }, 3500);
-
-        if (settings.logo_url) {
-            document.querySelectorAll('.brand-logo-img').forEach((img) => {
-                img.addEventListener('load', () => {
-                    img.hidden = false;
-                    img.closest('.brand-logo-wrap').querySelector('.brand-logo-text').hidden = true;
-                }, { once: true });
-                img.addEventListener('error', () => { img.hidden = true; }, { once: true });
-                img.src = settings.logo_url;
-            });
-        }
-    } catch {
-        setTimeout(() => { if (heroVideo.readyState < 2) videoFallback.style.display = 'block'; }, 3500);
-    }
+/* ============ SIDEBAR (mobile) ============ */
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+function toggleSidebar(open) {
+  const isOpen = open ?? sidebar.classList.contains('translate-x-full');
+  sidebar.classList.toggle('translate-x-full', !isOpen);
+  sidebarOverlay.classList.toggle('hidden', !isOpen);
 }
-applyBranding();
+document.getElementById('sidebarToggle').addEventListener('click', () => toggleSidebar(true));
+sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
 
-(function() {
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    function getFontSize() { return window.innerWidth < 768 ? 14 : 18; }
-    let fontSize = getFontSize(), columns, drops;
+/* ============ NAVIGATION ============ */
+const navButtons = document.querySelectorAll('.nav-item');
+const panels = document.querySelectorAll('[data-section-panel]');
+const comingSoonTemplate = document.getElementById('coming-soon-template');
 
-    function initMatrix() {
-        fontSize = getFontSize();
-        canvas.width = canvas.parentElement.offsetWidth;
-        canvas.height = canvas.parentElement.offsetHeight;
-        columns = Math.floor(canvas.width / fontSize);
-        drops = [];
-        for (let i = 0; i < columns; i++) drops[i] = Math.random() * -50;
-    }
-    const chars = '01';
-    let matrixAnimId;
-
-    function drawMatrix() {
-        ctx.fillStyle = 'rgba(5, 5, 5, 0.08)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = fontSize + 'px "Inter", monospace';
-        for (let i = 0; i < drops.length; i++) {
-            const char = chars[Math.floor(Math.random() * chars.length)];
-            const x = i * fontSize, y = drops[i] * fontSize;
-            ctx.fillStyle = 'rgba(0, 255, 136, 0.9)';
-            ctx.shadowColor = '#00ff88'; ctx.shadowBlur = 15;
-            ctx.fillText(char, x, y);
-            ctx.shadowBlur = 0;
-            if (drops[i] > 1) { ctx.fillStyle = 'rgba(0, 255, 136, 0.5)'; ctx.fillText(chars[Math.floor(Math.random()*chars.length)], x, y - fontSize); }
-            if (drops[i] > 2) { ctx.fillStyle = 'rgba(0, 255, 136, 0.25)'; ctx.fillText(chars[Math.floor(Math.random()*chars.length)], x, y - fontSize*2); }
-            if (drops[i] > 3) { ctx.fillStyle = 'rgba(0, 255, 136, 0.1)'; ctx.fillText(chars[Math.floor(Math.random()*chars.length)], x, y - fontSize*3); }
-            const speed = Math.random();
-            drops[i] += speed < 0.6 ? 0.8 : speed < 0.9 ? 1.2 : 2.0;
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = Math.random() * -20;
-        }
-        matrixAnimId = requestAnimationFrame(drawMatrix);
-    }
-
-    initMatrix(); drawMatrix();
-    window.addEventListener('resize', initMatrix);
-    new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (!entry.isIntersecting) cancelAnimationFrame(matrixAnimId); else drawMatrix(); });
-    }, { threshold: 0.1 }).observe(document.getElementById('hero'));
-})();
-
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.pageYOffset > 50); });
-
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
-let menuOpen = false;
-menuToggle.addEventListener('click', () => {
-    menuOpen = !menuOpen;
-    mobileMenu.classList.toggle('open', menuOpen);
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    const lines = menuToggle.querySelectorAll('.menu-line');
-    if (menuOpen) {
-        lines[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
-        lines[1].style.opacity = '0';
-        lines[2].style.transform = 'rotate(-45deg) translate(4px, -4px)';
-        lines[2].style.width = '20px'; lines[2].style.marginRight = '0';
-    } else {
-        lines[0].style.transform = ''; lines[1].style.opacity = '';
-        lines[2].style.transform = ''; lines[2].style.width = ''; lines[2].style.marginRight = '';
-    }
-});
-document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', () => {
-        menuOpen = false; mobileMenu.classList.remove('open');
-        document.body.style.overflow = '';
-        const lines = menuToggle.querySelectorAll('.menu-line');
-        lines[0].style.transform = ''; lines[1].style.opacity = '';
-        lines[2].style.transform = ''; lines[2].style.width = ''; lines[2].style.marginRight = '';
-    });
-});
-
-const backToTop = document.getElementById('backToTop');
-window.addEventListener('scroll', () => { backToTop.classList.toggle('visible', window.pageYOffset > 500); });
-backToTop.addEventListener('click', () => { window.scrollTo({ top:0, behavior:'smooth' }); });
-
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    document.getElementById('toastMessage').textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3500);
+function renderComingSoon(section, title) {
+  const panel = document.querySelector(`[data-section-panel="${section}"]`);
+  if (panel.dataset.rendered) return;
+  const clone = comingSoonTemplate.content.cloneNode(true);
+  clone.querySelector('.soon-title').textContent = title;
+  panel.appendChild(clone);
+  panel.dataset.rendered = '1';
 }
 
-document.getElementById('contactForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('cf-name').value.trim();
-    const email = document.getElementById('cf-email').value.trim();
-    const message = document.getElementById('cf-message').value.trim();
-    const subject = encodeURIComponent(`تواصل جديد من ${name} — عبر موقع SD GENESIS`);
-    const body = encodeURIComponent(`الاسم: ${name}\nالبريد: ${email}\n\nالرسالة:\n${message}`);
-    window.location.href = `mailto:sdgenesis1@gmail.com?subject=${subject}&body=${body}`;
-    showToast('سيُفتح تطبيق البريد لديك لإتمام الإرسال');
-});
+function navigate(section) {
+  panels.forEach((p) => p.classList.toggle('active', p.dataset.sectionPanel === section));
+  navButtons.forEach((b) => {
+    const active = b.dataset.nav === section;
+    b.classList.toggle('bg-blue-50', active && !b.classList.contains('nav-item--soon'));
+    b.classList.toggle('dark:bg-blue-900/20', active && !b.classList.contains('nav-item--soon'));
+    b.classList.toggle('text-blue-600', active && !b.classList.contains('nav-item--soon'));
+    b.classList.toggle('dark:text-blue-400', active && !b.classList.contains('nav-item--soon'));
+    if (!b.classList.contains('nav-item--soon')) {
+      b.classList.toggle('text-slate-600', !active);
+      b.classList.toggle('dark:text-slate-400', !active);
+    }
+  });
+  if (['songs', 'storage', 'users', 'notifications', 'security', 'backup'].includes(section)) {
+    const btn = document.querySelector(`[data-nav="${section}"]`);
+    renderComingSoon(section, btn.dataset.soon);
+  }
+  if (section === 'apps') loadApps();
+  if (section === 'analytics') loadAnalytics();
+  if (section === 'branding') loadBranding();
+  toggleSidebar(false);
+}
+navButtons.forEach((btn) => btn.addEventListener('click', () => navigate(btn.dataset.nav)));
+navigate('dashboard');
 
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', function(e) {
-        e.preventDefault();
-        const t = document.querySelector(this.getAttribute('href'));
-        if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 80, behavior:'smooth' });
+/* ============ API HELPER ============ */
+async function api(path, options = {}) {
+  const res = await fetch(`/api/admin${path}`, { credentials: 'same-origin', ...options });
+  if (res.status === 401) { showLogin(); throw new Error('unauthorized'); }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'حدث خطأ');
+  return data;
+}
+
+/* ============ AUTH ============ */
+const loginScreen = document.getElementById('login-screen');
+const appShell = document.getElementById('app-shell');
+const loginForm = document.getElementById('login-form');
+const loginError = document.getElementById('login-error');
+
+function showLogin() { loginScreen.classList.remove('hidden'); appShell.classList.add('hidden'); }
+function showDashboard(username) {
+  loginScreen.classList.add('hidden');
+  appShell.classList.remove('hidden');
+  document.getElementById('admin-username-label').textContent = username;
+  document.getElementById('avatar-initial').textContent = username.charAt(0).toUpperCase();
+  loadStats();
+  loadApps();
+}
+
+async function checkSession() {
+  try { const me = await api('/me'); showDashboard(me.username); }
+  catch { showLogin(); }
+}
+
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  loginError.classList.add('hidden');
+  const fd = new FormData(loginForm);
+  try {
+    const res = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
     });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showDashboard(data.username);
+  } catch (err) {
+    loginError.textContent = err.message || 'تعذر تسجيل الدخول';
+    loginError.classList.remove('hidden');
+  }
 });
 
-let realApps = [];
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  await fetch('/api/admin/logout', { method: 'POST' });
+  showLogin();
+});
 
+/* ============ FORMATTERS ============ */
 function formatSize(bytes) {
-    if (!bytes) return '—';
-    const units = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
-    let i = 0, val = bytes;
-    while (val >= 1024 && i < units.length - 1) { val /= 1024; i++; }
-    return `${val.toFixed(val < 10 && i > 0 ? 1 : 0)} ${units[i]}`;
+  if (!bytes) return '—';
+  const units = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
+  let i = 0, val = bytes;
+  while (val >= 1024 && i < units.length - 1) { val /= 1024; i++; }
+  return `${val.toFixed(val < 10 && i > 0 ? 1 : 0)} ${units[i]}`;
 }
-function formatDate(iso) {
-    try { return new Date(iso + 'Z').toLocaleDateString('ar-EG', { year:'numeric', month:'short', day:'numeric' }); }
-    catch { return iso; }
-}
-function animateNumber(el, target) {
-    if (!el) return;
-    const duration = 1000, startTime = performance.now();
-    function tick(now) {
-        const p = Math.min((now - startTime) / duration, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased).toLocaleString('en-US');
-        if (p < 1) requestAnimationFrame(tick);
+
+/* ============ DASHBOARD STATS ============ */
+async function loadStats() {
+  try {
+    const stats = await api('/stats');
+    document.getElementById('stat-total-apps').textContent = stats.totals.apps;
+    document.getElementById('stat-total-downloads').textContent = stats.totals.downloads.toLocaleString('en-US');
+    document.getElementById('stat-top-app').textContent = stats.topApps[0]?.name || '—';
+
+    const list = document.getElementById('dash-top-apps');
+    if (!stats.topApps.length) {
+      list.innerHTML = '<p class="text-slate-400">لا توجد تنزيلات بعد</p>';
+    } else {
+      list.innerHTML = stats.topApps.map((a, i) => `
+        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0">${i + 1}</div>
+          <div class="flex-1 min-w-0">
+            <div class="font-medium text-sm truncate text-slate-800 dark:text-slate-200">${a.name}</div>
+            <div class="text-xs text-slate-400">${a.download_count.toLocaleString('en-US')} تنزيل</div>
+          </div>
+        </div>`).join('');
     }
-    requestAnimationFrame(tick);
+    window.__lastStats = stats;
+  } catch {}
 }
 
-function appIconHTML(app) {
-    if (app.icon_url) return `<img src="${app.icon_url}" class="w-20 h-20 rounded-2xl object-cover shadow-lg" alt="">`;
-    return `<div class="app-icon-fallback w-20 h-20 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-700 flex items-center justify-center text-dark-900 text-3xl font-black">${app.name.charAt(0)}</div>`;
+async function loadAnalytics() {
+  try {
+    const stats = window.__lastStats || await api('/stats');
+    const chart = document.getElementById('analytics-chart');
+    if (!stats.daily.length) {
+      chart.innerHTML = '<p class="text-slate-400 text-sm">لا توجد بيانات تنزيل مسجّلة بعد.</p>';
+    } else {
+      const max = Math.max(...stats.daily.map((d) => d.count), 1);
+      chart.innerHTML = stats.daily.map((d) => `
+        <div class="flex flex-col items-center gap-1 shrink-0" style="width:28px">
+          <div class="w-full bg-gradient-to-t from-blue-500 to-purple-400 rounded-t-md" style="height:${Math.max((d.count / max) * 180, 4)}px" title="${d.day}: ${d.count}"></div>
+          <span class="text-[9px] text-slate-400 rotate-45 origin-top-right">${d.day.slice(5)}</span>
+        </div>`).join('');
+    }
+    const topList = document.getElementById('analytics-top-apps');
+    topList.innerHTML = stats.topApps.length
+      ? stats.topApps.map((a, i) => `
+        <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
+          <span class="text-slate-700 dark:text-slate-300">${i + 1}. ${a.name}</span>
+          <span class="font-bold text-slate-800 dark:text-slate-200">${a.download_count.toLocaleString('en-US')}</span>
+        </div>`).join('')
+      : '<p class="text-slate-400">لا توجد بيانات بعد</p>';
+  } catch {}
 }
 
-function appCardHTML(app) {
-    return `
-    <div class="app-card bg-dark-700/40 backdrop-blur-sm rounded-2xl overflow-hidden" data-slug="${app.slug}">
-        <div class="h-48 bg-gradient-to-br from-dark-600 to-dark-900 flex items-center justify-center app-icon-wrap">
-            ${appIconHTML(app)}
-        </div>
-        <div class="p-6">
-            <div class="flex items-center justify-between gap-2 mb-2">
-                <h3 class="text-lg font-bold truncate">${app.name}</h3>
-                <span class="status-badge status-badge--live shrink-0">متاح</span>
-            </div>
-            <p class="text-white/40 text-sm mb-4 leading-relaxed line-clamp-2">${app.description || 'لا يوجد وصف بعد.'}</p>
-            <div class="flex items-center gap-3 text-[11px] text-white/30 font-inter mb-4" dir="ltr">
-                <span>v${app.version}</span><span>·</span><span>${formatSize(app.size_bytes)}</span><span>·</span><span>⬇ ${(app.download_count||0).toLocaleString('en-US')}</span>
-            </div>
-            <div class="flex gap-2">
-                <button class="app-detail-btn btn-outline px-4 py-2.5 rounded-full text-xs flex-1" data-slug="${app.slug}">التفاصيل</button>
-                <button class="app-download-btn btn-gold px-4 py-2.5 rounded-full text-xs flex-1" data-slug="${app.slug}">
-                    <i class="fa-solid fa-download ml-1"></i>تنزيل
-                </button>
-            </div>
-        </div>
-    </div>`;
-}
+/* ============ APPS CRUD ============ */
+let appsCache = [];
+const appsGrid = document.getElementById('apps-grid');
+const appsSearch = document.getElementById('apps-search');
+const appsFilter = document.getElementById('apps-filter');
 
 async function loadApps() {
-    const grid = document.getElementById('apps-grid');
-    const empty = document.getElementById('apps-empty');
-    try {
-        const res = await fetch('/api/apps');
-        realApps = await res.json();
-
-        animateNumber(document.getElementById('stat-apps'), realApps.length);
-        animateNumber(document.getElementById('stat-downloads'), realApps.reduce((s,a)=>s+(a.download_count||0),0));
-
-        if (!realApps.length) {
-            grid.innerHTML = '';
-            empty.hidden = false;
-            return;
-        }
-        empty.hidden = true;
-        grid.innerHTML = realApps.map(appCardHTML).join('');
-
-        grid.querySelectorAll('.app-detail-btn').forEach(btn =>
-            btn.addEventListener('click', (e) => { e.stopPropagation(); openAppModal(btn.dataset.slug); }));
-        grid.querySelectorAll('.app-download-btn').forEach(btn =>
-            btn.addEventListener('click', (e) => { e.stopPropagation(); triggerDownload(btn.dataset.slug); }));
-        grid.querySelectorAll('.app-card').forEach(card =>
-            card.addEventListener('click', () => openAppModal(card.dataset.slug)));
-    } catch {
-        grid.innerHTML = '<p class="text-white/30 text-sm col-span-full text-center py-10">تعذّر تحميل التطبيقات، حاول لاحقًا.</p>';
-    }
+  try {
+    appsCache = await api('/apps');
+    renderApps();
+  } catch {}
 }
 
-function triggerDownload(slug) {
-    window.location.href = `/api/apps/${slug}/download`;
-    setTimeout(loadApps, 1500);
-}
+function renderApps() {
+  const q = appsSearch.value.trim().toLowerCase();
+  const filter = appsFilter.value;
+  const list = appsCache.filter((a) => {
+    const matchesSearch = a.name.toLowerCase().includes(q);
+    const matchesFilter = filter === 'all' || (filter === 'published' ? a.published : !a.published);
+    return matchesSearch && matchesFilter;
+  });
 
-async function openAppModal(slug) {
-    const res = await fetch(`/api/apps/${slug}`);
-    if (!res.ok) return;
-    const app = await res.json();
-    const body = document.getElementById('app-modal-body');
+  if (!list.length) {
+    appsGrid.innerHTML = '<p class="text-slate-400 text-sm col-span-full text-center py-10">لا توجد تطبيقات مطابقة</p>';
+    return;
+  }
 
-    const shots = app.screenshots && app.screenshots.length
-        ? `<div class="app-modal-shots">${app.screenshots.map(s => `<img src="${s}" alt="" loading="lazy">`).join('')}</div>`
-        : '';
-    const changelog = app.changelog
-        ? `<div class="app-modal-changelog">${app.changelog.replace(/</g,'&lt;')}</div>`
-        : '';
-
-    body.innerHTML = `
-        <div class="flex items-center gap-4 mb-2">
-            ${appIconHTML(app)}
-            <div>
-                <h2 class="text-xl font-black mb-1">${app.name}</h2>
-                <span class="status-badge status-badge--live">متاح للتنزيل</span>
-            </div>
+  appsGrid.innerHTML = list.map((app) => `
+    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+      <div class="flex items-start gap-4">
+        ${app.icon_url
+          ? `<img src="${app.icon_url}" class="w-16 h-16 rounded-2xl object-cover shrink-0" alt="">`
+          : `<div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-xl shrink-0">${app.name.charAt(0)}</div>`}
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="font-bold text-base truncate">${app.name}</h3>
+            <span class="shrink-0 px-2 py-1 text-xs rounded-full ${app.published ? 'bg-green-50 dark:bg-green-900/20 text-green-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">${app.published ? 'منشور' : 'مسودة'}</span>
+          </div>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${app.description || 'لا يوجد وصف'}</p>
+          <div class="flex items-center gap-4 mt-3 text-xs text-slate-400">
+            <span>v${app.version}</span>
+            <span>${formatSize(app.size_bytes)}</span>
+            <span>⬇ ${(app.download_count || 0).toLocaleString('en-US')}</span>
+          </div>
         </div>
-        <p class="text-white/50 text-sm leading-relaxed my-5">${app.description || ''}</p>
-        <div class="grid grid-cols-3 gap-2.5 mb-2">
-            <div class="app-modal-fact"><span>الإصدار</span><strong>v${app.version}</strong></div>
-            <div class="app-modal-fact"><span>الحجم</span><strong>${formatSize(app.size_bytes)}</strong></div>
-            <div class="app-modal-fact"><span>التنزيلات</span><strong>${(app.download_count||0).toLocaleString('en-US')}</strong></div>
-        </div>
-        <p class="text-white/25 text-xs mt-3">آخر تحديث: ${formatDate(app.updated_at)} · المطوّر: SD GENESIS</p>
-        ${shots}
-        ${changelog}
-        <button class="btn-gold w-full py-4 rounded-xl text-sm font-bold mt-2" id="modal-download-btn">
-            <i class="fa-solid fa-download ml-2"></i>تنزيل الآن
-        </button>
-    `;
-    document.getElementById('modal-download-btn').addEventListener('click', () => triggerDownload(app.slug));
-    document.getElementById('app-modal').hidden = false;
+      </div>
+      <div class="flex gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+        <button data-edit="${app._id}" class="flex-1 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">تعديل</button>
+        <button data-delete="${app._id}" class="flex-1 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">حذف</button>
+      </div>
+    </div>`).join('');
+
+  appsGrid.querySelectorAll('[data-edit]').forEach((b) =>
+    b.addEventListener('click', () => openForm(appsCache.find((a) => a._id === b.dataset.edit))));
+  appsGrid.querySelectorAll('[data-delete]').forEach((b) =>
+    b.addEventListener('click', () => deleteApp(b.dataset.delete)));
+}
+appsSearch.addEventListener('input', renderApps);
+appsFilter.addEventListener('change', renderApps);
+
+async function deleteApp(id) {
+  if (!confirm('هل تريد حذف هذا التطبيق نهائيًا؟')) return;
+  try { await api(`/apps/${id}`, { method: 'DELETE' }); loadApps(); loadStats(); }
+  catch (err) { alert(err.message); }
 }
 
-document.getElementById('app-modal-close').addEventListener('click', () => { document.getElementById('app-modal').hidden = true; });
-document.getElementById('app-modal').addEventListener('click', (e) => {
-    if (e.target.id === 'app-modal') document.getElementById('app-modal').hidden = true;
+/* ============ APP FORM MODAL ============ */
+const formModal = document.getElementById('app-form-modal');
+const appForm = document.getElementById('app-form');
+const formTitle = document.getElementById('form-title');
+const formError = document.getElementById('form-error');
+
+function openForm(app = null) {
+  appForm.reset();
+  formError.classList.add('hidden');
+  formTitle.textContent = app ? `تعديل: ${app.name}` : 'تطبيق جديد';
+  appForm.elements.id.value = app?._id || '';
+  if (app) {
+    appForm.elements.name.value = app.name;
+    appForm.elements.description.value = app.description || '';
+    appForm.elements.version.value = app.version || '';
+    appForm.elements.changelog.value = app.changelog || '';
+    appForm.elements.published.checked = !!app.published;
+  }
+  formModal.classList.remove('hidden');
+}
+document.getElementById('new-app-btn').addEventListener('click', () => openForm());
+document.getElementById('form-modal-close').addEventListener('click', () => formModal.classList.add('hidden'));
+formModal.addEventListener('click', (e) => { if (e.target === formModal) formModal.classList.add('hidden'); });
+
+function uploadWithProgress(path, method, formData, onProgress) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, `/api/admin${path}`);
+    xhr.withCredentials = true;
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () => {
+      let data = {};
+      try { data = JSON.parse(xhr.responseText); } catch {}
+      if (xhr.status === 401) { showLogin(); return reject(new Error('unauthorized')); }
+      if (xhr.status >= 200 && xhr.status < 300) resolve(data);
+      else reject(new Error(data.error || `فشل الرفع (رمز ${xhr.status})`));
+    };
+    xhr.onerror = () => reject(new Error('انقطع الاتصال بالخادم أثناء الرفع — تحقق من شبكتك وحاول مجددًا'));
+    xhr.send(formData);
+  });
+}
+
+appForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  formError.classList.add('hidden');
+  const id = appForm.elements.id.value;
+  const fd = new FormData(appForm);
+  fd.set('published', appForm.elements.published.checked ? 'true' : 'false');
+
+  const submitBtn = document.getElementById('form-submit');
+  submitBtn.disabled = true;
+
+  let lastProgress = -1;
+  let stallTimer = null;
+  const resetStallWarning = () => {
+    clearTimeout(stallTimer);
+    stallTimer = setTimeout(() => {
+      submitBtn.textContent = `الرفع بطيء جدًا (متوقف عند ${lastProgress}%)… لا تغلق الصفحة`;
+    }, 20000);
+  };
+  resetStallWarning();
+
+  try {
+    await uploadWithProgress(id ? `/apps/${id}` : '/apps', id ? 'PUT' : 'POST', fd, (pct) => {
+      lastProgress = pct;
+      submitBtn.textContent = pct < 100 ? `جارٍ رفع الملفات… ${pct}%` : 'جارٍ الحفظ في قاعدة البيانات…';
+      resetStallWarning();
+    });
+    clearTimeout(stallTimer);
+    formModal.classList.add('hidden');
+    loadApps();
+    loadStats();
+  } catch (err) {
+    clearTimeout(stallTimer);
+    formError.textContent = err.message;
+    formError.classList.remove('hidden');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'حفظ التطبيق';
+  }
 });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.getElementById('app-modal').hidden = true; });
 
-loadApps();
+/* ============ BRANDING (hero video + logo) ============ */
+const videoCurrent = document.getElementById('branding-video-current');
+const videoInput = document.getElementById('branding-video-input');
+const videoUploadBtn = document.getElementById('branding-video-upload-btn');
+const videoRemoveBtn = document.getElementById('branding-video-remove-btn');
+const videoStatus = document.getElementById('branding-video-status');
+
+const logoCurrent = document.getElementById('branding-logo-current');
+const logoInput = document.getElementById('branding-logo-input');
+const logoUploadBtn = document.getElementById('branding-logo-upload-btn');
+const logoRemoveBtn = document.getElementById('branding-logo-remove-btn');
+const logoStatus = document.getElementById('branding-logo-status');
+
+function showBrandingStatus(el, msg, isError) {
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  el.style.color = isError ? '#ef4444' : '#16a34a';
+}
+
+async function loadBranding() {
+  try {
+    const data = await api('/branding');
+    videoCurrent.innerHTML = data.hero_video_url
+      ? `<video src="${data.hero_video_url}" muted class="w-full h-24 object-cover rounded-lg"></video>`
+      : 'لا يوجد فيديو مرفوع — الموقع يعرض خلفية بديلة حاليًا.';
+    logoCurrent.innerHTML = data.logo_url
+      ? `<img src="${data.logo_url}" class="h-14" alt="">`
+      : 'لا يوجد شعار مرفوع — الموقع يعرض نص "SD GENESIS" حاليًا.';
+  } catch {}
+}
+
+videoUploadBtn.addEventListener('click', async () => {
+  const file = videoInput.files[0];
+  if (!file) return showBrandingStatus(videoStatus, 'اختر ملف فيديو أولًا', true);
+  const fd = new FormData();
+  fd.append('video', file);
+  videoUploadBtn.disabled = true;
+  try {
+    await uploadWithProgress('/branding', 'POST', fd, (pct) => {
+      showBrandingStatus(videoStatus, `جارٍ الرفع… ${pct}%`, false);
+    });
+    showBrandingStatus(videoStatus, 'تم رفع الفيديو بنجاح ✅', false);
+    videoInput.value = '';
+    loadBranding();
+  } catch (err) {
+    showBrandingStatus(videoStatus, err.message, true);
+  } finally {
+    videoUploadBtn.disabled = false;
+  }
+});
+
+logoUploadBtn.addEventListener('click', async () => {
+  const file = logoInput.files[0];
+  if (!file) return showBrandingStatus(logoStatus, 'اختر ملف شعار أولًا', true);
+  const fd = new FormData();
+  fd.append('logo', file);
+  logoUploadBtn.disabled = true;
+  try {
+    await uploadWithProgress('/branding', 'POST', fd, (pct) => {
+      showBrandingStatus(logoStatus, `جارٍ الرفع… ${pct}%`, false);
+    });
+    showBrandingStatus(logoStatus, 'تم رفع الشعار بنجاح ✅', false);
+    logoInput.value = '';
+    loadBranding();
+  } catch (err) {
+    showBrandingStatus(logoStatus, err.message, true);
+  } finally {
+    logoUploadBtn.disabled = false;
+  }
+});
+
+videoRemoveBtn.addEventListener('click', async () => {
+  if (!confirm('حذف الفيديو الحالي؟ سيعود الموقع للخلفية البديلة.')) return;
+  try {
+    await api('/branding/video', { method: 'DELETE' });
+    showBrandingStatus(videoStatus, 'تم الحذف', false);
+    loadBranding();
+  } catch (err) { showBrandingStatus(videoStatus, err.message, true); }
+});
+
+logoRemoveBtn.addEventListener('click', async () => {
+  if (!confirm('حذف الشعار الحالي؟ سيعود الموقع لعرض النص بدلًا منه.')) return;
+  try {
+    await api('/branding/logo', { method: 'DELETE' });
+    showBrandingStatus(logoStatus, 'تم الحذف', false);
+    loadBranding();
+  } catch (err) { showBrandingStatus(logoStatus, err.message, true); }
+});
+
+checkSession();
 </script>
-
 </body>
 </html>
