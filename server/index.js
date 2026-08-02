@@ -8,6 +8,8 @@ const { connect } = require('./db');
 const publicApi = require('./routes/apps');
 const adminApi = require('./routes/admin');
 const setupApi = require('./routes/setup');
+const settingsApi = require('./routes/settings');
+const brandingApi = require('./routes/branding');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,8 +26,10 @@ app.use('/api', limiter);
 app.use('/api', publicApi);
 app.use('/api/admin', adminApi);
 app.use('/api/setup', setupApi);
+app.use('/api/settings', settingsApi);
+app.use('/api/admin/branding', brandingApi);
 
-// icons/screenshots/app files are hosted on Cloudinary now — public/ only serves the site itself
+// icons/screenshots/app files/branding are hosted on Supabase — public/ only serves the site itself
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/setup', (req, res) => {
