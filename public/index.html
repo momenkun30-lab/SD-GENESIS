@@ -45,32 +45,18 @@
             animation:shimmer 4s linear infinite;
         }
         @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
-
-        .silver-text {
-            background:linear-gradient(135deg,#ffffff,#cfd4da,#9aa1ab,#e8ebef,#ffffff);
-            background-size:200% auto;
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-            background-clip:text;
+        .genesis-gradient {
+            background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 25%,#4ade80 50%,#16a34a 75%,#eef1f4 100%);
+            background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
             animation:shimmer 5s linear infinite;
-            filter:drop-shadow(0 0 18px rgba(220,225,235,0.35)) drop-shadow(0 0 40px rgba(200,210,225,0.15));
         }
         .hero-text-logo {
             position:relative; z-index:5; margin:0 auto 32px; line-height:1; text-align:center;
         }
-        .htl-sd {
-            display:block; font-family:'Inter',sans-serif; font-weight:900;
-            font-size:clamp(3.2rem, 10vw, 6rem); letter-spacing:0.01em;
-            background:linear-gradient(120deg,#F5E08C 0%,#D4AF37 25%,#B8960C 50%,#D4AF37 75%,#F5E08C 100%);
-            background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-            animation:shimmer 5s linear infinite;
-            filter:drop-shadow(0 0 22px rgba(212,175,55,0.4)) drop-shadow(0 0 40px rgba(212,175,55,0.2));
-        }
-        .htl-genesis {
-            display:block; font-family:'Inter',sans-serif; font-weight:800;
-            font-size:clamp(1rem, 2.8vw, 1.7rem); letter-spacing:0.4em; margin-top:6px;
-            background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 25%,#4ade80 50%,#16a34a 75%,#eef1f4 100%);
-            background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-            animation:shimmer 5s linear infinite;
+        .htl-full {
+            display:inline-block; font-family:'Inter',sans-serif; font-weight:900;
+            font-size:clamp(2.4rem, 7.5vw, 4.6rem); letter-spacing:0.02em; white-space:nowrap;
+            filter:drop-shadow(0 0 22px rgba(74,222,128,0.3)) drop-shadow(0 0 40px rgba(74,222,128,0.15));
         }
         @media (max-width:640px) { .hero-text-logo { margin-bottom:22px; } }
 
@@ -255,14 +241,16 @@
 
     <div class="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
         <div class="hero-text-logo" data-aos="zoom-in" data-aos-duration="900">
-            <span class="htl-sd">SD</span>
-            <span class="htl-genesis">GENESIS</span>
+            <span class="htl-full genesis-gradient">SD GENESIS</span>
         </div>
-        <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="150" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-6 silver-text">
+        <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="150" class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight mb-6 genesis-gradient">
             نحن من نصنع المستقبل 🚀
         </h1>
-        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" class="text-base sm:text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300" class="text-lg sm:text-xl md:text-2xl font-bold mb-6 genesis-gradient">
             نحول الأفكار إلى واقع
+        </p>
+        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" class="text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-10 leading-loose genesis-gradient">
+            SD GENESIS شركة تكنولوجية متخصصة في الاختراع والتطوير، تتولى مسؤولية بناء المستقبل حرفياً. ندمج التكنولوجيا المتقدمة مع الوعي البشري لخلق بيئة تُعيد تعريف الوجود الإنساني. نحن لا نتكيف مع الواقع بل نعيد هندسته، ولا ننتظر الغد بل نصنعه الآن. يسعدنا انضمامكم إلى عائلتنا العالمية التي تصنع التاريخ.
         </p>
         <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="450" class="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href="https://wa.me/249911920216" target="_blank" rel="noopener" class="btn-gold px-8 py-3.5 rounded-full text-sm sm:text-base w-full sm:w-auto text-center">
