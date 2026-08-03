@@ -54,12 +54,25 @@
             animation:shimmer 5s linear infinite;
             filter:drop-shadow(0 0 18px rgba(220,225,235,0.35)) drop-shadow(0 0 40px rgba(200,210,225,0.15));
         }
-        .hero-logo {
-            display:block; height:150px; width:auto; max-width:min(60vw, 260px);
-            margin:0 auto 28px; object-fit:contain;
-            filter:drop-shadow(0 0 25px rgba(212,175,55,0.35)) drop-shadow(0 0 55px rgba(212,175,55,0.15));
+        .hero-text-logo {
+            position:relative; z-index:5; margin:0 auto 32px; line-height:1; text-align:center;
         }
-        @media (max-width:640px) { .hero-logo { height:110px; max-width:55vw; margin-bottom:20px; } }
+        .htl-sd {
+            display:block; font-family:'Inter',sans-serif; font-weight:900;
+            font-size:clamp(3.2rem, 10vw, 6rem); letter-spacing:0.01em;
+            background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 14%,#4ade80 32%,#16a34a 46%,#D4AF37 62%,#F5D060 78%,#eef1f4 100%);
+            background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+            animation:shimmer 5s linear infinite;
+            filter:drop-shadow(0 0 22px rgba(212,175,55,0.3)) drop-shadow(0 0 40px rgba(74,222,128,0.15));
+        }
+        .htl-genesis {
+            display:block; font-family:'Inter',sans-serif; font-weight:800;
+            font-size:clamp(1rem, 2.8vw, 1.7rem); letter-spacing:0.4em; margin-top:6px;
+            background:linear-gradient(120deg,#eef1f4,#9aa1ab,#4ade80,#D4AF37,#eef1f4);
+            background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+            animation:shimmer 5s linear infinite;
+        }
+        @media (max-width:640px) { .hero-text-logo { margin-bottom:22px; } }
 
         .hero-video-bg {
             position:absolute; inset:0; z-index:0;
@@ -241,7 +254,10 @@
     <canvas id="matrix-canvas"></canvas>
 
     <div class="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
-        <img src="/img/logo.jpg" alt="SD GENESIS" class="hero-logo" data-aos="fade-down" data-aos-duration="900">
+        <div class="hero-text-logo" data-aos="zoom-in" data-aos-duration="900">
+            <span class="htl-sd">SD</span>
+            <span class="htl-genesis">GENESIS</span>
+        </div>
         <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="150" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-6 silver-text">
             نحن من نصنع المستقبل 🚀
         </h1>
