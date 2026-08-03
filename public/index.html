@@ -28,8 +28,8 @@
 
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior:smooth; }
-        body { font-family:'Cairo',sans-serif; background:#050505; color:#fff; overflow-x:hidden; }
+        html { scroll-behavior:smooth; overflow-x:hidden; width:100%; }
+        body { font-family:'Cairo',sans-serif; background:#050505; color:#fff; overflow-x:hidden; width:100%; max-width:100vw; }
 
         ::-webkit-scrollbar { width:6px; }
         ::-webkit-scrollbar-track { background:#0a0a0a; }
@@ -60,15 +60,15 @@
         .htl-sd {
             display:block; font-family:'Inter',sans-serif; font-weight:900;
             font-size:clamp(3.2rem, 10vw, 6rem); letter-spacing:0.01em;
-            background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 14%,#4ade80 32%,#16a34a 46%,#D4AF37 62%,#F5D060 78%,#eef1f4 100%);
+            background:linear-gradient(120deg,#F5E08C 0%,#D4AF37 25%,#B8960C 50%,#D4AF37 75%,#F5E08C 100%);
             background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
             animation:shimmer 5s linear infinite;
-            filter:drop-shadow(0 0 22px rgba(212,175,55,0.3)) drop-shadow(0 0 40px rgba(74,222,128,0.15));
+            filter:drop-shadow(0 0 22px rgba(212,175,55,0.4)) drop-shadow(0 0 40px rgba(212,175,55,0.2));
         }
         .htl-genesis {
             display:block; font-family:'Inter',sans-serif; font-weight:800;
             font-size:clamp(1rem, 2.8vw, 1.7rem); letter-spacing:0.4em; margin-top:6px;
-            background:linear-gradient(120deg,#eef1f4,#9aa1ab,#4ade80,#D4AF37,#eef1f4);
+            background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 25%,#4ade80 50%,#16a34a 75%,#eef1f4 100%);
             background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
             animation:shimmer 5s linear infinite;
         }
@@ -484,9 +484,14 @@
 <script>
 AOS.init({ duration:800, easing:'ease-out-cubic', once:true, offset:80 });
 
-window.addEventListener('load', () => {
-    setTimeout(() => { document.getElementById('loadingScreen').classList.add('hidden'); }, 800);
-});
+function hideLoadingScreen() {
+    const el = document.getElementById('loadingScreen');
+    if (el) el.classList.add('hidden');
+}
+// show content as soon as the page's own HTML/CSS is parsed — don't wait on slow CDNs (fonts, icons, video)
+document.addEventListener('DOMContentLoaded', () => { setTimeout(hideLoadingScreen, 250); });
+// hard safety net: never block the page for more than 3s regardless of network conditions
+setTimeout(hideLoadingScreen, 3000);
 
 document.getElementById('footer-year').textContent = new Date().getFullYear();
 
