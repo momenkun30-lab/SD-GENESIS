@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض التصاميم | SD GENESIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: {
+            colors: { gold: { 400:'#F5D060', 500:'#D4AF37', 600:'#B8960C' }, dark: { 950:'#050505', 900:'#0a0a0a', 800:'#111111', 700:'#1a1a1a' } },
+            fontFamily: { cairo:['Cairo','sans-serif'] }
+        } } }
+    </script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; overflow-x:hidden; }
+        body { font-family:'Cairo',sans-serif; background:#050505; color:#fff; overflow-x:hidden; }
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:3px; }
+        .gradient-text {
+            background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 25%,#4ade80 50%,#16a34a 75%,#eef1f4 100%);
+            background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+            animation:shimmer 5s linear infinite;
+        }
+        @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
+        .btn-gold { background:linear-gradient(135deg,#D4AF37,#F5D060); color:#050505; font-weight:700; transition:all .3s ease; }
+        .btn-gold:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(212,175,55,0.3); }
+        .btn-gold:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+        .design-card { border:1px solid rgba(255,255,255,0.06); transition:all .35s ease; cursor:pointer; }
+        .design-card:hover { transform:translateY(-8px); border-color:rgba(212,175,55,0.25); box-shadow:0 20px 45px rgba(0,0,0,0.5); }
+        .design-thumb { aspect-ratio:4/3; background:#111; overflow:hidden; position:relative; }
+        .design-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+        .design-thumb .fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:#D4AF37; background:linear-gradient(135deg,#1a1a1a,#0a0a0a); }
+        .form-input { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); color:#fff; }
+        .form-input:focus { outline:none; border-color:rgba(212,175,55,0.5); }
+        .skeleton { background:linear-gradient(90deg,#111 25%,#1a1a1a 50%,#111 75%); background-size:200% 100%; animation:skeleton 1.4s ease infinite; }
+        @keyframes skeleton { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    </style>
+</head>
+<body>
+
+<header class="sticky top-0 z-40 bg-dark-950/90 backdrop-blur-md border-b border-white/[0.05] px-4 py-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+        <a href="/" class="text-lg font-black gradient-text">SD GENESIS</a>
+        <a href="/" class="text-xs text-white/40 hover:text-gold-400 transition-colors"><i class="fa-solid fa-arrow-right ml-1"></i>عودة للرئيسية</a>
+    </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 py-10">
+
+    <div id="gallery-view">
+        <div class="text-center mb-10">
+            <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-3" id="gallery-eyebrow">اختر تصميمك</span>
+            <h1 class="text-3xl sm:text-4xl font-black mb-3" id="gallery-title">معرض التصاميم</h1>
+            <p class="text-white/40 text-sm max-w-xl mx-auto">اختر النموذج الأقرب لفكرتك، ثم صف مشروعك بالتفصيل — سنتواصل معك عبر واتساب لتحديد السعر ومدة التنفيذ.</p>
+        </div>
+
+        <div class="mb-8 max-w-md mx-auto">
+            <div class="flex items-center gap-2 form-input rounded-full px-5 py-3">
+                <i class="fa-solid fa-magnifying-glass text-white/30 text-sm"></i>
+                <input type="text" id="search-input" placeholder="ابحث عن تصميم…" class="bg-transparent outline-none text-sm w-full" autocomplete="off">
+            </div>
+        </div>
+
+        <div id="gallery-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <div id="gallery-empty" class="text-center py-20 text-white/30" hidden>
+            <i class="fa-solid fa-images text-3xl mb-4 block"></i>
+            لا توجد تصاميم متاحة حاليًا — تابعونا قريبًا.
+        </div>
+    </div>
+
+    <div id="detail-view" hidden>
+        <button id="back-to-gallery" class="text-xs text-gold-400 hover:text-gold-300 mb-6 flex items-center gap-1">
+            <i class="fa-solid fa-arrow-right"></i> العودة لكل التصاميم
+        </button>
+
+        <div class="grid md:grid-cols-2 gap-8 items-start">
+            <div class="rounded-2xl overflow-hidden border border-white/[0.06]">
+                <div class="design-thumb" id="detail-thumb"></div>
+            </div>
+
+            <div>
+                <span class="text-[11px] font-mono text-gold-400" id="detail-design-id"></span>
+                <h2 class="text-2xl font-black mt-2 mb-1" id="detail-name"></h2>
+                <span class="inline-block text-xs text-white/40 border border-white/10 rounded-full px-3 py-1 mb-4" id="detail-category"></span>
+                <p class="text-white/50 text-sm leading-relaxed mb-6" id="detail-description"></p>
+
+                <label class="block text-sm font-medium text-white/70 mb-2">اكتب وصفًا تفصيليًا للمشروع الذي ترغب في إنشائه</label>
+                <textarea id="detail-message" rows="6" placeholder="اكتب هنا كل التفاصيل: الأقسام المطلوبة، الألوان المفضلة، أمثلة تلهمك، أي ميزات خاصة..." class="form-input w-full rounded-xl px-4 py-3 text-sm resize-none mb-4"></textarea>
+
+                <button id="submit-request-btn" class="btn-gold w-full py-4 rounded-xl text-sm font-bold">
+                    <i class="fa-brands fa-whatsapp ml-2"></i>إرسال الطلب عبر واتساب
+                </button>
+
+                <div id="submit-success" class="mt-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-sm text-center" hidden>
+                    <i class="fa-solid fa-circle-check ml-1"></i>
+                    تم تجهيز طلبك بنجاح! راجع رسالة واتساب واضغط إرسال — سيقوم فريق SD GENESIS بمراجعة طلبك والتواصل معك لتحديد السعر ومدة التنفيذ.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+const WHATSAPP_NUMBER = '249911920216';
+const params = new URLSearchParams(location.search);
+let currentType = params.get('type') === 'app' ? 'app' : 'website';
+let currentId = params.get('id') || null;
+
+const typeLabels = {
+    website: { eyebrow: 'تصميم موقع إلكتروني', title: 'معرض تصاميم المواقع الإلكترونية', reqLabel: 'تصميم موقع إلكتروني', descLabel: 'وصف المشروع' },
+    app: { eyebrow: 'تصميم تطبيق', title: 'معرض تصاميم التطبيقات', reqLabel: 'تصميم تطبيق', descLabel: 'وصف التطبيق' },
+};
+
+const galleryView = document.getElementById('gallery-view');
+const detailView = document.getElementById('detail-view');
+const galleryGrid = document.getElementById('gallery-grid');
+const galleryEmpty = document.getElementById('gallery-empty');
+const searchInput = document.getElementById('search-input');
+
+document.getElementById('gallery-eyebrow').textContent = typeLabels[currentType].eyebrow;
+document.getElementById('gallery-title').textContent = typeLabels[currentType].title;
+
+let allDesigns = [];
+
+function thumbHTML(d) {
+    return d.image_url
+        ? `<img src="${d.image_url}" loading="lazy" alt="${d.name}" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'fallback\\'>${d.name.charAt(0)}</div>'">`
+        : `<div class="fallback">${d.name.charAt(0)}</div>`;
+}
+
+function cardHTML(d) {
+    return `
+    <div class="design-card bg-dark-800/60 rounded-2xl overflow-hidden" data-id="${d.id}">
+        <div class="design-thumb">${thumbHTML(d)}</div>
+        <div class="p-5">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="font-bold text-sm">${d.name}</h3>
+                <span class="text-[10px] font-mono text-gold-400">${d.design_id}</span>
+            </div>
+            <span class="inline-block text-[11px] text-white/40 border border-white/10 rounded-full px-2.5 py-0.5 mb-3">${d.category || 'عام'}</span>
+            <p class="text-white/40 text-xs leading-relaxed mb-4 line-clamp-2">${d.description || ''}</p>
+            <button class="btn-gold w-full py-2.5 rounded-full text-xs">اختيار هذا التصميم</button>
+        </div>
+    </div>`;
+}
+
+async function loadGallery() {
+    galleryGrid.innerHTML = Array(6).fill('<div class="skeleton rounded-2xl h-64"></div>').join('');
+    try {
+        const res = await fetch(`/api/designs/${currentType}`);
+        allDesigns = await res.json();
+        renderGallery(allDesigns);
+    } catch {
+        galleryGrid.innerHTML = '<p class="text-white/30 text-sm col-span-full text-center py-10">تعذّر التحميل، حاول لاحقًا.</p>';
+    }
+}
+
+function renderGallery(list) {
+    if (!list.length) { galleryGrid.innerHTML = ''; galleryEmpty.hidden = false; return; }
+    galleryEmpty.hidden = true;
+    galleryGrid.innerHTML = list.map(cardHTML).join('');
+    galleryGrid.querySelectorAll('.design-card').forEach((card) =>
+        card.addEventListener('click', () => showDetail(card.dataset.id)));
+}
+
+searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    renderGallery(allDesigns.filter((d) => d.name.toLowerCase().includes(q) || (d.category || '').toLowerCase().includes(q)));
+});
+
+async function showDetail(id) {
+    const res = await fetch(`/api/designs/${currentType}/${id}`);
+    if (!res.ok) return;
+    const d = await res.json();
+    currentId = id;
+
+    history.pushState({}, '', `?type=${currentType}&id=${id}`);
+    document.getElementById('detail-thumb').innerHTML = thumbHTML(d);
+    document.getElementById('detail-design-id').textContent = d.design_id;
+    document.getElementById('detail-name').textContent = d.name;
+    document.getElementById('detail-category').textContent = d.category || 'عام';
+    document.getElementById('detail-description').textContent = d.description || '';
+    document.getElementById('detail-message').value = '';
+    document.getElementById('submit-success').hidden = true;
+
+    galleryView.hidden = true;
+    detailView.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    document.getElementById('submit-request-btn').onclick = () => submitRequest(d);
+}
+
+function submitRequest(d) {
+    const desc = document.getElementById('detail-message').value.trim();
+    if (!desc) { document.getElementById('detail-message').focus(); return; }
+
+    const labels = typeLabels[currentType];
+    const text =
+`مرحبًا، أرغب في طلب ${labels.reqLabel}.
+
+اسم التصميم:
+${d.name}
+
+رقم التصميم (Design ID):
+${d.design_id}
+
+نوع التصميم:
+${d.category || 'عام'}
+
+${labels.descLabel}:
+${desc}`;
+
+    fetch(`/api/designs/${currentType}/${d.id}/select`, { method: 'POST' }).catch(() => {});
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+    document.getElementById('submit-success').hidden = false;
+}
+
+document.getElementById('back-to-gallery').addEventListener('click', () => {
+    history.pushState({}, '', `?type=${currentType}`);
+    detailView.hidden = true;
+    galleryView.hidden = false;
+});
+
+loadGallery();
+if (currentId) showDetail(currentId);
+</script>
+
+</body>
+</html>
