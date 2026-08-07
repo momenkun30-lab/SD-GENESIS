@@ -95,6 +95,10 @@
                     <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h14a2 2 0 012 2v9m-4 8v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6m10 0H7"/></svg>
                     الهوية البصرية
                 </button>
+                <button data-nav="designs" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 6h16M4 6a2 2 0 012-2h12a2 2 0 012 2M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6"/></svg>
+                    معرض التصاميم
+                </button>
 
                 <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-6 mb-2 px-3">قريبًا</div>
                 <button data-nav="songs" data-soon="إدارة الأغاني" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
@@ -231,6 +235,34 @@
                 </div>
             </div>
 
+            <!-- ===== DESIGN GALLERY MANAGER (websites + apps) ===== -->
+            <div data-section-panel="designs" class="space-y-6">
+                <div class="flex items-center justify-between flex-wrap gap-3">
+                    <div>
+                        <h1 class="text-2xl font-bold">معرض التصاميم</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">تصاميم المواقع والتطبيقات المعروضة للعملاء لاختيارها</p>
+                    </div>
+                    <button id="design-new-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        إضافة تصميم جديد
+                    </button>
+                </div>
+
+                <div class="flex gap-2 border-b border-slate-200 dark:border-slate-800">
+                    <button data-design-type="website" class="design-type-tab px-4 py-2.5 text-sm font-medium border-b-2 border-blue-600 text-blue-600">تصاميم المواقع</button>
+                    <button data-design-type="app" class="design-type-tab px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400">تصاميم التطبيقات</button>
+                </div>
+
+                <div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
+                    <input type="text" id="design-search" placeholder="ابحث في التصاميم..." autocomplete="off"
+                        class="w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+
+                <div id="design-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <p class="text-slate-400 text-sm">جارٍ التحميل…</p>
+                </div>
+            </div>
+
             <!-- ===== ANALYTICS (real daily downloads) ===== -->
             <div data-section-panel="analytics" class="space-y-6">
                 <div>
@@ -316,6 +348,44 @@
     </div>
 </div>
 
+<div id="design-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
+        <button id="design-form-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
+        <h2 id="design-form-title" class="text-lg font-bold mb-5">تصميم جديد</h2>
+        <form id="design-form" class="space-y-4">
+            <input type="hidden" name="id">
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">اسم التصميم</span>
+                <input type="text" name="name" required class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </label>
+            <div class="flex gap-4">
+                <label class="block flex-1">
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-400">رقم التصميم (Design ID)</span>
+                    <input type="text" name="design_id" placeholder="يُنشأ تلقائيًا إن تُرك فارغًا" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </label>
+                <label class="block flex-1">
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-400">نوع التصميم</span>
+                    <input type="text" name="category" placeholder="مثال: تجاري، متجر، شخصي" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </label>
+            </div>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">وصف مختصر</span>
+                <textarea name="description" rows="3" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea>
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium text-slate-600 dark:text-slate-400">صورة التصميم</span>
+                <input type="file" name="image" accept="image/*" class="mt-1 w-full text-sm text-slate-500">
+            </label>
+            <label class="flex items-center gap-2 text-sm">
+                <input type="checkbox" name="visible" checked class="w-4 h-4">
+                ظاهر للعملاء
+            </label>
+            <p id="design-form-error" class="text-sm text-red-500 hidden"></p>
+            <button type="submit" id="design-form-submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">حفظ التصميم</button>
+        </form>
+    </div>
+</div>
+
 <script>
 /* ============ THEME ============ */
 const THEME_KEY = 'sdgenesis-theme';
@@ -372,6 +442,7 @@ function navigate(section) {
   if (section === 'apps') loadApps();
   if (section === 'analytics') loadAnalytics();
   if (section === 'branding') loadBranding();
+  if (section === 'designs') loadDesigns();
   toggleSidebar(false);
 }
 navButtons.forEach((btn) => btn.addEventListener('click', () => navigate(btn.dataset.nav)));
@@ -727,6 +798,156 @@ logoRemoveBtn.addEventListener('click', async () => {
     showBrandingStatus(logoStatus, 'تم الحذف', false);
     loadBranding();
   } catch (err) { showBrandingStatus(logoStatus, err.message, true); }
+});
+
+/* ============ DESIGN GALLERY MANAGER ============ */
+let currentDesignType = 'website';
+let designsCache = [];
+
+const designTypeTabs = document.querySelectorAll('.design-type-tab');
+const designGrid = document.getElementById('design-grid');
+const designSearch = document.getElementById('design-search');
+const designNewBtn = document.getElementById('design-new-btn');
+
+designTypeTabs.forEach((tab) => {
+  tab.addEventListener('click', () => {
+    currentDesignType = tab.dataset.designType;
+    designTypeTabs.forEach((t) => {
+      const active = t === tab;
+      t.classList.toggle('border-blue-600', active);
+      t.classList.toggle('text-blue-600', active);
+      t.classList.toggle('border-transparent', !active);
+      t.classList.toggle('text-slate-500', !active);
+      t.classList.toggle('dark:text-slate-400', !active);
+    });
+    loadDesigns();
+  });
+});
+
+async function loadDesigns() {
+  designGrid.innerHTML = '<p class="text-slate-400 text-sm">جارٍ التحميل…</p>';
+  try {
+    designsCache = await api(`/designs/${currentDesignType}`);
+    renderDesigns();
+  } catch (err) {
+    designGrid.innerHTML = `<p class="text-red-500 text-sm">${err.message}</p>`;
+  }
+}
+
+function renderDesigns() {
+  const q = designSearch.value.trim().toLowerCase();
+  const list = designsCache.filter((d) => d.name.toLowerCase().includes(q) || (d.category || '').toLowerCase().includes(q));
+
+  if (!list.length) {
+    designGrid.innerHTML = '<p class="text-slate-400 text-sm col-span-full text-center py-10">لا توجد تصاميم بعد</p>';
+    return;
+  }
+
+  designGrid.innerHTML = list.map((d, i) => `
+    <div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+      <div class="h-36 bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+        ${d.image_url
+          ? `<img src="${d.image_url}" class="w-full h-full object-cover" alt="" onerror="this.style.display='none'">`
+          : `<span class="text-2xl font-black text-slate-300">${d.name.charAt(0)}</span>`}
+      </div>
+      <div class="p-4">
+        <div class="flex items-center justify-between gap-2 mb-1">
+          <h3 class="font-bold text-sm truncate">${d.name}</h3>
+          <span class="shrink-0 px-2 py-0.5 text-[10px] rounded-full ${d.visible ? 'bg-green-50 dark:bg-green-900/20 text-green-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">${d.visible ? 'ظاهر' : 'مخفي'}</span>
+        </div>
+        <p class="text-[11px] font-mono text-slate-400 mb-2">${d.design_id}</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">${d.category || 'عام'} · اختير ${d.selection_count || 0} مرة</p>
+        <div class="grid grid-cols-2 gap-1.5 mb-1.5">
+          <button data-edit="${d._id}" class="py-1.5 text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/20 rounded-lg">تعديل</button>
+          <button data-delete="${d._id}" class="py-1.5 text-xs font-medium text-red-600 bg-red-50 dark:bg-red-900/20 rounded-lg">حذف</button>
+          <button data-toggle="${d._id}" data-visible="${d.visible}" class="py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg">${d.visible ? 'إخفاء' : 'إظهار'}</button>
+          <div class="flex gap-1">
+            <button data-move="${d._id}" data-dir="up" class="flex-1 py-1.5 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg" ${i === 0 ? 'disabled style="opacity:.35"' : ''}>↑</button>
+            <button data-move="${d._id}" data-dir="down" class="flex-1 py-1.5 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg" ${i === list.length - 1 ? 'disabled style="opacity:.35"' : ''}>↓</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  designGrid.querySelectorAll('[data-edit]').forEach((b) => b.addEventListener('click', () => openDesignForm(designsCache.find((d) => d._id === b.dataset.edit))));
+  designGrid.querySelectorAll('[data-delete]').forEach((b) => b.addEventListener('click', () => deleteDesign(b.dataset.delete)));
+  designGrid.querySelectorAll('[data-toggle]').forEach((b) => b.addEventListener('click', () => toggleDesignVisibility(b.dataset.toggle, b.dataset.visible === 'true')));
+  designGrid.querySelectorAll('[data-move]').forEach((b) => b.addEventListener('click', () => moveDesign(b.dataset.move, b.dataset.dir)));
+}
+designSearch.addEventListener('input', renderDesigns);
+
+async function deleteDesign(id) {
+  if (!confirm('حذف هذا التصميم نهائيًا؟')) return;
+  try { await api(`/designs/${currentDesignType}/${id}`, { method: 'DELETE' }); loadDesigns(); }
+  catch (err) { alert(err.message); }
+}
+
+async function toggleDesignVisibility(id, currentlyVisible) {
+  try {
+    const fd = new FormData();
+    fd.set('visible', (!currentlyVisible).toString());
+    await api(`/designs/${currentDesignType}/${id}`, { method: 'PUT', body: fd });
+    loadDesigns();
+  } catch (err) { alert(err.message); }
+}
+
+async function moveDesign(id, direction) {
+  try { await api(`/designs/${currentDesignType}/${id}/move`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ direction }),
+  }); loadDesigns(); } catch (err) { alert(err.message); }
+}
+
+const designFormModal = document.getElementById('design-form-modal');
+const designForm = document.getElementById('design-form');
+const designFormTitle = document.getElementById('design-form-title');
+const designFormError = document.getElementById('design-form-error');
+
+function openDesignForm(design = null) {
+  designForm.reset();
+  designFormError.classList.add('hidden');
+  designFormTitle.textContent = design ? `تعديل: ${design.name}` : 'تصميم جديد';
+  designForm.elements.id.value = design?._id || '';
+  if (design) {
+    designForm.elements.name.value = design.name;
+    designForm.elements.design_id.value = design.design_id;
+    designForm.elements.category.value = design.category || '';
+    designForm.elements.description.value = design.description || '';
+    designForm.elements.visible.checked = design.visible;
+  } else {
+    designForm.elements.visible.checked = true;
+  }
+  designFormModal.classList.remove('hidden');
+}
+designNewBtn.addEventListener('click', () => openDesignForm());
+document.getElementById('design-form-close').addEventListener('click', () => designFormModal.classList.add('hidden'));
+designFormModal.addEventListener('click', (e) => { if (e.target === designFormModal) designFormModal.classList.add('hidden'); });
+
+designForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  designFormError.classList.add('hidden');
+  const id = designForm.elements.id.value;
+  const fd = new FormData(designForm);
+  fd.set('visible', designForm.elements.visible.checked ? 'true' : 'false');
+
+  const submitBtn = document.getElementById('design-form-submit');
+  submitBtn.disabled = true;
+
+  try {
+    await uploadWithProgress(
+      `/designs/${currentDesignType}${id ? '/' + id : ''}`,
+      id ? 'PUT' : 'POST',
+      fd,
+      (pct) => { submitBtn.textContent = pct < 100 ? `جارٍ الرفع… ${pct}%` : 'جارٍ الحفظ…'; }
+    );
+    designFormModal.classList.add('hidden');
+    loadDesigns();
+  } catch (err) {
+    designFormError.textContent = err.message;
+    designFormError.classList.remove('hidden');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'حفظ التصميم';
+  }
 });
 
 checkSession();
