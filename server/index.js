@@ -10,6 +10,8 @@ const adminApi = require('./routes/admin');
 const setupApi = require('./routes/setup');
 const settingsApi = require('./routes/settings');
 const brandingApi = require('./routes/branding');
+const designsApi = require('./routes/designs');
+const adminDesignsApi = require('./routes/admin-designs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +30,8 @@ app.use('/api/admin', adminApi);
 app.use('/api/setup', setupApi);
 app.use('/api/settings', settingsApi);
 app.use('/api/admin/branding', brandingApi);
+app.use('/api/designs', designsApi);
+app.use('/api/admin/designs', adminDesignsApi);
 
 // icons/screenshots/app files/branding are hosted on Supabase — public/ only serves the site itself
 app.use(express.static(path.join(__dirname, '..', 'public')));
