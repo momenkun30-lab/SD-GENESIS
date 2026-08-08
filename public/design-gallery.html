@@ -18,7 +18,7 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         html { scroll-behavior:smooth; overflow-x:hidden; }
         body { font-family:'Cairo',sans-serif; background:#050505; color:#fff; overflow-x:hidden; }
-        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar { width:6px; height:6px; }
         ::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:3px; }
         .gradient-text {
             background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 25%,#4ade80 50%,#16a34a 75%,#eef1f4 100%);
@@ -31,13 +31,57 @@
         .btn-gold:disabled { opacity:.5; cursor:not-allowed; transform:none; }
         .design-card { border:1px solid rgba(255,255,255,0.06); transition:all .35s ease; cursor:pointer; }
         .design-card:hover { transform:translateY(-8px); border-color:rgba(212,175,55,0.25); box-shadow:0 20px 45px rgba(0,0,0,0.5); }
+        .design-card:hover .design-thumb img { transform:scale(1.06); }
         .design-thumb { aspect-ratio:4/3; background:#111; overflow:hidden; position:relative; }
-        .design-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+        .design-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
         .design-thumb .fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:#D4AF37; background:linear-gradient(135deg,#1a1a1a,#0a0a0a); }
         .form-input { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); color:#fff; }
         .form-input:focus { outline:none; border-color:rgba(212,175,55,0.5); }
         .skeleton { background:linear-gradient(90deg,#111 25%,#1a1a1a 50%,#111 75%); background-size:200% 100%; animation:skeleton 1.4s ease infinite; }
         @keyframes skeleton { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+        /* ===== Intro screen ===== */
+        #intro-view { min-height:calc(100vh - 65px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 20px; position:relative; overflow:hidden; }
+        #intro-view::before {
+            content:''; position:absolute; inset:0;
+            background:radial-gradient(650px 400px at 50% 30%, rgba(212,175,55,0.08), transparent 65%);
+            pointer-events:none;
+        }
+        .intro-line { opacity:0; transform:translateY(18px); animation:introReveal .9s cubic-bezier(.2,.8,.2,1) forwards; position:relative; z-index:1; }
+        @keyframes introReveal { to { opacity:1; transform:translateY(0); } }
+        .intro-main { font-size:clamp(1.6rem,4.6vw,2.8rem); font-weight:900; line-height:1.4; max-width:16ch; margin:0 auto 28px; animation-delay:.1s; }
+        .intro-sub { font-size:clamp(.9rem,2vw,1.05rem); color:rgba(255,255,255,0.55); max-width:42ch; margin:0 auto 14px; line-height:1.9; }
+        .intro-sub:nth-of-type(1) { animation-delay:.35s; }
+        .intro-sub:nth-of-type(2) { animation-delay:.5s; }
+        .intro-sub:nth-of-type(3) { animation-delay:.65s; }
+        #intro-cta { animation-delay:.85s; margin-top:26px; }
+
+        /* ===== Horizontal design slider ===== */
+        .design-slider-wrap { position:relative; margin-bottom:28px; }
+        .design-slider {
+            display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x proximity; padding:4px 2px 10px;
+            -webkit-overflow-scrolling:touch; scrollbar-width:thin;
+        }
+        .design-slider-item {
+            flex:0 0 auto; width:92px; scroll-snap-align:start; cursor:pointer; text-align:center;
+        }
+        .design-slider-thumb {
+            width:92px; height:70px; border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.08);
+            background:#111; transition:all .25s ease; position:relative;
+        }
+        .design-slider-item:hover .design-slider-thumb { border-color:rgba(212,175,55,0.5); transform:translateY(-3px); }
+        .design-slider-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+        .design-slider-thumb .fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:900; color:#D4AF37; background:#1a1a1a; font-size:.9rem; }
+        .design-slider-label { font-size:9.5px; font-family:'Inter',monospace; color:rgba(255,255,255,0.35); margin-top:6px; }
+        .slider-arrow {
+            position:absolute; top:35px; width:30px; height:30px; border-radius:50%;
+            background:rgba(10,10,10,0.85); border:1px solid rgba(212,175,55,0.25); color:#D4AF37;
+            display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:5; font-size:11px;
+        }
+        .slider-arrow:hover { background:rgba(212,175,55,0.12); }
+        .slider-arrow--right { right:-6px; }
+        .slider-arrow--left { left:-6px; }
+        @media (max-width:640px) { .slider-arrow { display:none; } }
     </style>
 </head>
 <body>
@@ -51,18 +95,37 @@
 
 <main class="max-w-6xl mx-auto px-4 py-10">
 
-    <div id="gallery-view">
+    <!-- ===== INTRO / SPLASH VIEW ===== -->
+    <div id="intro-view">
+        <p class="intro-line intro-main gradient-text" id="intro-main"></p>
+        <p class="intro-line intro-sub" id="intro-sub-1"></p>
+        <p class="intro-line intro-sub" id="intro-sub-2"></p>
+        <p class="intro-line intro-sub" id="intro-sub-3"></p>
+        <button id="intro-cta" class="intro-line btn-gold px-9 py-4 rounded-full text-sm font-bold">
+            تصفح التصاميم <i class="fa-solid fa-arrow-left mr-2"></i>
+        </button>
+    </div>
+
+    <!-- ===== GALLERY VIEW ===== -->
+    <div id="gallery-view" hidden>
         <div class="text-center mb-10">
             <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-3" id="gallery-eyebrow">اختر تصميمك</span>
             <h1 class="text-3xl sm:text-4xl font-black mb-3" id="gallery-title">معرض التصاميم</h1>
             <p class="text-white/40 text-sm max-w-xl mx-auto">اختر النموذج الأقرب لفكرتك، ثم صف مشروعك بالتفصيل — سنتواصل معك عبر واتساب لتحديد السعر ومدة التنفيذ.</p>
         </div>
 
-        <div class="mb-8 max-w-md mx-auto">
+        <div class="mb-6 max-w-md mx-auto">
             <div class="flex items-center gap-2 form-input rounded-full px-5 py-3">
                 <i class="fa-solid fa-magnifying-glass text-white/30 text-sm"></i>
                 <input type="text" id="search-input" placeholder="ابحث عن تصميم…" class="bg-transparent outline-none text-sm w-full" autocomplete="off">
             </div>
+        </div>
+
+        <!-- Horizontal preview slider -->
+        <div class="design-slider-wrap" id="slider-wrap" hidden>
+            <button class="slider-arrow slider-arrow--right" id="slider-next"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="slider-arrow slider-arrow--left" id="slider-prev"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="design-slider" id="design-slider"></div>
         </div>
 
         <div id="gallery-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
@@ -72,6 +135,7 @@
         </div>
     </div>
 
+    <!-- ===== DETAIL VIEW (design + request form) ===== -->
     <div id="detail-view" hidden>
         <button id="back-to-gallery" class="text-xs text-gold-400 hover:text-gold-300 mb-6 flex items-center gap-1">
             <i class="fa-solid fa-arrow-right"></i> العودة لكل التصاميم
@@ -88,7 +152,7 @@
                 <span class="inline-block text-xs text-white/40 border border-white/10 rounded-full px-3 py-1 mb-4" id="detail-category"></span>
                 <p class="text-white/50 text-sm leading-relaxed mb-6" id="detail-description"></p>
 
-                <label class="block text-sm font-medium text-white/70 mb-2">اكتب وصفًا تفصيليًا للمشروع الذي ترغب في إنشائه</label>
+                <label class="block text-sm font-medium text-white/70 mb-2" id="detail-message-label">اكتب وصفًا تفصيليًا للمشروع الذي ترغب في إنشائه</label>
                 <textarea id="detail-message" rows="6" placeholder="اكتب هنا كل التفاصيل: الأقسام المطلوبة، الألوان المفضلة، أمثلة تلهمك، أي ميزات خاصة..." class="form-input w-full rounded-xl px-4 py-3 text-sm resize-none mb-4"></textarea>
 
                 <button id="submit-request-btn" class="btn-gold w-full py-4 rounded-xl text-sm font-bold">
@@ -112,18 +176,51 @@ let currentType = params.get('type') === 'app' ? 'app' : 'website';
 let currentId = params.get('id') || null;
 
 const typeLabels = {
-    website: { eyebrow: 'تصميم موقع إلكتروني', title: 'معرض تصاميم المواقع الإلكترونية', reqLabel: 'تصميم موقع إلكتروني', descLabel: 'وصف المشروع' },
-    app: { eyebrow: 'تصميم تطبيق', title: 'معرض تصاميم التطبيقات', reqLabel: 'تصميم تطبيق', descLabel: 'وصف التطبيق' },
+    website: {
+        eyebrow: 'تصميم موقع إلكتروني', title: 'معرض تصاميم المواقع الإلكترونية',
+        reqLabel: 'تصميم موقع إلكتروني', descLabel: 'وصف المشروع',
+        messageLabel: 'اكتب وصف الموقع الذي ترغب في إنشائه',
+        intro: {
+            main: 'كل شركة ناجحة بدأت بخطوة، وموقعك هو تلك الخطوة',
+            subs: [
+                'لا تكتفِ بالحضور — كن الخيار الذي يبحث عنه الجميع',
+                'نحن لا نصنع صفحات، بل نصنع تجربة تليق بطموحك',
+                'الاحترافية تبدأ من أول صفحة يراها عميلك، وSD توفرها لك',
+            ],
+        },
+    },
+    app: {
+        eyebrow: 'تصميم تطبيق', title: 'معرض تصاميم التطبيقات',
+        reqLabel: 'تصميم تطبيق', descLabel: 'وصف التطبيق',
+        messageLabel: 'اكتب وصف التطبيق الذي ترغب في إنشائه',
+        intro: {
+            main: 'عندما يصبح الوصول إليك أسهل، يصبح نمو أعمالك أسهل',
+            subs: [
+                'التطبيق الناجح يحول الزائر إلى مستخدم دائم',
+                'التقنية ليست المستقبل فقط، إنها ميزة تنافسية اليوم',
+                'تطبيقك ليس مجرد برنامج، بل تجربة يعيشها عملاؤك كل يوم',
+            ],
+        },
+    },
 };
 
+const introView = document.getElementById('intro-view');
 const galleryView = document.getElementById('gallery-view');
 const detailView = document.getElementById('detail-view');
 const galleryGrid = document.getElementById('gallery-grid');
 const galleryEmpty = document.getElementById('gallery-empty');
 const searchInput = document.getElementById('search-input');
+const sliderWrap = document.getElementById('slider-wrap');
+const designSlider = document.getElementById('design-slider');
 
 document.getElementById('gallery-eyebrow').textContent = typeLabels[currentType].eyebrow;
 document.getElementById('gallery-title').textContent = typeLabels[currentType].title;
+document.getElementById('detail-message-label').textContent = typeLabels[currentType].messageLabel;
+
+document.getElementById('intro-main').textContent = typeLabels[currentType].intro.main;
+document.getElementById('intro-sub-1').textContent = typeLabels[currentType].intro.subs[0];
+document.getElementById('intro-sub-2').textContent = typeLabels[currentType].intro.subs[1];
+document.getElementById('intro-sub-3').textContent = typeLabels[currentType].intro.subs[2];
 
 let allDesigns = [];
 
@@ -149,12 +246,24 @@ function cardHTML(d) {
     </div>`;
 }
 
+function sliderItemHTML(d) {
+    const thumb = d.image_url
+        ? `<img src="${d.image_url}" loading="lazy" alt="" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'fallback\\'>${d.name.charAt(0)}</div>'">`
+        : `<div class="fallback">${d.name.charAt(0)}</div>`;
+    return `
+    <div class="design-slider-item" data-id="${d.id}">
+        <div class="design-slider-thumb">${thumb}</div>
+        <div class="design-slider-label">${d.design_id}</div>
+    </div>`;
+}
+
 async function loadGallery() {
     galleryGrid.innerHTML = Array(6).fill('<div class="skeleton rounded-2xl h-64"></div>').join('');
     try {
         const res = await fetch(`/api/designs/${currentType}`);
         allDesigns = await res.json();
         renderGallery(allDesigns);
+        renderSlider(allDesigns);
     } catch {
         galleryGrid.innerHTML = '<p class="text-white/30 text-sm col-span-full text-center py-10">تعذّر التحميل، حاول لاحقًا.</p>';
     }
@@ -168,9 +277,31 @@ function renderGallery(list) {
         card.addEventListener('click', () => showDetail(card.dataset.id)));
 }
 
+function renderSlider(list) {
+    if (!list.length) { sliderWrap.hidden = true; return; }
+    sliderWrap.hidden = false;
+    designSlider.innerHTML = list.map(sliderItemHTML).join('');
+    designSlider.querySelectorAll('.design-slider-item').forEach((item) =>
+        item.addEventListener('click', () => showDetail(item.dataset.id)));
+}
+
+document.getElementById('slider-next').addEventListener('click', () => designSlider.scrollBy({ left: -260, behavior: 'smooth' }));
+document.getElementById('slider-prev').addEventListener('click', () => designSlider.scrollBy({ left: 260, behavior: 'smooth' }));
+
 searchInput.addEventListener('input', () => {
     const q = searchInput.value.trim().toLowerCase();
     renderGallery(allDesigns.filter((d) => d.name.toLowerCase().includes(q) || (d.category || '').toLowerCase().includes(q)));
+});
+
+function enterGallery() {
+    introView.hidden = true;
+    galleryView.hidden = false;
+    if (!allDesigns.length) loadGallery();
+}
+
+document.getElementById('intro-cta').addEventListener('click', () => {
+    history.pushState({}, '', `?type=${currentType}`);
+    enterGallery();
 });
 
 async function showDetail(id) {
@@ -188,6 +319,7 @@ async function showDetail(id) {
     document.getElementById('detail-message').value = '';
     document.getElementById('submit-success').hidden = true;
 
+    introView.hidden = true;
     galleryView.hidden = true;
     detailView.hidden = false;
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -226,8 +358,13 @@ document.getElementById('back-to-gallery').addEventListener('click', () => {
     galleryView.hidden = false;
 });
 
-loadGallery();
-if (currentId) showDetail(currentId);
+// deep link handling: if the URL already has an id or explicit gallery request, skip the intro screen
+if (currentId) {
+    loadGallery();
+    showDetail(currentId);
+} else if (params.has('type')) {
+    enterGallery();
+}
 </script>
 
 </body>
