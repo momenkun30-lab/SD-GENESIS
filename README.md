@@ -1,2 +1,2 @@
-# release-dock-v2
+# SD GENESIS
 .
