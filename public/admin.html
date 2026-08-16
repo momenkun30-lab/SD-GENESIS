@@ -22,7 +22,6 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
 
-<!-- ============ LOGIN SCREEN ============ -->
 <div id="login-screen" class="fixed inset-0 z-[100] bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4 pb-32">
     <form id="login-form" class="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-xl">
         <div class="flex items-center gap-2 mb-6">
@@ -46,10 +45,8 @@
     </form>
 </div>
 
-<!-- ============ APP SHELL (hidden until authenticated) ============ -->
 <div id="app-shell" class="hidden">
 
-    <!-- Top Bar -->
     <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <button id="sidebarToggle" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
@@ -74,7 +71,6 @@
     </header>
 
     <div class="flex">
-        <!-- Sidebar -->
         <aside id="sidebar" class="fixed lg:sticky top-0 right-0 h-screen w-64 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 transform translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 overflow-y-auto">
             <div class="p-4 space-y-1">
                 <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 px-3">القائمة الرئيسية</div>
@@ -99,41 +95,13 @@
                     <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 6h16M4 6a2 2 0 012-2h12a2 2 0 012 2M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6"/></svg>
                     معرض التصاميم
                 </button>
-
-                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-6 mb-2 px-3">قريبًا</div>
-                <button data-nav="songs" data-soon="إدارة الأغاني" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
-                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
-                    إدارة الأغاني <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
-                </button>
-                <button data-nav="storage" data-soon="التخزين السحابي" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
-                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
-                    التخزين السحابي <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
-                </button>
-                <button data-nav="users" data-soon="إدارة المستخدمين" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
-                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                    إدارة المستخدمين <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
-                </button>
-                <button data-nav="notifications" data-soon="الإشعارات" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
-                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                    الإشعارات <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
-                </button>
-                <button data-nav="security" data-soon="الأمان" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
-                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                    الأمان <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
-                </button>
-                <button data-nav="backup" data-soon="النسخ الاحتياطي" class="nav-item nav-item--soon w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 dark:text-slate-500 transition-all">
-                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
-                    النسخ الاحتياطي <span class="mr-auto text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">قريبًا</span>
-                </button>
             </div>
         </aside>
 
         <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
 
-        <!-- Main Content -->
         <main class="flex-1 p-4 lg:p-8 pb-32 overflow-x-hidden">
 
-            <!-- ===== DASHBOARD (real data) ===== -->
             <div data-section-panel="dashboard" class="active space-y-6">
                 <div>
                     <h1 class="text-2xl font-bold">لوحة التحكم</h1>
@@ -173,7 +141,6 @@
                 </div>
             </div>
 
-            <!-- ===== APPS (real CRUD) ===== -->
             <div data-section-panel="apps" class="space-y-6">
                 <div class="flex items-center justify-between flex-wrap gap-3">
                     <div>
@@ -201,11 +168,10 @@
                 </div>
             </div>
 
-            <!-- ===== BRANDING (hero video + logo upload) ===== -->
             <div data-section-panel="branding" class="space-y-6">
                 <div>
                     <h1 class="text-2xl font-bold">الهوية البصرية</h1>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">فيديو الخلفية والشعار المعروضان بالصفحة الرئيسية</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">فيديو الخلفية، الشعار الرئيسي، وشعار الشركة 2 المعروضون بالصفحة الرئيسية</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-4">
@@ -213,7 +179,7 @@
                         <h3 class="font-bold text-sm mb-3">فيديو خلفية الصفحة الرئيسية</h3>
                         <div id="branding-video-current" class="text-xs text-slate-400 mb-3">جارٍ التحقق…</div>
                         <input type="file" id="branding-video-input" accept="video/mp4" class="w-full text-sm text-slate-500 mb-3">
-                        <p class="text-[11px] text-slate-400 mb-3">MP4 فقط، بحد أقصى ~49 ميجابايت (حد Supabase المجاني). يُفضّل مقطع قصير مضغوط بدون صوت.</p>
+                        <p class="text-[11px] text-slate-400 mb-3">MP4 فقط، بحد أقصى ~49 ميجابايت. يُفضّل مقطع قصير مضغوط بدون صوت.</p>
                         <div class="flex gap-2">
                             <button id="branding-video-upload-btn" class="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">رفع / استبدال</button>
                             <button id="branding-video-remove-btn" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-red-500 rounded-lg text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">حذف</button>
@@ -222,7 +188,7 @@
                     </div>
 
                     <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
-                        <h3 class="font-bold text-sm mb-3">شعار الشركة</h3>
+                        <h3 class="font-bold text-sm mb-3">الشعار الرئيسي (الهيدر)</h3>
                         <div id="branding-logo-current" class="mb-3 h-16 flex items-center text-xs text-slate-400">جارٍ التحقق…</div>
                         <input type="file" id="branding-logo-input" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="w-full text-sm text-slate-500 mb-3">
                         <p class="text-[11px] text-slate-400 mb-3">يُفضّل PNG بخلفية شفافة، ارتفاع حوالي 100-200 بكسل.</p>
@@ -232,10 +198,21 @@
                         </div>
                         <p id="branding-logo-status" class="text-xs mt-2 hidden"></p>
                     </div>
+
+                    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 md:col-span-2">
+                        <h3 class="font-bold text-sm mb-3">شعار الشركة 2 (منطقة التذييل)</h3>
+                        <p class="text-[11px] text-slate-400 mb-3">تظهر هذه الصورة أسفل الصفحة الرئيسية، فوق أيقونات التواصل الاجتماعي مباشرة.</p>
+                        <div id="branding-logo2-current" class="mb-3 h-24 flex items-center text-xs text-slate-400">جارٍ التحقق…</div>
+                        <input type="file" id="branding-logo2-input" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="w-full text-sm text-slate-500 mb-3">
+                        <div class="flex gap-2">
+                            <button id="branding-logo2-upload-btn" class="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">رفع / استبدال</button>
+                            <button id="branding-logo2-remove-btn" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-red-500 rounded-lg text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">حذف</button>
+                        </div>
+                        <p id="branding-logo2-status" class="text-xs mt-2 hidden"></p>
+                    </div>
                 </div>
             </div>
 
-            <!-- ===== DESIGN GALLERY MANAGER (websites + apps) ===== -->
             <div data-section-panel="designs" class="space-y-6">
                 <div class="flex items-center justify-between flex-wrap gap-3">
                     <div>
@@ -263,7 +240,6 @@
                 </div>
             </div>
 
-            <!-- ===== ANALYTICS (real daily downloads) ===== -->
             <div data-section-panel="analytics" class="space-y-6">
                 <div>
                     <h1 class="text-2xl font-bold">التحليلات</h1>
@@ -280,28 +256,10 @@
                 </div>
             </div>
 
-            <!-- ===== COMING SOON template (shared by songs/storage/users/notifications/security/backup) ===== -->
-            <template id="coming-soon-template">
-                <div class="flex flex-col items-center justify-center text-center py-24 bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-300 dark:border-slate-700">
-                    <div class="w-14 h-14 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
-                        <svg class="w-7 h-7 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                    <h2 class="text-lg font-bold soon-title">قريبًا</h2>
-                    <p class="text-slate-400 text-sm mt-1">هذه الميزة قيد التطوير وستتوفر في تحديث قادم.</p>
-                </div>
-            </template>
-            <div data-section-panel="songs"></div>
-            <div data-section-panel="storage"></div>
-            <div data-section-panel="users"></div>
-            <div data-section-panel="notifications"></div>
-            <div data-section-panel="security"></div>
-            <div data-section-panel="backup"></div>
-
         </main>
     </div>
 </div>
 
-<!-- ============ APP CREATE/EDIT MODAL ============ -->
 <div id="app-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
         <button id="form-modal-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
@@ -387,7 +345,6 @@
 </div>
 
 <script>
-/* ============ THEME ============ */
 const THEME_KEY = 'sdgenesis-theme';
 function applyTheme(t) { document.documentElement.classList.toggle('dark', t === 'dark'); }
 applyTheme(localStorage.getItem(THEME_KEY) || 'light');
@@ -397,7 +354,6 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   localStorage.setItem(THEME_KEY, next);
 });
 
-/* ============ SIDEBAR (mobile) ============ */
 const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
 function toggleSidebar(open) {
@@ -408,37 +364,20 @@ function toggleSidebar(open) {
 document.getElementById('sidebarToggle').addEventListener('click', () => toggleSidebar(true));
 sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
 
-/* ============ NAVIGATION ============ */
 const navButtons = document.querySelectorAll('.nav-item');
 const panels = document.querySelectorAll('[data-section-panel]');
-const comingSoonTemplate = document.getElementById('coming-soon-template');
-
-function renderComingSoon(section, title) {
-  const panel = document.querySelector(`[data-section-panel="${section}"]`);
-  if (panel.dataset.rendered) return;
-  const clone = comingSoonTemplate.content.cloneNode(true);
-  clone.querySelector('.soon-title').textContent = title;
-  panel.appendChild(clone);
-  panel.dataset.rendered = '1';
-}
 
 function navigate(section) {
   panels.forEach((p) => p.classList.toggle('active', p.dataset.sectionPanel === section));
   navButtons.forEach((b) => {
     const active = b.dataset.nav === section;
-    b.classList.toggle('bg-blue-50', active && !b.classList.contains('nav-item--soon'));
-    b.classList.toggle('dark:bg-blue-900/20', active && !b.classList.contains('nav-item--soon'));
-    b.classList.toggle('text-blue-600', active && !b.classList.contains('nav-item--soon'));
-    b.classList.toggle('dark:text-blue-400', active && !b.classList.contains('nav-item--soon'));
-    if (!b.classList.contains('nav-item--soon')) {
-      b.classList.toggle('text-slate-600', !active);
-      b.classList.toggle('dark:text-slate-400', !active);
-    }
+    b.classList.toggle('bg-blue-50', active);
+    b.classList.toggle('dark:bg-blue-900/20', active);
+    b.classList.toggle('text-blue-600', active);
+    b.classList.toggle('dark:text-blue-400', active);
+    b.classList.toggle('text-slate-600', !active);
+    b.classList.toggle('dark:text-slate-400', !active);
   });
-  if (['songs', 'storage', 'users', 'notifications', 'security', 'backup'].includes(section)) {
-    const btn = document.querySelector(`[data-nav="${section}"]`);
-    renderComingSoon(section, btn.dataset.soon);
-  }
   if (section === 'apps') loadApps();
   if (section === 'analytics') loadAnalytics();
   if (section === 'branding') loadBranding();
@@ -448,7 +387,6 @@ function navigate(section) {
 navButtons.forEach((btn) => btn.addEventListener('click', () => navigate(btn.dataset.nav)));
 navigate('dashboard');
 
-/* ============ API HELPER ============ */
 async function api(path, options = {}) {
   const res = await fetch(`/api/admin${path}`, { credentials: 'same-origin', ...options });
   if (res.status === 401) { showLogin(); throw new Error('unauthorized'); }
@@ -457,7 +395,6 @@ async function api(path, options = {}) {
   return data;
 }
 
-/* ============ AUTH ============ */
 const loginScreen = document.getElementById('login-screen');
 const appShell = document.getElementById('app-shell');
 const loginForm = document.getElementById('login-form');
@@ -502,7 +439,6 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
   showLogin();
 });
 
-/* ============ FORMATTERS ============ */
 function formatSize(bytes) {
   if (!bytes) return '—';
   const units = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
@@ -511,7 +447,6 @@ function formatSize(bytes) {
   return `${val.toFixed(val < 10 && i > 0 ? 1 : 0)} ${units[i]}`;
 }
 
-/* ============ DASHBOARD STATS ============ */
 async function loadStats() {
   try {
     const stats = await api('/stats');
@@ -561,17 +496,13 @@ async function loadAnalytics() {
   } catch {}
 }
 
-/* ============ APPS CRUD ============ */
 let appsCache = [];
 const appsGrid = document.getElementById('apps-grid');
 const appsSearch = document.getElementById('apps-search');
 const appsFilter = document.getElementById('apps-filter');
 
 async function loadApps() {
-  try {
-    appsCache = await api('/apps');
-    renderApps();
-  } catch {}
+  try { appsCache = await api('/apps'); renderApps(); } catch {}
 }
 
 function renderApps() {
@@ -627,7 +558,6 @@ async function deleteApp(id) {
   catch (err) { alert(err.message); }
 }
 
-/* ============ APP FORM MODAL ============ */
 const formModal = document.getElementById('app-form-modal');
 const appForm = document.getElementById('app-form');
 const formTitle = document.getElementById('form-title');
@@ -711,7 +641,6 @@ appForm.addEventListener('submit', async (e) => {
   }
 });
 
-/* ============ BRANDING (hero video + logo) ============ */
 const videoCurrent = document.getElementById('branding-video-current');
 const videoInput = document.getElementById('branding-video-input');
 const videoUploadBtn = document.getElementById('branding-video-upload-btn');
@@ -723,6 +652,12 @@ const logoInput = document.getElementById('branding-logo-input');
 const logoUploadBtn = document.getElementById('branding-logo-upload-btn');
 const logoRemoveBtn = document.getElementById('branding-logo-remove-btn');
 const logoStatus = document.getElementById('branding-logo-status');
+
+const logo2Current = document.getElementById('branding-logo2-current');
+const logo2Input = document.getElementById('branding-logo2-input');
+const logo2UploadBtn = document.getElementById('branding-logo2-upload-btn');
+const logo2RemoveBtn = document.getElementById('branding-logo2-remove-btn');
+const logo2Status = document.getElementById('branding-logo2-status');
 
 function showBrandingStatus(el, msg, isError) {
   el.textContent = msg;
@@ -739,6 +674,9 @@ async function loadBranding() {
     logoCurrent.innerHTML = data.logo_url
       ? `<img src="${data.logo_url}" class="h-14" alt="">`
       : 'لا يوجد شعار مرفوع — الموقع يعرض نص "SD GENESIS" حاليًا.';
+    logo2Current.innerHTML = data.logo2_url
+      ? `<img src="${data.logo2_url}" class="h-20" alt="">`
+      : 'لا توجد صورة مرفوعة — لن تظهر منطقة شعار الشركة 2 بالموقع حاليًا.';
   } catch {}
 }
 
@@ -749,17 +687,12 @@ videoUploadBtn.addEventListener('click', async () => {
   fd.append('video', file);
   videoUploadBtn.disabled = true;
   try {
-    await uploadWithProgress('/branding', 'POST', fd, (pct) => {
-      showBrandingStatus(videoStatus, `جارٍ الرفع… ${pct}%`, false);
-    });
+    await uploadWithProgress('/branding', 'POST', fd, (pct) => showBrandingStatus(videoStatus, `جارٍ الرفع… ${pct}%`, false));
     showBrandingStatus(videoStatus, 'تم رفع الفيديو بنجاح ✅', false);
     videoInput.value = '';
     loadBranding();
-  } catch (err) {
-    showBrandingStatus(videoStatus, err.message, true);
-  } finally {
-    videoUploadBtn.disabled = false;
-  }
+  } catch (err) { showBrandingStatus(videoStatus, err.message, true); }
+  finally { videoUploadBtn.disabled = false; }
 });
 
 logoUploadBtn.addEventListener('click', async () => {
@@ -769,38 +702,47 @@ logoUploadBtn.addEventListener('click', async () => {
   fd.append('logo', file);
   logoUploadBtn.disabled = true;
   try {
-    await uploadWithProgress('/branding', 'POST', fd, (pct) => {
-      showBrandingStatus(logoStatus, `جارٍ الرفع… ${pct}%`, false);
-    });
+    await uploadWithProgress('/branding', 'POST', fd, (pct) => showBrandingStatus(logoStatus, `جارٍ الرفع… ${pct}%`, false));
     showBrandingStatus(logoStatus, 'تم رفع الشعار بنجاح ✅', false);
     logoInput.value = '';
     loadBranding();
-  } catch (err) {
-    showBrandingStatus(logoStatus, err.message, true);
-  } finally {
-    logoUploadBtn.disabled = false;
-  }
+  } catch (err) { showBrandingStatus(logoStatus, err.message, true); }
+  finally { logoUploadBtn.disabled = false; }
+});
+
+logo2UploadBtn.addEventListener('click', async () => {
+  const file = logo2Input.files[0];
+  if (!file) return showBrandingStatus(logo2Status, 'اختر صورة أولًا', true);
+  const fd = new FormData();
+  fd.append('logo2', file);
+  logo2UploadBtn.disabled = true;
+  try {
+    await uploadWithProgress('/branding', 'POST', fd, (pct) => showBrandingStatus(logo2Status, `جارٍ الرفع… ${pct}%`, false));
+    showBrandingStatus(logo2Status, 'تم رفع الصورة بنجاح ✅', false);
+    logo2Input.value = '';
+    loadBranding();
+  } catch (err) { showBrandingStatus(logo2Status, err.message, true); }
+  finally { logo2UploadBtn.disabled = false; }
 });
 
 videoRemoveBtn.addEventListener('click', async () => {
   if (!confirm('حذف الفيديو الحالي؟ سيعود الموقع للخلفية البديلة.')) return;
-  try {
-    await api('/branding/video', { method: 'DELETE' });
-    showBrandingStatus(videoStatus, 'تم الحذف', false);
-    loadBranding();
-  } catch (err) { showBrandingStatus(videoStatus, err.message, true); }
+  try { await api('/branding/video', { method: 'DELETE' }); showBrandingStatus(videoStatus, 'تم الحذف', false); loadBranding(); }
+  catch (err) { showBrandingStatus(videoStatus, err.message, true); }
 });
 
 logoRemoveBtn.addEventListener('click', async () => {
   if (!confirm('حذف الشعار الحالي؟ سيعود الموقع لعرض النص بدلًا منه.')) return;
-  try {
-    await api('/branding/logo', { method: 'DELETE' });
-    showBrandingStatus(logoStatus, 'تم الحذف', false);
-    loadBranding();
-  } catch (err) { showBrandingStatus(logoStatus, err.message, true); }
+  try { await api('/branding/logo', { method: 'DELETE' }); showBrandingStatus(logoStatus, 'تم الحذف', false); loadBranding(); }
+  catch (err) { showBrandingStatus(logoStatus, err.message, true); }
 });
 
-/* ============ DESIGN GALLERY MANAGER ============ */
+logo2RemoveBtn.addEventListener('click', async () => {
+  if (!confirm('حذف صورة شعار الشركة 2؟ ستختفي منطقتها من الموقع تلقائيًا.')) return;
+  try { await api('/branding/logo2', { method: 'DELETE' }); showBrandingStatus(logo2Status, 'تم الحذف', false); loadBranding(); }
+  catch (err) { showBrandingStatus(logo2Status, err.message, true); }
+});
+
 let currentDesignType = 'website';
 let designsCache = [];
 
@@ -892,9 +834,12 @@ async function toggleDesignVisibility(id, currentlyVisible) {
 }
 
 async function moveDesign(id, direction) {
-  try { await api(`/designs/${currentDesignType}/${id}/move`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ direction }),
-  }); loadDesigns(); } catch (err) { alert(err.message); }
+  try {
+    await api(`/designs/${currentDesignType}/${id}/move`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ direction }),
+    });
+    loadDesigns();
+  } catch (err) { alert(err.message); }
 }
 
 const designFormModal = document.getElementById('design-form-modal');
