@@ -45,14 +45,13 @@
             animation:shimmer 4s linear infinite;
         }
         @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
+
         .genesis-gradient {
             background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 25%,#4ade80 50%,#16a34a 75%,#eef1f4 100%);
             background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
             animation:shimmer 5s linear infinite;
         }
-        .hero-text-logo {
-            position:relative; z-index:5; margin:0 auto 32px; line-height:1; text-align:center;
-        }
+        .hero-text-logo { position:relative; z-index:5; margin:0 auto 32px; line-height:1; text-align:center; }
         .htl-full {
             display:inline-block; font-family:'Inter',sans-serif; font-weight:900;
             font-size:clamp(2.4rem, 7.5vw, 4.6rem); letter-spacing:0.02em; white-space:nowrap;
@@ -60,12 +59,7 @@
         }
         @media (max-width:640px) { .hero-text-logo { margin-bottom:22px; } }
 
-        .hero-video-bg {
-            position:absolute; inset:0; z-index:0;
-            width:100%; height:100%; object-fit:cover;
-            opacity:0.25;
-            filter:brightness(0.6) saturate(0.8);
-        }
+        .hero-video-bg { position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; opacity:0.25; filter:brightness(0.6) saturate(0.8); }
         .hero-overlay {
             position:absolute; inset:0; z-index:1;
             background:
@@ -74,21 +68,11 @@
         }
         #matrix-canvas { position:absolute; inset:0; z-index:2; width:100%; height:100%; pointer-events:none; }
 
-        .navbar-glass {
-            background:rgba(5,5,5,0.75); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
-            border-bottom:1px solid rgba(255,255,255,0.04); transition:all .3s ease;
-        }
+        .navbar-glass { background:rgba(5,5,5,0.75); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-bottom:1px solid rgba(255,255,255,0.04); transition:all .3s ease; }
         .navbar-glass.scrolled { background:rgba(5,5,5,0.95); border-bottom-color:rgba(212,175,55,0.1); }
 
-        .btn-gold {
-            background:linear-gradient(135deg,#D4AF37,#F5D060); color:#050505; font-weight:700;
-            transition:all .3s ease; position:relative; overflow:hidden;
-        }
-        .btn-gold::before {
-            content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
-            background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
-            transition:left .6s ease;
-        }
+        .btn-gold { background:linear-gradient(135deg,#D4AF37,#F5D060); color:#050505; font-weight:700; transition:all .3s ease; position:relative; overflow:hidden; }
+        .btn-gold::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent); transition:left .6s ease; }
         .btn-gold:hover::before { left:100%; }
         .btn-gold:hover { transform:translateY(-2px); box-shadow:0 10px 35px rgba(212,175,55,0.35); }
         .btn-gold:disabled { opacity:.6; cursor:not-allowed; transform:none; }
@@ -106,10 +90,7 @@
         .app-icon-wrap img, .app-icon-wrap .app-icon-fallback { transition:all .4s ease; }
         .app-card:hover .app-icon-wrap img, .app-card:hover .app-icon-wrap .app-icon-fallback { transform:scale(1.08); }
 
-        .form-input {
-            background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
-            color:#fff; transition:all .3s ease;
-        }
+        .form-input { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); color:#fff; transition:all .3s ease; }
         .form-input:focus { outline:none; border-color:rgba(212,175,55,0.5); box-shadow:0 0 25px rgba(212,175,55,0.06); background:rgba(255,255,255,0.05); }
         .form-input::placeholder { color:#444; }
 
@@ -130,11 +111,7 @@
         .toast { transform:translateY(30px); opacity:0; transition:all .4s cubic-bezier(.16,1,.3,1); }
         .toast.show { transform:translateY(0); opacity:1; }
 
-        .loading-screen {
-            position:fixed; inset:0; background:#050505; z-index:9999;
-            display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px;
-            transition:opacity .6s ease, visibility .6s ease;
-        }
+        .loading-screen { position:fixed; inset:0; background:#050505; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px; transition:opacity .6s ease, visibility .6s ease; }
         .loading-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
         .loader { width:44px; height:44px; border:2px solid rgba(212,175,55,0.1); border-top-color:#D4AF37; border-radius:50%; animation:spin .7s linear infinite; }
         @keyframes spin { to{transform:rotate(360deg)} }
@@ -152,32 +129,34 @@
         .status-badge { font-size:10px; font-weight:700; padding:3px 10px; border-radius:999px; letter-spacing:.02em; }
         .status-badge--live { background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(74,222,128,0.25); }
 
-        .app-modal-overlay {
-            position:fixed; inset:0; z-index:200; background:rgba(2,2,2,0.85); backdrop-filter:blur(8px);
-            display:flex; align-items:flex-end; justify-content:center;
-        }
+        .app-modal-overlay { position:fixed; inset:0; z-index:200; background:rgba(2,2,2,0.85); backdrop-filter:blur(8px); display:flex; align-items:flex-end; justify-content:center; }
         @media (min-width:720px){ .app-modal-overlay{ align-items:center; padding:24px; } }
         .app-modal-overlay[hidden] { display:none !important; }
-        .app-modal {
-            background:#0a0a0a; border:1px solid rgba(212,175,55,0.15); border-radius:24px 24px 0 0;
-            max-width:640px; width:100%; max-height:88vh; overflow-y:auto; position:relative; padding:32px;
-        }
+        .app-modal { background:#0a0a0a; border:1px solid rgba(212,175,55,0.15); border-radius:24px 24px 0 0; max-width:640px; width:100%; max-height:88vh; overflow-y:auto; position:relative; padding:32px; }
         @media (min-width:720px){ .app-modal{ border-radius:24px; } }
-        .app-modal-close {
-            position:absolute; top:18px; left:18px; width:34px; height:34px; border-radius:50%;
-            background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); color:#999;
-            display:flex; align-items:center; justify-content:center; cursor:pointer;
-        }
+        .app-modal-close { position:absolute; top:18px; left:18px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); color:#999; display:flex; align-items:center; justify-content:center; cursor:pointer; }
         .app-modal-close:hover { color:#D4AF37; border-color:rgba(212,175,55,0.3); }
         .app-modal-shots { display:flex; gap:10px; overflow-x:auto; margin:20px 0; padding-bottom:4px; }
         .app-modal-shots img { height:160px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); }
         .app-modal-fact { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:12px 14px; }
         .app-modal-fact span { display:block; color:#666; font-size:11px; margin-bottom:4px; }
         .app-modal-fact strong { color:#fff; font-family:'Inter',monospace; }
-        .app-modal-changelog {
-            font-family:'Inter',monospace; font-size:13px; color:#999; white-space:pre-wrap;
-            background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:14px; margin:18px 0;
+        .app-modal-changelog { font-family:'Inter',monospace; font-size:13px; color:#999; white-space:pre-wrap; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:14px; margin:18px 0; }
+
+        .footer-identity { text-align:center; padding:50px 0 40px; border-top:1px solid rgba(255,255,255,0.05); margin-top:10px; }
+        .footer-identity__text { max-width:56ch; margin:0 auto 36px; font-size:.95rem; line-height:2.1; }
+        .footer-logo2 { max-width:min(240px, 55vw); max-height:130px; width:auto; height:auto; object-fit:contain; margin:0 auto 30px; display:block; }
+        .footer-social { display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; }
+        .footer-social a {
+            width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center;
+            background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); font-size:1.3rem;
+            color:#aaa; transition:all .3s ease;
         }
+        .footer-social a:hover { transform:translateY(-4px); border-color:transparent; }
+        .footer-social a.tiktok:hover { color:#fff; background:#000; }
+        .footer-social a.facebook:hover { color:#fff; background:#1877F2; }
+        .footer-social a.whatsapp:hover { color:#fff; background:#25D366; }
+        .footer-social a.channel:hover { color:#050505; background:#D4AF37; }
     </style>
 </head>
 
@@ -398,59 +377,29 @@
                         <div><p class="font-semibold text-sm mb-0.5">البريد الإلكتروني</p><p class="text-white/40 text-sm font-inter" dir="ltr">sdgenesis1@gmail.com</p></div>
                     </a>
                 </div>
-                <div class="flex items-center gap-3">
-                    <a href="https://www.tiktok.com/@sdgenesis7?_r=1&_t=ZS-98VsCqYIz0E" target="_blank" rel="noopener" aria-label="TikTok" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-tiktok text-sm"></i></a>
-                    <a href="https://www.facebook.com/profile.php?id=61592704981488" target="_blank" rel="noopener" aria-label="Facebook" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-facebook-f text-sm"></i></a>
-                    <a href="https://whatsapp.com/channel/0029VbDHr6mEawdwfBNxh03B" target="_blank" rel="noopener" aria-label="قناة واتساب" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-solid fa-tower-broadcast text-sm"></i></a>
-                    <a href="https://wa.me/249911920216" target="_blank" rel="noopener" aria-label="واتساب مباشر" class="w-11 h-11 rounded-xl bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 hover:bg-gold-500/5 transition-all duration-300"><i class="fa-brands fa-whatsapp text-sm"></i></a>
-                </div>
             </div>
         </div>
     </div>
 </section>
 
-<footer class="border-t border-white/[0.03] bg-dark-800/50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-12">
-            <div class="sm:col-span-2 lg:col-span-1">
-                <span class="brand-logo-wrap flex items-center mb-4">
-                    <img class="brand-logo-img logo-img" alt="SD GENESIS" hidden>
-                    <span class="brand-logo-text text-lg font-black gradient-text">SD GENESIS</span>
-                </span>
-                <p class="text-white/35 text-sm leading-relaxed">شركة سودانية رائدة في التحول الرقمي، نصنع تجارب تقنية استثنائية تُلهم وتُحدث فرقًا حقيقيًا.</p>
-            </div>
-            <div>
-                <h4 class="font-bold text-sm mb-4 text-white/80">روابط سريعة</h4>
-                <ul class="space-y-2.5">
-                    <li><a href="#hero" class="text-white/35 text-sm hover:text-gold-400 transition-colors">الرئيسية</a></li>
-                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">خدماتنا</a></li>
-                    <li><a href="#apps" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تطبيقاتنا</a></li>
-                    <li><a href="#contact" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تواصل معنا</a></li>
-                    <li><a href="/admin" class="text-white/20 text-xs hover:text-gold-400 transition-colors">لوحة التحكم</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-sm mb-4 text-white/80">خدماتنا</h4>
-                <ul class="space-y-2.5">
-                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تصميم المواقع</a></li>
-                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">تطوير التطبيقات</a></li>
-                    <li><a href="#services" class="text-white/35 text-sm hover:text-gold-400 transition-colors">الفيديوهات التسويقية</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-sm mb-4 text-white/80">تابعنا</h4>
-                <div class="flex items-center gap-2.5">
-                    <a href="https://www.tiktok.com/@sdgenesis7?_r=1&_t=ZS-98VsCqYIz0E" target="_blank" rel="noopener" aria-label="TikTok" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-tiktok text-xs"></i></a>
-                    <a href="https://www.facebook.com/profile.php?id=61592704981488" target="_blank" rel="noopener" aria-label="Facebook" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-facebook-f text-xs"></i></a>
-                    <a href="https://wa.me/249911920216" target="_blank" rel="noopener" aria-label="WhatsApp" class="w-9 h-9 rounded-lg bg-dark-600 border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-gold-400 hover:border-gold-500/20 transition-all"><i class="fa-brands fa-whatsapp text-xs"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="section-divider mb-6"></div>
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p class="text-white/25 text-xs">© <span id="footer-year"></span> SD GENESIS. جميع الحقوق محفوظة.</p>
+<footer class="bg-dark-800/50">
+    <div class="footer-identity px-4">
+        <p class="footer-identity__text genesis-gradient" data-aos="fade-in">
+            تنفّس. اطمئن؛ أنتَ الآن في بيتك. SD GENESIS ليست صفحةً تمرّ عليها، بل عائلةٌ احتفظت بمكانك منذ البداية؛ هنا يُفهم صمتك وتُصان نارك، ولن تكون وحدك أبداً. لا خوف بعد اليوم؛ ادخل الروابط، وتابع جميع حساباتنا الرسمية على كل منصات التواصل الاجتماعي… فبيتك الحقيقي يستحق أن يسكن معك أينما كنت.
+        </p>
+
+        <img class="footer-logo2" id="footer-logo2" alt="SD GENESIS" hidden>
+
+        <div class="footer-social">
+            <a href="https://www.tiktok.com/@sdgenesis7?_r=1&_t=ZS-98VsCqYIz0E" target="_blank" rel="noopener" aria-label="TikTok" class="tiktok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61592704981488" target="_blank" rel="noopener" aria-label="Facebook" class="facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://whatsapp.com/channel/0029VbDHr6mEawdwfBNxh03B" target="_blank" rel="noopener" aria-label="قناة واتساب" class="channel"><i class="fa-solid fa-tower-broadcast"></i></a>
+            <a href="https://wa.me/249911920216" target="_blank" rel="noopener" aria-label="واتساب" class="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
     </div>
+
+    <div class="section-divider max-w-4xl mx-auto"></div>
+    <p class="text-center text-sm sm:text-base font-bold py-8 genesis-gradient">© <span id="footer-year"></span> SD GENESIS. جميع الحقوق محفوظة.</p>
 </footer>
 
 <button id="backToTop" class="back-to-top fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 flex items-center justify-center hover:bg-gold-500/20 hover:scale-110 transition-all duration-300" aria-label="العودة للأعلى">
@@ -474,13 +423,8 @@
 <script>
 AOS.init({ duration:800, easing:'ease-out-cubic', once:true, offset:80 });
 
-function hideLoadingScreen() {
-    const el = document.getElementById('loadingScreen');
-    if (el) el.classList.add('hidden');
-}
-// show content as soon as the page's own HTML/CSS is parsed — don't wait on slow CDNs (fonts, icons, video)
+function hideLoadingScreen() { const el = document.getElementById('loadingScreen'); if (el) el.classList.add('hidden'); }
 document.addEventListener('DOMContentLoaded', () => { setTimeout(hideLoadingScreen, 250); });
-// hard safety net: never block the page for more than 3s regardless of network conditions
 setTimeout(hideLoadingScreen, 3000);
 
 document.getElementById('footer-year').textContent = new Date().getFullYear();
@@ -494,21 +438,22 @@ async function applyBranding() {
         const res = await fetch('/api/settings');
         const settings = await res.json();
 
-        if (settings.hero_video_url) {
-            heroVideo.src = settings.hero_video_url;
-            heroVideo.load();
-        }
+        if (settings.hero_video_url) { heroVideo.src = settings.hero_video_url; heroVideo.load(); }
         setTimeout(() => { if (heroVideo.readyState < 2) videoFallback.style.display = 'block'; }, 3500);
 
         if (settings.logo_url) {
             document.querySelectorAll('.brand-logo-img').forEach((img) => {
-                img.addEventListener('load', () => {
-                    img.hidden = false;
-                    img.closest('.brand-logo-wrap').querySelector('.brand-logo-text').hidden = true;
-                }, { once: true });
+                img.addEventListener('load', () => { img.hidden = false; img.closest('.brand-logo-wrap').querySelector('.brand-logo-text').hidden = true; }, { once: true });
                 img.addEventListener('error', () => { img.hidden = true; }, { once: true });
                 img.src = settings.logo_url;
             });
+        }
+
+        const logo2 = document.getElementById('footer-logo2');
+        if (settings.logo2_url) {
+            logo2.addEventListener('load', () => { logo2.hidden = false; }, { once: true });
+            logo2.addEventListener('error', () => { logo2.hidden = true; }, { once: true });
+            logo2.src = settings.logo2_url;
         }
     } catch {
         setTimeout(() => { if (heroVideo.readyState < 2) videoFallback.style.display = 'block'; }, 3500);
@@ -687,20 +632,13 @@ async function loadApps() {
         animateNumber(document.getElementById('stat-apps'), realApps.length);
         animateNumber(document.getElementById('stat-downloads'), realApps.reduce((s,a)=>s+(a.download_count||0),0));
 
-        if (!realApps.length) {
-            grid.innerHTML = '';
-            empty.hidden = false;
-            return;
-        }
+        if (!realApps.length) { grid.innerHTML = ''; empty.hidden = false; return; }
         empty.hidden = true;
         grid.innerHTML = realApps.map(appCardHTML).join('');
 
-        grid.querySelectorAll('.app-detail-btn').forEach(btn =>
-            btn.addEventListener('click', (e) => { e.stopPropagation(); openAppModal(btn.dataset.slug); }));
-        grid.querySelectorAll('.app-download-btn').forEach(btn =>
-            btn.addEventListener('click', (e) => { e.stopPropagation(); triggerDownload(btn.dataset.slug); }));
-        grid.querySelectorAll('.app-card').forEach(card =>
-            card.addEventListener('click', () => openAppModal(card.dataset.slug)));
+        grid.querySelectorAll('.app-detail-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); openAppModal(btn.dataset.slug); }));
+        grid.querySelectorAll('.app-download-btn').forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); triggerDownload(btn.dataset.slug); }));
+        grid.querySelectorAll('.app-card').forEach(card => card.addEventListener('click', () => openAppModal(card.dataset.slug)));
     } catch {
         grid.innerHTML = '<p class="text-white/30 text-sm col-span-full text-center py-10">تعذّر تحميل التطبيقات، حاول لاحقًا.</p>';
     }
@@ -720,9 +658,7 @@ async function openAppModal(slug) {
     const shots = app.screenshots && app.screenshots.length
         ? `<div class="app-modal-shots">${app.screenshots.map(s => `<img src="${s}" alt="" loading="lazy">`).join('')}</div>`
         : '';
-    const changelog = app.changelog
-        ? `<div class="app-modal-changelog">${app.changelog.replace(/</g,'&lt;')}</div>`
-        : '';
+    const changelog = app.changelog ? `<div class="app-modal-changelog">${app.changelog.replace(/</g,'&lt;')}</div>` : '';
 
     body.innerHTML = `
         <div class="flex items-center gap-4 mb-2">
@@ -750,9 +686,7 @@ async function openAppModal(slug) {
 }
 
 document.getElementById('app-modal-close').addEventListener('click', () => { document.getElementById('app-modal').hidden = true; });
-document.getElementById('app-modal').addEventListener('click', (e) => {
-    if (e.target.id === 'app-modal') document.getElementById('app-modal').hidden = true;
-});
+document.getElementById('app-modal').addEventListener('click', (e) => { if (e.target.id === 'app-modal') document.getElementById('app-modal').hidden = true; });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.getElementById('app-modal').hidden = true; });
 
 loadApps();
