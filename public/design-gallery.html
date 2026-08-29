@@ -1,219 +1,174 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>معرض التصاميم | SD GENESIS</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<script>
-tailwind.config = { theme: { extend: {
-colors: { gold: { 400:'#F5D060', 500:'#D4AF37', 600:'#B8960C' }, dark: { 950:'#050505', 900:'#0a0a0a', 800:'#111111', 700:'#1a1a1a' } },
-fontFamily: { cairo:['Cairo','sans-serif'] }
-} } }
-</script>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; overflow-x:hidden; }
-body { font-family:'Cairo',sans-serif; background:#050505; color:#fff; overflow-x:hidden; }
-::-webkit-scrollbar { width:6px; height:6px; }
-::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:3px; }
-.gradient-text {
-background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 25%,#4ade80 50%,#16a34a 75%,#eef1f4 100%);
-background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-animation:shimmer 5s linear infinite;
-}
-@keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
-.btn-gold { background:linear-gradient(135deg,#D4AF37,#F5D060); color:#050505; font-weight:700; transition:all .3s ease; }
-.btn-gold:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(212,175,55,0.3); }
-.btn-gold:disabled { opacity:.5; cursor:not-allowed; transform:none; }
-.btn-outline { border:1px solid rgba(212,175,55,0.4); color:#D4AF37; font-weight:600; transition:all .3s ease; }
-.btn-outline:hover { background:rgba(212,175,55,0.08); border-color:#D4AF37; transform:translateY(-2px); }
-.design-card { border:1px solid rgba(255,255,255,0.06); transition:all .35s ease; cursor:pointer; }
-.design-card:hover { transform:translateY(-8px); border-color:rgba(212,175,55,0.25); box-shadow:0 20px 45px rgba(0,0,0,0.5); }
-.design-card:hover .design-thumb img { transform:scale(1.06); }
-.design-thumb { aspect-ratio:4/3; background:#111; overflow:hidden; position:relative; }
-.design-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
-.design-thumb .fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:#D4AF37; background:linear-gradient(135deg,#1a1a1a,#0a0a0a); }
-.form-input { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); color:#fff; }
-.form-input:focus { outline:none; border-color:rgba(212,175,55,0.5); }
-.skeleton { background:linear-gradient(90deg,#111 25%,#1a1a1a 50%,#111 75%); background-size:200% 100%; animation:skeleton 1.4s ease infinite; }
-@keyframes skeleton { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض التصاميم | SD GENESIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: {
+            colors: { gold: { 400:'#F5D060', 500:'#D4AF37', 600:'#B8960C' }, dark: { 950:'#050505', 900:'#0a0a0a', 800:'#111111', 700:'#1a1a1a' } },
+            fontFamily: { cairo:['Cairo','sans-serif'] }
+        } } }
+    </script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; overflow-x:hidden; }
+        body { font-family:'Cairo',sans-serif; background:#050505; color:#fff; overflow-x:hidden; }
+        ::-webkit-scrollbar { width:6px; height:6px; }
+        ::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:3px; }
+        .gradient-text {
+            background:linear-gradient(120deg,#eef1f4 0%,#9aa1ab 25%,#4ade80 50%,#16a34a 75%,#eef1f4 100%);
+            background-size:220% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+            animation:shimmer 5s linear infinite;
+        }
+        @keyframes shimmer { 0%{background-position:0% center} 100%{background-position:200% center} }
+        .btn-gold { background:linear-gradient(135deg,#D4AF37,#F5D060); color:#050505; font-weight:700; transition:all .3s ease; }
+        .btn-gold:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(212,175,55,0.3); }
+        .btn-gold:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+        .design-card { border:1px solid rgba(255,255,255,0.06); transition:all .35s ease; cursor:pointer; }
+        .design-card:hover { transform:translateY(-8px); border-color:rgba(212,175,55,0.25); box-shadow:0 20px 45px rgba(0,0,0,0.5); }
+        .design-card:hover .design-thumb img { transform:scale(1.06); }
+        .design-thumb { aspect-ratio:4/3; background:#111; overflow:hidden; position:relative; }
+        .design-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+        .design-thumb .fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:#D4AF37; background:linear-gradient(135deg,#1a1a1a,#0a0a0a); }
+        .form-input { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); color:#fff; }
+        .form-input:focus { outline:none; border-color:rgba(212,175,55,0.5); }
+        .skeleton { background:linear-gradient(90deg,#111 25%,#1a1a1a 50%,#111 75%); background-size:200% 100%; animation:skeleton 1.4s ease infinite; }
+        @keyframes skeleton { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-/* ===== Intro screen ===== */
-#intro-view { min-height:calc(100vh - 65px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 20px; position:relative; overflow:hidden; }
-#intro-view::before { content:''; position:absolute; inset:0; background:radial-gradient(650px 400px at 50% 30%, rgba(212,175,55,0.08), transparent 65%); pointer-events:none; }
-.intro-line { opacity:0; transform:translateY(18px); animation:introReveal .9s cubic-bezier(.2,.8,.2,1) forwards; position:relative; z-index:1; }
-@keyframes introReveal { to { opacity:1; transform:translateY(0); } }
-.intro-main { font-size:clamp(1.6rem,4.6vw,2.8rem); font-weight:900; line-height:1.4; max-width:16ch; margin:0 auto 28px; animation-delay:.1s; }
-.intro-sub { font-size:clamp(.9rem,2vw,1.05rem); color:rgba(255,255,255,0.55); max-width:42ch; margin:0 auto 14px; line-height:1.9; }
-.intro-sub:nth-of-type(1) { animation-delay:.35s; }
-.intro-sub:nth-of-type(2) { animation-delay:.5s; }
-.intro-sub:nth-of-type(3) { animation-delay:.65s; }
-#intro-cta { animation-delay:.85s; margin-top:26px; }
+        #intro-view { min-height:calc(100vh - 65px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 20px; position:relative; overflow:hidden; }
+        #intro-view::before { content:''; position:absolute; inset:0; background:radial-gradient(650px 400px at 50% 30%, rgba(212,175,55,0.08), transparent 65%); pointer-events:none; }
+        .intro-line { opacity:0; transform:translateY(18px); animation:introReveal .9s cubic-bezier(.2,.8,.2,1) forwards; position:relative; z-index:1; }
+        @keyframes introReveal { to { opacity:1; transform:translateY(0); } }
+        .intro-main { font-size:clamp(1.6rem,4.6vw,2.8rem); font-weight:900; line-height:1.4; max-width:16ch; margin:0 auto 28px; animation-delay:.1s; }
+        .intro-sub { font-size:clamp(.9rem,2vw,1.05rem); color:rgba(255,255,255,0.55); max-width:42ch; margin:0 auto 14px; line-height:1.9; }
+        .intro-sub:nth-of-type(1) { animation-delay:.35s; }
+        .intro-sub:nth-of-type(2) { animation-delay:.5s; }
+        .intro-sub:nth-of-type(3) { animation-delay:.65s; }
+        #intro-cta { animation-delay:.85s; margin-top:26px; }
 
-/* ===== Categories Grid ===== */
-.category-card {
-  position: relative;
-  border:1px solid rgba(255,255,255,0.08);
-  background: linear-gradient(135deg, rgba(20,20,20,0.9), rgba(10,10,10,0.95));
-  border-radius: 20px;
-  overflow: hidden;
-  transition: all .4s cubic-bezier(.2,.8,.2,1);
-  cursor: pointer;
-}
-.category-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(212,175,55,0.4);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 40px rgba(212,175,55,0.1);
-}
-.category-card:hover .category-cover img { transform: scale(1.1); }
-.category-cover {
-  aspect-ratio: 16/10;
-  background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-  position: relative;
-  overflow: hidden;
-}
-.category-cover img {
-  width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s ease;
-}
-.category-cover .icon-fallback {
-  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  font-size:4rem; background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.02));
-}
-.category-cover::after {
-  content:''; position:absolute; inset:0;
-  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%);
-  pointer-events:none;
-}
-.category-info { padding: 1.25rem 1.5rem 1.5rem; position: relative; }
-.category-icon-small {
-  position:absolute; top:-22px; right:1.5rem;
-  width:48px; height:48px; border-radius:14px;
-  background: linear-gradient(135deg, #D4AF37, #F5D060);
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.4rem; box-shadow:0 8px 20px rgba(212,175,55,0.3);
-  border: 3px solid #050505;
-}
-.category-name { font-size:1.05rem; font-weight:800; margin-bottom:0.35rem; }
-.category-desc { font-size:0.82rem; color:rgba(255,255,255,0.45); line-height:1.6; margin-bottom:0.85rem; min-height:2.5em; }
-.category-meta {
-  display:flex; align-items:center; justify-content:space-between;
-  padding-top:0.85rem; border-top:1px solid rgba(255,255,255,0.06);
-}
-.category-count {
-  font-size:0.75rem; color:#D4AF37; font-weight:700;
-  display:flex; align-items:center; gap:0.4rem;
-}
-.category-arrow {
-  width:32px; height:32px; border-radius:50%;
-  background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.2);
-  display:flex; align-items:center; justify-content:center;
-  color:#D4AF37; font-size:0.7rem; transition:all .3s ease;
-}
-.category-card:hover .category-arrow { background:#D4AF37; color:#050505; transform:translateX(-4px); }
+        .category-card { border:1px solid rgba(255,255,255,0.06); transition:all .35s ease; cursor:pointer; }
+        .category-card:hover { transform:translateY(-8px); border-color:rgba(212,175,55,0.3); box-shadow:0 20px 45px rgba(0,0,0,0.5); }
+        .category-card:hover .category-thumb img { transform:scale(1.08); }
+        .category-thumb { aspect-ratio:16/10; background:#111; overflow:hidden; position:relative; }
+        .category-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+        .category-thumb .fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:1.8rem; font-weight:900; color:#D4AF37; background:linear-gradient(135deg,#1a1a1a,#0a0a0a); }
+        .category-count { position:absolute; top:12px; left:12px; background:rgba(5,5,5,0.75); backdrop-filter:blur(6px); border:1px solid rgba(212,175,55,0.3); color:#D4AF37; font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; }
 
-@media (max-width:640px) {
-  .category-icon-small { width:40px; height:40px; font-size:1.2rem; top:-18px; }
-  .category-info { padding: 1rem 1.1rem 1.25rem; }
-}
-</style>
+        .design-slider-wrap { position:relative; margin-bottom:28px; }
+        .design-slider { display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x proximity; padding:4px 2px 10px; -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
+        .design-slider-item { flex:0 0 auto; width:92px; scroll-snap-align:start; cursor:pointer; text-align:center; }
+        .design-slider-thumb { width:92px; height:70px; border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.08); background:#111; transition:all .25s ease; position:relative; }
+        .design-slider-item:hover .design-slider-thumb { border-color:rgba(212,175,55,0.5); transform:translateY(-3px); }
+        .design-slider-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+        .design-slider-thumb .fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:900; color:#D4AF37; background:#1a1a1a; font-size:.9rem; }
+        .design-slider-label { font-size:9.5px; font-family:'Inter',monospace; color:rgba(255,255,255,0.35); margin-top:6px; }
+        .slider-arrow { position:absolute; top:35px; width:30px; height:30px; border-radius:50%; background:rgba(10,10,10,0.85); border:1px solid rgba(212,175,55,0.25); color:#D4AF37; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:5; font-size:11px; }
+        .slider-arrow:hover { background:rgba(212,175,55,0.12); }
+        .slider-arrow--right { right:-6px; }
+        .slider-arrow--left { left:-6px; }
+        @media (max-width:640px) { .slider-arrow { display:none; } }
+    </style>
 </head>
 <body>
 
 <header class="sticky top-0 z-40 bg-dark-950/90 backdrop-blur-md border-b border-white/[0.05] px-4 py-4">
-<div class="max-w-6xl mx-auto flex items-center justify-between">
-<a href="/" class="text-lg font-black gradient-text">SD GENESIS</a>
-<a href="/" class="text-xs text-white/40 hover:text-gold-400 transition-colors"><i class="fa-solid fa-arrow-right ml-1"></i>عودة للرئيسية</a>
-</div>
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+        <a href="/" class="text-lg font-black gradient-text">SD GENESIS</a>
+        <a href="/" class="text-xs text-white/40 hover:text-gold-400 transition-colors"><i class="fa-solid fa-arrow-right ml-1"></i>عودة للرئيسية</a>
+    </div>
 </header>
 
 <main class="max-w-6xl mx-auto px-4 py-10">
 
-<!-- ===== BREADCRUMB ===== -->
-<div id="breadcrumb" class="mb-6 flex items-center gap-2 text-xs text-white/40" hidden>
-  <a href="javascript:void(0)" id="bc-home" class="hover:text-gold-400 transition-colors">
-    <i class="fa-solid fa-house ml-1"></i>الرئيسية
-  </a>
-  <i class="fa-solid fa-chevron-left text-[8px]"></i>
-  <span id="bc-type" class="text-white/60"></span>
-  <i class="fa-solid fa-chevron-left text-[8px] hidden bc-cat-sep"></i>
-  <span id="bc-category" class="text-gold-400 hidden bc-cat-sep"></span>
-</div>
-
-<!-- ===== INTRO VIEW ===== -->
-<div id="intro-view">
-  <p class="intro-line intro-main gradient-text" id="intro-main"></p>
-  <p class="intro-line intro-sub" id="intro-sub-1"></p>
-  <p class="intro-line intro-sub" id="intro-sub-2"></p>
-  <p class="intro-line intro-sub" id="intro-sub-3"></p>
-  <button id="intro-cta" class="intro-line btn-gold px-9 py-4 rounded-full text-sm font-bold">
-    تصفح التصاميم <i class="fa-solid fa-arrow-left mr-2"></i>
-  </button>
-</div>
-
-<!-- ===== CATEGORIES VIEW ===== -->
-<div id="categories-view" hidden>
-  <div class="text-center mb-10">
-    <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-3" id="cat-eyebrow">اختر النوع</span>
-    <h1 class="text-3xl sm:text-4xl font-black mb-3" id="cat-title">التصنيفات</h1>
-    <p class="text-white/40 text-sm max-w-xl mx-auto" id="cat-subtitle">اختر تصنيف مشروعك لعرض التصاميم المناسبة</p>
-  </div>
-  <div id="categories-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  <div id="categories-empty" class="text-center py-20 text-white/30" hidden>
-    <i class="fa-solid fa-folder-open text-3xl mb-4 block"></i>
-    لا توجد تصنيفات متاحة حاليًا — تابعونا قريبًا.
-  </div>
-</div>
-
-<!-- ===== DESIGNS VIEW (per category) ===== -->
-<div id="designs-view" hidden>
-  <div class="text-center mb-10">
-    <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-3" id="designs-eyebrow">اختر تصميمك</span>
-    <h1 class="text-3xl sm:text-4xl font-black mb-3" id="designs-title">التصاميم</h1>
-    <p class="text-white/40 text-sm max-w-xl mx-auto">اختر النموذج الأقرب لفكرتك، ثم صف مشروعك بالتفصيل — سنتواصل معك عبر واتساب.</p>
-  </div>
-  <div class="mb-6 max-w-md mx-auto">
-    <div class="flex items-center gap-2 form-input rounded-full px-5 py-3">
-      <i class="fa-solid fa-magnifying-glass text-white/30 text-sm"></i>
-      <input type="text" id="search-input" placeholder="ابحث في هذا التصنيف…" class="bg-transparent outline-none text-sm w-full" autocomplete="off">
+    <div id="intro-view">
+        <p class="intro-line intro-main gradient-text" id="intro-main"></p>
+        <p class="intro-line intro-sub" id="intro-sub-1"></p>
+        <p class="intro-line intro-sub" id="intro-sub-2"></p>
+        <p class="intro-line intro-sub" id="intro-sub-3"></p>
+        <button id="intro-cta" class="intro-line btn-gold px-9 py-4 rounded-full text-sm font-bold">
+            تصفح التصاميم <i class="fa-solid fa-arrow-left mr-2"></i>
+        </button>
     </div>
-  </div>
-  <div id="designs-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-  <div id="designs-empty" class="text-center py-20 text-white/30" hidden>
-    <i class="fa-solid fa-images text-3xl mb-4 block"></i>
-    لا توجد تصاميم في هذا التصنيف بعد — تابعونا قريبًا.
-  </div>
-</div>
 
-<!-- ===== DETAIL VIEW ===== -->
-<div id="detail-view" hidden>
-  <button id="back-btn" class="text-xs text-gold-400 hover:text-gold-300 mb-6 flex items-center gap-1">
-    <i class="fa-solid fa-arrow-right"></i> <span id="back-btn-text">العودة</span>
-  </button>
-  <div class="grid md:grid-cols-2 gap-8 items-start">
-    <div class="rounded-2xl overflow-hidden border border-white/[0.06]">
-      <div class="design-thumb" id="detail-thumb"></div>
+    <div id="category-view" hidden>
+        <div class="text-center mb-10">
+            <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-3">الخطوة الأولى</span>
+            <h1 class="text-3xl sm:text-4xl font-black mb-3">اختر مجال مشروعك</h1>
+            <p class="text-white/40 text-sm max-w-xl mx-auto">حدد التصنيف الأقرب لطبيعة عملك، وسنعرض لك التصاميم المناسبة له فقط</p>
+        </div>
+        <div id="category-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <div id="category-empty" class="text-center py-20 text-white/30" hidden>
+            <i class="fa-solid fa-layer-group text-3xl mb-4 block"></i>
+            لا توجد تصنيفات مضافة بعد — تابعونا قريبًا.
+        </div>
     </div>
-    <div>
-      <span class="text-[11px] font-mono text-gold-400" id="detail-design-id"></span>
-      <h2 class="text-2xl font-black mt-2 mb-1" id="detail-name"></h2>
-      <span class="inline-block text-xs text-white/40 border border-white/10 rounded-full px-3 py-1 mb-4" id="detail-category"></span>
-      <p class="text-white/50 text-sm leading-relaxed mb-6" id="detail-description"></p>
-      <label class="block text-sm font-medium text-white/70 mb-2" id="detail-message-label">اكتب وصفًا تفصيليًا للمشروع الذي ترغب في إنشائه</label>
-      <textarea id="detail-message" rows="6" placeholder="اكتب هنا كل التفاصيل: الأقسام المطلوبة، الألوان المفضلة، أمثلة تلهمك، أي ميزات خاصة..." class="form-input w-full rounded-xl px-4 py-3 text-sm resize-none mb-4"></textarea>
-      <button id="submit-request-btn" class="btn-gold w-full py-4 rounded-xl text-sm font-bold">
-        <i class="fa-brands fa-whatsapp ml-2"></i>إرسال الطلب عبر واتساب
-      </button>
-      <div id="submit-success" class="mt-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-sm text-center" hidden>
-        <i class="fa-solid fa-circle-check ml-1"></i>
-        تم تجهيز طلبك بنجاح! راجع رسالة واتساب واضغط إرسال — سيقوم فريق SD GENESIS بمراجعة طلبك والتواصل معك لتحديد السعر ومدة التنفيذ.
-      </div>
+
+    <div id="gallery-view" hidden>
+        <button id="back-to-categories" class="text-xs text-gold-400 hover:text-gold-300 mb-6 flex items-center gap-1">
+            <i class="fa-solid fa-arrow-right"></i> تغيير التصنيف
+        </button>
+
+        <div class="text-center mb-10">
+            <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-3" id="gallery-eyebrow">اختر تصميمك</span>
+            <h1 class="text-3xl sm:text-4xl font-black mb-3" id="gallery-title">معرض التصاميم</h1>
+            <p class="text-white/40 text-sm max-w-xl mx-auto">اختر النموذج الأقرب لفكرتك، ثم صف مشروعك بالتفصيل — سنتواصل معك عبر واتساب لتحديد السعر ومدة التنفيذ.</p>
+        </div>
+
+        <div class="mb-6 max-w-md mx-auto">
+            <div class="flex items-center gap-2 form-input rounded-full px-5 py-3">
+                <i class="fa-solid fa-magnifying-glass text-white/30 text-sm"></i>
+                <input type="text" id="search-input" placeholder="ابحث عن تصميم…" class="bg-transparent outline-none text-sm w-full" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="design-slider-wrap" id="slider-wrap" hidden>
+            <button class="slider-arrow slider-arrow--right" id="slider-next"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="slider-arrow slider-arrow--left" id="slider-prev"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="design-slider" id="design-slider"></div>
+        </div>
+
+        <div id="gallery-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <div id="gallery-empty" class="text-center py-20 text-white/30" hidden>
+            <i class="fa-solid fa-images text-3xl mb-4 block"></i>
+            لا توجد تصاميم في هذا التصنيف بعد — تابعونا قريبًا.
+        </div>
     </div>
-  </div>
-</div>
+
+    <div id="detail-view" hidden>
+        <button id="back-to-gallery" class="text-xs text-gold-400 hover:text-gold-300 mb-6 flex items-center gap-1">
+            <i class="fa-solid fa-arrow-right"></i> العودة لكل التصاميم
+        </button>
+
+        <div class="grid md:grid-cols-2 gap-8 items-start">
+            <div class="rounded-2xl overflow-hidden border border-white/[0.06]">
+                <div class="design-thumb" id="detail-thumb"></div>
+            </div>
+
+            <div>
+                <span class="text-[11px] font-mono text-gold-400" id="detail-design-id"></span>
+                <h2 class="text-2xl font-black mt-2 mb-1" id="detail-name"></h2>
+                <span class="inline-block text-xs text-white/40 border border-white/10 rounded-full px-3 py-1 mb-4" id="detail-category"></span>
+                <p class="text-white/50 text-sm leading-relaxed mb-6" id="detail-description"></p>
+
+                <label class="block text-sm font-medium text-white/70 mb-2" id="detail-message-label">اكتب وصفًا تفصيليًا للمشروع الذي ترغب في إنشائه</label>
+                <textarea id="detail-message" rows="6" placeholder="اكتب هنا كل التفاصيل: الأقسام المطلوبة، الألوان المفضلة، أمثلة تلهمك، أي ميزات خاصة..." class="form-input w-full rounded-xl px-4 py-3 text-sm resize-none mb-4"></textarea>
+
+                <button id="submit-request-btn" class="btn-gold w-full py-4 rounded-xl text-sm font-bold">
+                    <i class="fa-brands fa-whatsapp ml-2"></i>إرسال الطلب عبر واتساب
+                </button>
+
+                <div id="submit-success" class="mt-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-sm text-center" hidden>
+                    <i class="fa-solid fa-circle-check ml-1"></i>
+                    تم تجهيز طلبك بنجاح! راجع رسالة واتساب واضغط إرسال — سيقوم فريق SD GENESIS بمراجعة طلبك والتواصل معك لتحديد السعر ومدة التنفيذ.
+                </div>
+            </div>
+        </div>
+    </div>
 
 </main>
 
@@ -221,227 +176,210 @@ animation:shimmer 5s linear infinite;
 const WHATSAPP_NUMBER = '249911920216';
 const params = new URLSearchParams(location.search);
 let currentType = params.get('type') === 'app' ? 'app' : 'website';
-let currentCategory = null; // null = show all / category view
 let currentId = params.get('id') || null;
+let currentCategory = params.get('category') || null;
 
 const typeLabels = {
-  website: {
-    eyebrow: 'تصميم موقع إلكتروني',
-    title: 'معرض تصاميم المواقع الإلكترونية',
-    reqLabel: 'تصميم موقع إلكتروني',
-    descLabel: 'وصف المشروع',
-    messageLabel: 'اكتب وصف الموقع الذي ترغب في إنشائه',
-    intro: {
-      main: 'كل شركة ناجحة بدأت بخطوة، وموقعك هو تلك الخطوة',
-      subs: [
-        'لا تكتفِ بالحضور — كن الخيار الذي يبحث عنه الجميع',
-        'نحن لا نصنع صفحات، بل نصنع تجربة تليق بطموحك',
-        'الاحترافية تبدأ من أول صفحة يراها عميلك، وSD توفرها لك',
-      ],
+    website: {
+        eyebrow: 'تصميم موقع إلكتروني', title: 'معرض تصاميم المواقع الإلكترونية',
+        reqLabel: 'تصميم موقع إلكتروني', descLabel: 'وصف المشروع',
+        messageLabel: 'اكتب وصف الموقع الذي ترغب في إنشائه',
+        intro: {
+            main: 'كل شركة ناجحة بدأت بخطوة، وموقعك هو تلك الخطوة',
+            subs: [
+                'لا تكتفِ بالحضور — كن الخيار الذي يبحث عنه الجميع',
+                'نحن لا نصنع صفحات، بل نصنع تجربة تليق بطموحك',
+                'الاحترافية تبدأ من أول صفحة يراها عميلك، وSD توفرها لك',
+            ],
+        },
     },
-  },
-  app: {
-    eyebrow: 'تصميم تطبيق',
-    title: 'معرض تصاميم التطبيقات',
-    reqLabel: 'تصميم تطبيق',
-    descLabel: 'وصف التطبيق',
-    messageLabel: 'اكتب وصف التطبيق الذي ترغب في إنشائه',
-    intro: {
-      main: 'عندما يصبح الوصول إليك أسهل، يصبح نمو أعمالك أسمر',
-      subs: [
-        'التطبيق الناجح يحول الزائر إلى مستخدم دائم',
-        'التقنية ليست المستقبل فقط، إنها ميزة تنافسية اليوم',
-        'تطبيقك ليس مجرد برنامج، بل تجربة يعيشها عملاؤك كل يوم',
-      ],
+    app: {
+        eyebrow: 'تصميم تطبيق', title: 'معرض تصاميم التطبيقات',
+        reqLabel: 'تصميم تطبيق', descLabel: 'وصف التطبيق',
+        messageLabel: 'اكتب وصف التطبيق الذي ترغب في إنشائه',
+        intro: {
+            main: 'عندما يصبح الوصول إليك أسهل، يصبح نمو أعمالك أسهل',
+            subs: [
+                'التطبيق الناجح يحول الزائر إلى مستخدم دائم',
+                'التقنية ليست المستقبل فقط، إنها ميزة تنافسية اليوم',
+                'تطبيقك ليس مجرد برنامج، بل تجربة يعيشها عملاؤك كل يوم',
+            ],
+        },
     },
-  },
 };
 
-// ===== Elements =====
 const introView = document.getElementById('intro-view');
-const categoriesView = document.getElementById('categories-view');
-const designsView = document.getElementById('designs-view');
+const categoryView = document.getElementById('category-view');
+const categoryGrid = document.getElementById('category-grid');
+const categoryEmpty = document.getElementById('category-empty');
+const galleryView = document.getElementById('gallery-view');
 const detailView = document.getElementById('detail-view');
-const breadcrumb = document.getElementById('breadcrumb');
+const galleryGrid = document.getElementById('gallery-grid');
+const galleryEmpty = document.getElementById('gallery-empty');
+const searchInput = document.getElementById('search-input');
+const sliderWrap = document.getElementById('slider-wrap');
+const designSlider = document.getElementById('design-slider');
 
-// ===== State =====
-let allCategories = [];
-let allDesigns = [];
-let currentView = 'intro'; // 'intro' | 'categories' | 'designs' | 'detail'
-
-// ===== Set page labels =====
+document.getElementById('gallery-eyebrow').textContent = typeLabels[currentType].eyebrow;
+document.getElementById('gallery-title').textContent = typeLabels[currentType].title;
+document.getElementById('detail-message-label').textContent = typeLabels[currentType].messageLabel;
 document.getElementById('intro-main').textContent = typeLabels[currentType].intro.main;
 document.getElementById('intro-sub-1').textContent = typeLabels[currentType].intro.subs[0];
 document.getElementById('intro-sub-2').textContent = typeLabels[currentType].intro.subs[1];
 document.getElementById('intro-sub-3').textContent = typeLabels[currentType].intro.subs[2];
-document.getElementById('detail-message-label').textContent = typeLabels[currentType].messageLabel;
-document.getElementById('bc-type').textContent = typeLabels[currentType].title;
 
-// ===== Render functions =====
+let allDesigns = [];
+let allCategories = [];
+
 function thumbHTML(d) {
-  return d.image_url
-    ? `<img src="${d.image_url}" loading="lazy" alt="${d.name}" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'fallback\\'>${d.name.charAt(0)}</div>'">`
-    : `<div class="fallback">${d.name.charAt(0)}</div>`;
+    return d.image_url
+        ? `<img src="${d.image_url}" loading="lazy" alt="${d.name}" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'fallback\\'>${d.name.charAt(0)}</div>'">`
+        : `<div class="fallback">${d.name.charAt(0)}</div>`;
+}
+
+function categoryThumbHTML(c) {
+    return c.image_url
+        ? `<img src="${c.image_url}" loading="lazy" alt="${c.name}" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'fallback\\'>${c.name.charAt(0)}</div>'">`
+        : `<div class="fallback">${c.name.charAt(0)}</div>`;
+}
+
+function categoryCardHTML(c) {
+    return `
+    <div class="category-card bg-dark-800/60 rounded-2xl overflow-hidden" data-name="${c.name}">
+        <div class="category-thumb">
+            ${categoryThumbHTML(c)}
+            <span class="category-count">${c.design_count} تصميم</span>
+        </div>
+        <div class="p-5">
+            <h3 class="font-bold text-base mb-1">${c.name}</h3>
+            <p class="text-white/40 text-xs leading-relaxed">${c.description || ''}</p>
+        </div>
+    </div>`;
+}
+
+async function loadCategories() {
+    categoryGrid.innerHTML = Array(3).fill('<div class="skeleton rounded-2xl h-52"></div>').join('');
+    try {
+        const res = await fetch(`/api/design-categories/${currentType}`);
+        allCategories = await res.json();
+        if (!allCategories.length) { categoryGrid.innerHTML = ''; categoryEmpty.hidden = false; return; }
+        categoryEmpty.hidden = true;
+        categoryGrid.innerHTML = allCategories.map(categoryCardHTML).join('');
+        categoryGrid.querySelectorAll('.category-card').forEach((card) =>
+            card.addEventListener('click', () => selectCategory(card.dataset.name)));
+    } catch {
+        categoryGrid.innerHTML = '<p class="text-white/30 text-sm col-span-full text-center py-10">تعذّر التحميل، حاول لاحقًا.</p>';
+    }
+}
+
+function selectCategory(name) {
+    currentCategory = name;
+    history.pushState({}, '', `?type=${currentType}&category=${encodeURIComponent(name)}`);
+    introView.hidden = true;
+    categoryView.hidden = true;
+    detailView.hidden = true;
+    galleryView.hidden = false;
+    document.getElementById('gallery-title').textContent = name;
+    if (!allDesigns.length) loadGallery();
+    else renderGallery(filterByCategory(allDesigns));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function filterByCategory(list) {
+    return currentCategory ? list.filter((d) => d.category === currentCategory) : list;
 }
 
 function cardHTML(d) {
-  return `
-  <div class="design-card bg-dark-800/60 rounded-2xl overflow-hidden" data-id="${d.id}">
-    <div class="design-thumb">${thumbHTML(d)}</div>
-    <div class="p-5">
-      <div class="flex items-center justify-between mb-2">
-        <h3 class="font-bold text-sm">${d.name}</h3>
-        <span class="text-[10px] font-mono text-gold-400">${d.design_id}</span>
-      </div>
-      ${d.category ? `<span class="inline-block text-[11px] text-white/40 border border-white/10 rounded-full px-2.5 py-0.5 mb-3">${d.category}</span>` : ''}
-      <p class="text-white/40 text-xs leading-relaxed mb-4 line-clamp-2">${d.description || ''}</p>
-      <button class="btn-gold w-full py-2.5 rounded-full text-xs">اختيار هذا التصميم</button>
-    </div>
-  </div>`;
-}
-
-function categoryCardHTML(cat) {
-  const coverContent = cat.cover_image
-    ? `<img src="${cat.cover_image}" loading="lazy" alt="${cat.name}" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'icon-fallback\\'>${cat.icon || '📁'}</div>'">`
-    : `<div class="icon-fallback">${cat.icon || '📁'}</div>`;
-  
-  return `
-  <div class="category-card" data-id="${cat.id}">
-    <div class="category-cover">
-      ${coverContent}
-    </div>
-    <div class="category-info">
-      <div class="category-icon-small">${cat.icon || '📁'}</div>
-      <h3 class="category-name">${cat.name}</h3>
-      <p class="category-desc">${cat.description || 'تصاميم احترافية مخصصة لهذا المجال'}</p>
-      <div class="category-meta">
-        <span class="category-count">
-          <i class="fa-solid fa-images"></i>
-          ${cat.design_count || 0} ${(cat.design_count || 0) === 1 ? 'تصميم' : 'تصميم'}
-        </span>
-        <div class="category-arrow">
-          <i class="fa-solid fa-arrow-left"></i>
+    return `
+    <div class="design-card bg-dark-800/60 rounded-2xl overflow-hidden" data-id="${d.id}">
+        <div class="design-thumb">${thumbHTML(d)}</div>
+        <div class="p-5">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="font-bold text-sm">${d.name}</h3>
+                <span class="text-[10px] font-mono text-gold-400">${d.design_id}</span>
+            </div>
+            <span class="inline-block text-[11px] text-white/40 border border-white/10 rounded-full px-2.5 py-0.5 mb-3">${d.category || 'عام'}</span>
+            <p class="text-white/40 text-xs leading-relaxed mb-4 line-clamp-2">${d.description || ''}</p>
+            <button class="btn-gold w-full py-2.5 rounded-full text-xs">اختيار هذا التصميم</button>
         </div>
-      </div>
-    </div>
-  </div>`;
+    </div>`;
 }
 
-// ===== Navigation =====
-function showView(view) {
-  currentView = view;
-  introView.hidden = view !== 'intro';
-  categoriesView.hidden = view !== 'categories';
-  designsView.hidden = view !== 'designs';
-  detailView.hidden = view !== 'detail';
-  
-  // Breadcrumb
-  if (view === 'designs' && currentCategory) {
-    breadcrumb.hidden = false;
-    document.getElementById('bc-type').textContent = typeLabels[currentType].title;
-    document.querySelectorAll('.bc-cat-sep').forEach(el => el.classList.remove('hidden'));
-    const cat = allCategories.find(c => c.id === currentCategory);
-    document.getElementById('bc-category').textContent = cat ? cat.name : '';
-  } else if (view === 'categories') {
-    breadcrumb.hidden = false;
-    document.getElementById('bc-type').textContent = typeLabels[currentType].title;
-    document.querySelectorAll('.bc-cat-sep').forEach(el => el.classList.add('hidden'));
-  } else if (view === 'detail') {
-    breadcrumb.hidden = false;
-    document.getElementById('bc-type').textContent = typeLabels[currentType].title;
-    document.querySelectorAll('.bc-cat-sep').forEach(el => el.classList.remove('hidden'));
-    const cat = allCategories.find(c => c.id === currentCategory);
-    document.getElementById('bc-category').textContent = cat ? cat.name : 'كل التصاميم';
-  } else {
-    breadcrumb.hidden = true;
-  }
-  
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function sliderItemHTML(d) {
+    const thumb = d.image_url
+        ? `<img src="${d.image_url}" loading="lazy" alt="" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'fallback\\'>${d.name.charAt(0)}</div>'">`
+        : `<div class="fallback">${d.name.charAt(0)}</div>`;
+    return `
+    <div class="design-slider-item" data-id="${d.id}">
+        <div class="design-slider-thumb">${thumb}</div>
+        <div class="design-slider-label">${d.design_id}</div>
+    </div>`;
 }
 
-// ===== Load categories =====
-async function loadCategories() {
-  const grid = document.getElementById('categories-grid');
-  const empty = document.getElementById('categories-empty');
-  
-  grid.innerHTML = Array(4).fill('<div class="skeleton rounded-2xl h-64"></div>').join('');
-  
-  try {
-    const res = await fetch(`/api/categories/${currentType}`);
-    allCategories = await res.json();
-    
-    if (!allCategories.length) {
-      grid.innerHTML = '';
-      empty.hidden = false;
-      return;
+async function loadGallery() {
+    galleryGrid.innerHTML = Array(6).fill('<div class="skeleton rounded-2xl h-64"></div>').join('');
+    try {
+        const res = await fetch(`/api/designs/${currentType}`);
+        allDesigns = await res.json();
+        const filtered = filterByCategory(allDesigns);
+        renderGallery(filtered);
+        renderSlider(filtered);
+    } catch {
+        galleryGrid.innerHTML = '<p class="text-white/30 text-sm col-span-full text-center py-10">تعذّر التحميل، حاول لاحقًا.</p>';
     }
-    
-    empty.hidden = true;
-    grid.innerHTML = allCategories.map(categoryCardHTML).join('');
-    
-    grid.querySelectorAll('.category-card').forEach(card => {
-      card.addEventListener('click', () => {
-        currentCategory = card.dataset.id;
-        history.pushState({}, '', `?type=${currentType}&category=${currentCategory}`);
-        loadDesigns();
-        showView('designs');
-      });
-    });
-  } catch (err) {
-    grid.innerHTML = '<p class="text-white/30 text-sm col-span-full text-center py-10">تعذّر التحميل، حاول لاحقًا.</p>';
-  }
 }
 
-// ===== Load designs for a category =====
-async function loadDesigns() {
-  const grid = document.getElementById('designs-grid');
-  const empty = document.getElementById('designs-empty');
-  
-  grid.innerHTML = Array(6).fill('<div class="skeleton rounded-2xl h-64"></div>').join('');
-  
-  const cat = allCategories.find(c => c.id === currentCategory);
-  if (cat) {
-    document.getElementById('designs-eyebrow').textContent = cat.name;
-    document.getElementById('designs-title').textContent = `تصاميم ${cat.name}`;
-  }
-  
-  try {
-    const url = currentCategory 
-      ? `/api/designs/${currentType}?category=${currentCategory}`
-      : `/api/designs/${currentType}`;
-    const res = await fetch(url);
-    allDesigns = await res.json();
-    
-    renderDesigns(allDesigns);
-  } catch (err) {
-    grid.innerHTML = '<p class="text-white/30 text-sm col-span-full text-center py-10">تعذّر التحميل، حاول لاحقًا.</p>';
-  }
+function renderGallery(list) {
+    if (!list.length) { galleryGrid.innerHTML = ''; galleryEmpty.hidden = false; return; }
+    galleryEmpty.hidden = true;
+    galleryGrid.innerHTML = list.map(cardHTML).join('');
+    galleryGrid.querySelectorAll('.design-card').forEach((card) =>
+        card.addEventListener('click', () => showDetail(card.dataset.id)));
 }
 
-function renderDesigns(list) {
-  const grid = document.getElementById('designs-grid');
-  const empty = document.getElementById('designs-empty');
-  
-  if (!list.length) {
-    grid.innerHTML = '';
-    empty.hidden = false;
-    return;
-  }
-  empty.hidden = true;
-  grid.innerHTML = list.map(cardHTML).join('');
-  grid.querySelectorAll('.design-card').forEach(card => {
-    card.addEventListener('click', () => showDetail(card.dataset.id));
-  });
+function renderSlider(list) {
+    if (!list.length) { sliderWrap.hidden = true; return; }
+    sliderWrap.hidden = false;
+    designSlider.innerHTML = list.map(sliderItemHTML).join('');
+    designSlider.querySelectorAll('.design-slider-item').forEach((item) =>
+        item.addEventListener('click', () => showDetail(item.dataset.id)));
 }
 
-// ===== Detail view =====
+document.getElementById('slider-next').addEventListener('click', () => designSlider.scrollBy({ left: -260, behavior: 'smooth' }));
+document.getElementById('slider-prev').addEventListener('click', () => designSlider.scrollBy({ left: 260, behavior: 'smooth' }));
+
+searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    const base = filterByCategory(allDesigns);
+    renderGallery(base.filter((d) => d.name.toLowerCase().includes(q) || (d.category || '').toLowerCase().includes(q)));
+});
+
+function enterCategoryPicker() {
+    introView.hidden = true;
+    galleryView.hidden = true;
+    categoryView.hidden = false;
+    if (!allCategories.length) loadCategories();
+}
+
+document.getElementById('intro-cta').addEventListener('click', () => {
+    history.pushState({}, '', `?type=${currentType}`);
+    enterCategoryPicker();
+});
+
+document.getElementById('back-to-categories').addEventListener('click', () => {
+    currentCategory = null;
+    history.pushState({}, '', `?type=${currentType}`);
+    galleryView.hidden = true;
+    enterCategoryPicker();
+});
+
 async function showDetail(id) {
-  try {
     const res = await fetch(`/api/designs/${currentType}/${id}`);
     if (!res.ok) return;
     const d = await res.json();
     currentId = id;
-    history.pushState({}, '', `?type=${currentType}&category=${currentCategory || 'all'}&id=${id}`);
+
+    history.pushState({}, '', `?type=${currentType}&category=${encodeURIComponent(currentCategory || '')}&id=${id}`);
     document.getElementById('detail-thumb').innerHTML = thumbHTML(d);
     document.getElementById('detail-design-id').textContent = d.design_id;
     document.getElementById('detail-name').textContent = d.name;
@@ -449,130 +387,57 @@ async function showDetail(id) {
     document.getElementById('detail-description').textContent = d.description || '';
     document.getElementById('detail-message').value = '';
     document.getElementById('submit-success').hidden = true;
-    
-    // Update back button text
-    const cat = allCategories.find(c => c.id === currentCategory);
-    document.getElementById('back-btn-text').textContent = cat ? `العودة لـ ${cat.name}` : 'العودة لكل التصاميم';
-    
-    showView('detail');
-    
+
+    introView.hidden = true;
+    categoryView.hidden = true;
+    galleryView.hidden = true;
+    detailView.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     document.getElementById('submit-request-btn').onclick = () => submitRequest(d);
-  } catch (err) {
-    console.error(err);
-  }
 }
 
 function submitRequest(d) {
-  const desc = document.getElementById('detail-message').value.trim();
-  if (!desc) { 
-    document.getElementById('detail-message').focus(); 
-    return; 
-  }
-  const labels = typeLabels[currentType];
-  const text =
-    `مرحبًا، أرغب في طلب ${labels.reqLabel}.
+    const desc = document.getElementById('detail-message').value.trim();
+    if (!desc) { document.getElementById('detail-message').focus(); return; }
+
+    const labels = typeLabels[currentType];
+    const text =
+`مرحبًا، أرغب في طلب ${labels.reqLabel}.
+
 اسم التصميم:
 ${d.name}
+
 رقم التصميم (Design ID):
 ${d.design_id}
+
 نوع التصميم:
 ${d.category || 'عام'}
+
 ${labels.descLabel}:
 ${desc}`;
-  fetch(`/api/designs/${currentType}/${d.id}/select`, { method: 'POST' }).catch(() => {});
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
-  document.getElementById('submit-success').hidden = false;
+
+    fetch(`/api/designs/${currentType}/${d.id}/select`, { method: 'POST' }).catch(() => {});
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+    document.getElementById('submit-success').hidden = false;
 }
 
-// ===== Search =====
-document.getElementById('search-input').addEventListener('input', (e) => {
-  const q = e.target.value.trim().toLowerCase();
-  renderDesigns(allDesigns.filter(d => 
-    d.name.toLowerCase().includes(q) || 
-    (d.category || '').toLowerCase().includes(q) ||
-    d.design_id.toLowerCase().includes(q)
-  ));
+document.getElementById('back-to-gallery').addEventListener('click', () => {
+    history.pushState({}, '', `?type=${currentType}&category=${encodeURIComponent(currentCategory || '')}`);
+    detailView.hidden = true;
+    galleryView.hidden = false;
 });
 
-// ===== Buttons =====
-document.getElementById('intro-cta').addEventListener('click', () => {
-  history.pushState({}, '', `?type=${currentType}`);
-  loadCategories();
-  showView('categories');
-});
-
-document.getElementById('back-btn').addEventListener('click', () => {
-  history.pushState({}, '', `?type=${currentType}${currentCategory ? `&category=${currentCategory}` : ''}`);
-  showView('designs');
-});
-
-document.getElementById('bc-home').addEventListener('click', (e) => {
-  e.preventDefault();
-  currentCategory = null;
-  history.pushState({}, '', `?type=${currentType}`);
-  showView('categories');
-});
-
-document.getElementById('bc-type').addEventListener('click', () => {
-  currentCategory = null;
-  history.pushState({}, '', `?type=${currentType}`);
-  showView('categories');
-});
-
-document.getElementById('bc-category').addEventListener('click', () => {
-  if (currentCategory) {
-    history.pushState({}, '', `?type=${currentType}&category=${currentCategory}`);
-    showView('designs');
-  }
-});
-
-// ===== Init: handle deep links =====
-async function init() {
-  // Set category view labels
-  document.getElementById('cat-eyebrow').textContent = typeLabels[currentType].eyebrow;
-  document.getElementById('cat-title').textContent = `اختر ${typeLabels[currentType].eyebrow}`;
-  document.getElementById('cat-subtitle').textContent = `اختر تصنيف مشروعك لعرض ${typeLabels[currentType].eyebrow} المناسبة`;
-  
-  // Load categories first
-  await loadCategories();
-  
-  // Handle deep link
-  const categoryParam = params.get('category');
-  if (categoryParam) {
-    currentCategory = categoryParam;
-  }
-  
-  if (currentId) {
-    // Deep link to a specific design
-    await loadDesigns();
-    showView('detail');
-    // Note: showDetail will fetch the specific design
-    const d = allDesigns.find(x => x.id === currentId);
-    if (d) {
-      document.getElementById('detail-thumb').innerHTML = thumbHTML(d);
-      document.getElementById('detail-design-id').textContent = d.design_id;
-      document.getElementById('detail-name').textContent = d.name;
-      document.getElementById('detail-category').textContent = d.category || 'عام';
-      document.getElementById('detail-description').textContent = d.description || '';
-      document.getElementById('detail-message').value = '';
-      document.getElementById('submit-success').hidden = true;
-      const cat = allCategories.find(c => c.id === currentCategory);
-      document.getElementById('back-btn-text').textContent = cat ? `العودة لـ ${cat.name}` : 'العودة لكل التصاميم';
-      document.getElementById('submit-request-btn').onclick = () => submitRequest(d);
-    }
-  } else if (currentCategory) {
-    // Deep link to a category
-    await loadDesigns();
-    showView('designs');
-  } else if (params.has('type')) {
-    // Skip intro, show categories
-    showView('categories');
-  }
-  // Otherwise show intro (default)
+if (currentId) {
+    (async () => { await loadGallery(); showDetail(currentId); })();
+} else if (currentCategory) {
+    categoryView.hidden = true;
+    introView.hidden = true;
+    galleryView.hidden = false;
+    document.getElementById('gallery-title').textContent = currentCategory;
+    loadGallery();
 }
-
-init();
 </script>
 
 </body>
-    </html>
+</html>
