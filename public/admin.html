@@ -265,7 +265,7 @@ body { font-family: 'Inter', system-ui, sans-serif; }
 <label class="block flex-1"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">رقم التصميم (Design ID)</span>
 <input type="text" name="design_id" placeholder="يُنشأ تلقائيًا إن تُرك فارغًا" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
 <label class="block flex-1"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">التصنيف</span>
-<select name="category" id="design-form-category" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+<select name="category_id" id="design-form-category" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
 <option value="">— اختر تصنيفًا —</option>
 </select></label>
 </div>
@@ -719,8 +719,8 @@ categoryGrid.querySelectorAll('[data-delete-cat]').forEach((b) => b.addEventList
 }
 
 async function deleteCategory(id) {
-if (!confirm('حذف هذا التصنيف؟')) return;
-try { await api(`/design-categories/${currentDesignType}/${id}`, { method: 'DELETE' }); loadCategories(); }
+if (!confirm('حذف هذا التصنيف؟ ستفقد التصاميم المرتبطة به ربطها بالتصنيف.')) return;
+try { await api(`/design-categories/${currentDesignType}/${id}`, { method: 'DELETE' }); loadCategories(); loadDesigns(); }
 catch (err) { alert(err.message); }
 }
 
@@ -765,7 +765,7 @@ submitBtn.textContent = 'حفظ التصنيف';
 function populateCategorySelect() {
 const select = document.getElementById('design-form-category');
 const notice = document.getElementById('design-form-no-categories');
-select.innerHTML = '<option value="">— اختر تصنيفًا —</option>' + categoriesCache.map((c) => `<option value="${c.name}">${c.name}</option>`).join('');
+select.innerHTML = '<option value="">— اختر تصنيفًا —</option>' + categoriesCache.map((c) => `<option value="${c._id}">${c.name}</option>`).join('');
 notice.classList.toggle('hidden', categoriesCache.length > 0);
 }
 
@@ -845,7 +845,7 @@ designForm.elements.id.value = design?._id || '';
 if (design) {
 designForm.elements.name.value = design.name;
 designForm.elements.design_id.value = design.design_id;
-designForm.elements.category.value = design.category || '';
+designForm.elements.category_id.value = design.category_id || '';
 designForm.elements.description.value = design.description || '';
 designForm.elements.visible.checked = design.visible;
 } else { designForm.elements.visible.checked = true; }
