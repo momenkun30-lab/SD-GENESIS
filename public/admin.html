@@ -521,7 +521,42 @@ document.getElementById('new-app-btn').addEventListener('click', () => openForm(
 document.getElementById('form-modal-close').addEventListener('click', () => formModal.classList.add('hidden'));
 formModal.addEventListener('click', (e) => { if (e.target === formModal) formModal.classList.add('hidden'); });
 
-function uploadWithProgress(path, method, formData, onProgress) {
+// Uploads each File straight to Supabase (signed URL) so Vercel's 4.5MB body limit never applies,
+// then swaps the File for a tiny marker the server understands.
+function putToSigned(signedUrl, file, onPct) {
+return new Promise((resolve, reject) => {
+const x = new XMLHttpRequest();
+x.open('PUT', signedUrl);
+x.upload.onprogress = (e) => { if (e.lengthComputable) onPct(e.loaded / e.total); };
+x.onload = () => (x.status >= 200 && x.status < 300) ? resolve() : reject(new Error('فشل رفع الملف إلى التخزين (' + x.status + ')'));
+x.onerror = () => reject(new Error('انقطع الاتصال أثناء رفع الملف'));
+const body = new FormData();
+body.append('cacheControl', '3600');
+body.append('', file);
+x.send(body);
+});
+}
+async function directUploadFiles(formData, onProgress) {
+const entries = [];
+for (const [k, v] of formData.entries()) if (v instanceof File && v.size > 0) entries.push([k, v]);
+const total = entries.reduce((a, [, f]) => a + f.size, 0) || 1;
+let done = 0;
+for (const [k] of entries) formData.delete(k);
+for (const [k, f] of entries) {
+if (f.size > 49 * 1024 * 1024) throw new Error('الحد الأقصى لحجم الملف 49 ميجابايت');
+const r = await fetch('/api/admin/upload/sign', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename: f.name, size: f.size }) });
+const info = await r.json().catch(() => ({}));
+if (r.status === 401) { showLogin(); throw new Error('unauthorized'); }
+if (!r.ok) throw new Error(info.error || 'تعذر تجهيز الرفع');
+await putToSigned(info.signedUrl, f, (p) => onProgress(Math.round(((done + f.size * p) / total) * 100)));
+done += f.size;
+formData.append(k, new Blob([JSON.stringify({ path: info.path, size: f.size, type: f.type })], { type: 'application/x-preuploaded' }), f.name);
+}
+onProgress(100);
+}
+
+async function uploadWithProgress(path, method, formData, onProgress) {
+await directUploadFiles(formData, onProgress);
 return new Promise((resolve, reject) => {
 const xhr = new XMLHttpRequest();
 xhr.open(method, `/api/admin${path}`);
