@@ -9,20 +9,13 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
   console.error('خطأ: SUPABASE_URL أو SUPABASE_SERVICE_ROLE_KEY غير معرّفين في متغيرات البيئة.');
 }
 
-// storage-js talks to Supabase's Storage REST API directly — no Realtime/Auth
-// modules pulled in, so it doesn't need a native WebSocket implementation.
 const storageClient = new StorageClient(`${SUPABASE_URL}/storage/v1`, {
   apikey: SUPABASE_SERVICE_ROLE_KEY,
   Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
 });
 
-/**
- * Uploads a Buffer to the Supabase Storage bucket.
- * @param {Buffer} buffer
- * @param {{ folder: string, filename?: string, contentType?: string }} opts
- * @returns {Promise<{url: string, publicId: string}>} publicId is the storage path, used later for deletion
- */
 async function uploadBuffer(buffer, { folder, filename, contentType }) {
+  if (buffer && buffer.__pre) return buffer.__pre;
   const ext = filename ? filename.split('.').pop() : 'bin';
   const path = `${folder}/${uuidv4()}.${ext}`;
 
@@ -36,7 +29,6 @@ async function uploadBuffer(buffer, { folder, filename, contentType }) {
   return { url: data.publicUrl, publicId: path };
 }
 
-/** Deletes a previously-uploaded file by its storage path. Fails silently. */
 async function deleteByPublicId(publicId) {
   if (!publicId) return;
   try {
@@ -47,4 +39,17 @@ async function deleteByPublicId(publicId) {
   }
 }
 
-module.exports = { uploadBuffer, deleteByPublicId };
+async function createSignedUpload(folder, filename) {
+  const ext = (filename || 'bin').split('.').pop().replace(/[^a-z0-9]/gi, '').toLowerCase() || 'bin';
+  const path = `${folder}/${uuidv4()}.${ext}`;
+  const { data, error } = await storageClient.from(BUCKET).createSignedUploadUrl(path);
+  if (error) throw new Error(`تعذر إنشاء رابط الرفع: ${error.message}`);
+  const pub = storageClient.from(BUCKET).getPublicUrl(path);
+  return { signedUrl: data.signedUrl, path, publicUrl: pub.data.publicUrl };
+}
+
+function publicUrlFor(path) {
+  return storageClient.from(BUCKET).getPublicUrl(path).data.publicUrl;
+}
+
+module.exports = { uploadBuffer, deleteByPublicId, createSignedUpload, publicUrlFor };
