@@ -86,6 +86,10 @@ body { font-family: 'Inter', system-ui, sans-serif; }
 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 6h16M4 6a2 2 0 012-2h12a2 2 0 012 2M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6"/></svg>
 معرض التصاميم
 </button>
+<button data-nav="videos" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+تصميم الفيديو
+</button>
 </div>
 </aside>
 
@@ -209,6 +213,14 @@ body { font-family: 'Inter', system-ui, sans-serif; }
 </div>
 </div>
 
+<div data-section-panel="videos" class="space-y-6">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div><h1 class="text-2xl font-bold">تصميم الفيديو</h1><p class="text-slate-500 dark:text-slate-400 text-sm mt-1">الفيديوهات المعروضة في الموقع — أي تعديل يظهر مباشرة</p></div>
+<button id="video-new-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">+ فيديو جديد</button>
+</div>
+<div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"><p class="text-slate-400 text-sm">جارٍ التحميل…</p></div>
+</div>
+
 <div data-section-panel="analytics" class="space-y-6">
 <div><h1 class="text-2xl font-bold">التحليلات</h1><p class="text-slate-500 dark:text-slate-400 text-sm mt-1">التنزيلات اليومية خلال آخر 30 يومًا</p></div>
 <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
@@ -281,6 +293,36 @@ body { font-family: 'Inter', system-ui, sans-serif; }
 </div>
 </div>
 
+<div id="video-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+<div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
+<button id="video-form-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
+<h2 id="video-form-title" class="text-lg font-bold mb-5">فيديو جديد</h2>
+<form id="video-form" class="space-y-4">
+<input type="hidden" name="id">
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">عنوان الفيديو</span>
+<input type="text" name="title" required class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">وصف الفيديو</span>
+<textarea name="description" rows="3" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<div class="flex gap-4">
+<label class="block flex-1"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">نوع الفيديو</span>
+<input type="text" name="video_type" list="video-type-list" placeholder="مثال: إعلان" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block flex-1"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">نوع التصميم</span>
+<input type="text" name="design_type" list="design-type-list" placeholder="مثال: موشن جرافيك" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+</div>
+<datalist id="video-type-list"></datalist>
+<datalist id="design-type-list"></datalist>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">ملف الفيديو (mp4 / webm / mov — حتى 49 ميجابايت)</span>
+<input type="file" name="video" accept="video/mp4,video/webm,video/quicktime" class="mt-1 w-full text-sm text-slate-500"></label>
+<p id="video-form-current" class="text-xs text-slate-400 hidden"></p>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">الصورة المصغرة</span>
+<input type="file" name="thumbnail" accept="image/png,image/jpeg,image/webp" class="mt-1 w-full text-sm text-slate-500"></label>
+<label class="flex items-center gap-2 text-sm"><input type="checkbox" name="visible" checked class="w-4 h-4">ظاهر للعملاء</label>
+<p id="video-form-error" class="text-sm text-red-500 hidden"></p>
+<button type="submit" id="video-form-submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">حفظ الفيديو</button>
+</form>
+</div>
+</div>
+
 <div id="category-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
 <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
 <button id="category-form-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
@@ -337,6 +379,7 @@ if (section === 'apps') loadApps();
 if (section === 'analytics') loadAnalytics();
 if (section === 'branding') loadBranding();
 if (section === 'designs') { loadCategories(); loadDesigns(); }
+if (section === 'videos') loadVideos();
 toggleSidebar(false);
 }
 navButtons.forEach((btn) => btn.addEventListener('click', () => navigate(btn.dataset.nav)));
@@ -909,6 +952,110 @@ designFormError.classList.remove('hidden');
 } finally {
 submitBtn.disabled = false;
 submitBtn.textContent = 'حفظ التصميم';
+}
+});
+
+// ===== Videos manager =====
+let videosCache = [];
+const videoGrid = document.getElementById('video-grid');
+const esc = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+async function loadVideos() {
+videoGrid.innerHTML = '<p class="text-slate-400 text-sm">جارٍ التحميل…</p>';
+try { videosCache = await api('/videos'); renderVideos(); }
+catch (err) { videoGrid.innerHTML = `<p class="text-red-500 text-sm">${esc(err.message)}</p>`; }
+}
+function renderVideos() {
+if (!videosCache.length) { videoGrid.innerHTML = '<p class="text-slate-400 text-sm col-span-full text-center py-10">لا توجد فيديوهات بعد — اضغط "+ فيديو جديد"</p>'; return; }
+videoGrid.innerHTML = videosCache.map((v, i) => `
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+<div class="h-40 bg-slate-100 dark:bg-slate-800 overflow-hidden">
+${v.thumbnail_url ? `<img src="${esc(v.thumbnail_url)}" class="w-full h-full object-cover" alt="">` : `<video src="${esc(v.video_url)}#t=0.5" preload="metadata" muted class="w-full h-full object-cover"></video>`}
+</div>
+<div class="p-4">
+<div class="flex items-center justify-between gap-2 mb-1">
+<h3 class="font-bold text-sm truncate">${esc(v.title)}</h3>
+<span class="shrink-0 px-2 py-0.5 text-[10px] rounded-full ${v.visible ? 'bg-green-50 dark:bg-green-900/20 text-green-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">${v.visible ? 'ظاهر' : 'مخفي'}</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-3">${esc(v.video_type || 'بلا نوع')} · ${esc(v.design_type || 'بلا تصميم')}</p>
+<div class="grid grid-cols-2 gap-1.5">
+<button data-vedit="${v._id}" class="py-1.5 text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/20 rounded-lg">تعديل</button>
+<button data-vdelete="${v._id}" class="py-1.5 text-xs font-medium text-red-600 bg-red-50 dark:bg-red-900/20 rounded-lg">حذف</button>
+<button data-vtoggle="${v._id}" data-visible="${v.visible}" class="py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg">${v.visible ? 'إخفاء' : 'إظهار'}</button>
+<div class="flex gap-1">
+<button data-vmove="${v._id}" data-dir="up" class="flex-1 py-1.5 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg" ${i === 0 ? 'disabled style="opacity:.35"' : ''}>↑</button>
+<button data-vmove="${v._id}" data-dir="down" class="flex-1 py-1.5 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg" ${i === videosCache.length - 1 ? 'disabled style="opacity:.35"' : ''}>↓</button>
+</div>
+</div>
+</div>
+</div>`).join('');
+videoGrid.querySelectorAll('[data-vedit]').forEach((b) => b.addEventListener('click', () => openVideoForm(videosCache.find((v) => v._id === b.dataset.vedit))));
+videoGrid.querySelectorAll('[data-vdelete]').forEach((b) => b.addEventListener('click', async () => {
+if (!confirm('حذف هذا الفيديو نهائيًا؟')) return;
+try { await api(`/videos/${b.dataset.vdelete}`, { method: 'DELETE' }); loadVideos(); } catch (err) { alert(err.message); }
+}));
+videoGrid.querySelectorAll('[data-vtoggle]').forEach((b) => b.addEventListener('click', async () => {
+try {
+const fd = new FormData(); fd.set('visible', (b.dataset.visible !== 'true').toString());
+await api(`/videos/${b.dataset.vtoggle}`, { method: 'PUT', body: fd }); loadVideos();
+} catch (err) { alert(err.message); }
+}));
+videoGrid.querySelectorAll('[data-vmove]').forEach((b) => b.addEventListener('click', async () => {
+try {
+await api(`/videos/${b.dataset.vmove}/move`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ direction: b.dataset.dir }) });
+loadVideos();
+} catch (err) { alert(err.message); }
+}));
+}
+
+const videoFormModal = document.getElementById('video-form-modal');
+const videoForm = document.getElementById('video-form');
+const videoFormError = document.getElementById('video-form-error');
+const videoFormCurrent = document.getElementById('video-form-current');
+
+function openVideoForm(v = null) {
+videoForm.reset();
+videoFormError.classList.add('hidden');
+document.getElementById('video-form-title').textContent = v ? `تعديل: ${v.title}` : 'فيديو جديد';
+videoForm.elements.id.value = v?._id || '';
+videoForm.elements.visible.checked = v ? v.visible : true;
+if (v) {
+videoForm.elements.title.value = v.title;
+videoForm.elements.description.value = v.description || '';
+videoForm.elements.video_type.value = v.video_type || '';
+videoForm.elements.design_type.value = v.design_type || '';
+videoFormCurrent.textContent = 'اترك ملف الفيديو أو الصورة فارغًا للإبقاء على الحالي.';
+videoFormCurrent.classList.remove('hidden');
+} else { videoFormCurrent.classList.add('hidden'); }
+const uniq = (k) => [...new Set(videosCache.map((x) => x[k]).filter(Boolean))];
+document.getElementById('video-type-list').innerHTML = uniq('video_type').map((t) => `<option value="${esc(t)}">`).join('');
+document.getElementById('design-type-list').innerHTML = uniq('design_type').map((t) => `<option value="${esc(t)}">`).join('');
+videoFormModal.classList.remove('hidden');
+}
+document.getElementById('video-new-btn').addEventListener('click', () => openVideoForm());
+document.getElementById('video-form-close').addEventListener('click', () => videoFormModal.classList.add('hidden'));
+videoFormModal.addEventListener('click', (e) => { if (e.target === videoFormModal) videoFormModal.classList.add('hidden'); });
+
+videoForm.addEventListener('submit', async (e) => {
+e.preventDefault();
+videoFormError.classList.add('hidden');
+const id = videoForm.elements.id.value;
+const fd = new FormData(videoForm);
+fd.set('visible', videoForm.elements.visible.checked ? 'true' : 'false');
+if (!id && !(videoForm.elements.video.files[0])) { videoFormError.textContent = 'اختر ملف الفيديو'; videoFormError.classList.remove('hidden'); return; }
+const btn = document.getElementById('video-form-submit');
+btn.disabled = true;
+try {
+await uploadWithProgress(id ? `/videos/${id}` : '/videos', id ? 'PUT' : 'POST', fd,
+(pct) => { btn.textContent = pct < 100 ? `جارٍ الرفع… ${pct}%` : 'جارٍ الحفظ…'; });
+videoFormModal.classList.add('hidden');
+loadVideos();
+} catch (err) {
+videoFormError.textContent = err.message;
+videoFormError.classList.remove('hidden');
+} finally {
+btn.disabled = false;
+btn.textContent = 'حفظ الفيديو';
 }
 });
 
