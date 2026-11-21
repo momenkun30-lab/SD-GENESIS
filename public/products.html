@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منتجات SD GENESIS</title>
+<meta name="description" content="منتجات وتطبيقات SD GENESIS — شركة تكنولوجية سودانية. حمّل تطبيقاتنا الرسمية مباشرة.">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#D4AF37;--gold2:#F5D060;--gold3:#F5E08C;--bg:#050505}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:#fff;overflow-x:hidden;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::selection{background:rgba(212,175,55,.3);color:var(--gold2)}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.glowbg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% -10%,rgba(212,175,55,.14),transparent 55%),radial-gradient(ellipse at 90% 70%,rgba(212,175,55,.06),transparent 50%)}
+.wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px}
+.gt{background:linear-gradient(135deg,#F5E08C,#D4AF37,#B8960C,#D4AF37,#F5E08C);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+@keyframes shimmer{to{background-position:200% center}}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(5,5,5,.62);border-bottom:1px solid rgba(212,175,55,.1)}
+nav .in{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{font-family:'Inter',sans-serif;font-weight:900;font-size:1.15rem}
+.navlinks{display:flex;gap:22px;font-size:.88rem;color:rgba(255,255,255,.7)}
+.navlinks a:hover{color:var(--gold2)}
+@media(max-width:640px){.navlinks .hide-sm{display:none}}
+
+/* glass buttons */
+.btn{position:relative;overflow:hidden;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:999px;font-weight:700;font-size:.9rem;border:1px solid rgba(255,255,255,.5);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease}
+.btn-gold{color:#050505;background:linear-gradient(135deg,rgba(212,175,55,.95),rgba(245,224,140,.9));box-shadow:0 0 0 1px rgba(212,175,55,.35),0 8px 26px rgba(212,175,55,.28),inset 0 1px 0 rgba(255,255,255,.6)}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 14px 38px rgba(212,175,55,.42),0 0 38px rgba(245,224,140,.32),inset 0 1px 0 rgba(255,255,255,.7)}
+.btn-glass{color:var(--gold3);background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border-color:rgba(245,224,140,.45);box-shadow:0 0 18px rgba(212,175,55,.12),inset 0 1px 0 rgba(255,255,255,.18)}
+.btn-glass:hover{transform:translateY(-3px);color:#fff;border-color:rgba(255,255,255,.7);box-shadow:0 12px 34px rgba(212,175,55,.25),0 0 30px rgba(245,224,140,.22)}
+.btn:active{transform:scale(.96)}
+.ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:-1;width:12px;height:12px;margin:-6px 0 0 -6px;background:radial-gradient(circle,rgba(255,255,255,.95),rgba(245,224,140,.5) 45%,transparent 70%);animation:rip .7s ease-out forwards}
+@keyframes rip{to{transform:scale(26);opacity:0}}
+
+/* hero */
+.hero{text-align:center;padding:72px 0 40px}
+.eyebrow{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.2em;color:var(--gold2);padding:6px 16px;border:1px solid rgba(212,175,55,.3);border-radius:999px;background:rgba(212,175,55,.06);margin-bottom:22px}
+.hero h1{font-size:clamp(2.4rem,8vw,5rem);font-weight:900;line-height:1.15;margin-bottom:18px}
+.hero p.lead{color:rgba(255,255,255,.55);max-width:640px;margin:0 auto 30px;line-height:1.9;font-size:1.02rem}
+.kpis{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.kpi{padding:12px 22px;border-radius:16px;border:1px solid rgba(212,175,55,.18);background:rgba(17,17,17,.55);backdrop-filter:blur(8px);min-width:130px}
+.kpi b{display:block;font-family:'Inter',sans-serif;font-size:1.6rem;font-weight:900}
+.kpi span{font-size:.75rem;color:rgba(255,255,255,.45)}
+
+/* controls */
+.controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:34px 0 26px}
+.search{flex:1;min-width:220px;display:flex;align-items:center;gap:10px;padding:0 18px;height:46px;border-radius:999px;border:1px solid rgba(212,175,55,.2);background:rgba(17,17,17,.6);backdrop-filter:blur(8px)}
+.search input{flex:1;background:none;border:0;outline:0;color:#fff;font:inherit;font-size:.9rem}
+.search i{color:var(--gold)}
+.chips{display:flex;gap:8px}
+.chip{padding:9px 18px;border-radius:999px;font-size:.8rem;font-weight:700;border:1px solid rgba(212,175,55,.25);background:transparent;color:#bbb;transition:all .25s}
+.chip.on{background:rgba(212,175,55,.15);color:var(--gold2);border-color:var(--gold)}
+
+/* grid + cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;padding-bottom:70px}
+.card{position:relative;border-radius:22px;padding:1px;background:linear-gradient(145deg,rgba(245,224,140,.35),rgba(255,255,255,.05) 40%,rgba(212,175,55,.2));
+  opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.card.in{opacity:1;transform:none}
+.card-in{position:relative;height:100%;border-radius:21px;background:rgba(14,14,14,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow:hidden;transform-style:preserve-3d;transition:transform .25s ease,box-shadow .35s ease;display:flex;flex-direction:column}
+.card:hover .card-in{box-shadow:0 22px 60px rgba(212,175,55,.14),0 0 40px rgba(245,224,140,.08)}
+.visual{position:relative;aspect-ratio:16/10;background:radial-gradient(circle at 50% 40%,rgba(212,175,55,.18),#0b0b0b 70%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.visual img.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;transition:transform .8s ease,opacity .5s}
+.card:hover .visual img.shot{transform:scale(1.07);opacity:.75}
+.visual::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(14,14,14,1),transparent 65%)}
+.icon{position:relative;z-index:2;width:84px;height:84px;border-radius:22px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;font-family:'Inter',sans-serif;color:#111;background:linear-gradient(135deg,#F5E08C,#D4AF37);box-shadow:0 0 0 1px rgba(255,255,255,.4),0 10px 34px rgba(212,175,55,.45)}
+.icon img{width:100%;height:100%;object-fit:cover}
+.body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.body h3{font-size:1.2rem;font-weight:900}
+.meta{display:flex;gap:8px;flex-wrap:wrap}
+.pill{direction:ltr;unicode-bidi:isolate;font-size:.7rem;font-weight:700;padding:4px 11px;border-radius:999px;border:1px solid rgba(212,175,55,.22);color:var(--gold3);background:rgba(212,175,55,.06);font-family:'Inter',sans-serif}
+.desc{color:rgba(255,255,255,.5);font-size:.86rem;line-height:1.8;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.actions{margin-top:auto;display:flex;gap:10px}
+.actions .btn{flex:1;padding:11px 14px;font-size:.82rem}
+
+.empty{grid-column:1/-1;text-align:center;padding:70px 20px;color:rgba(255,255,255,.4)}
+.empty i{font-size:2.4rem;color:var(--gold);margin-bottom:14px;display:block}
+
+/* drawer */
+.ov{position:fixed;inset:0;z-index:200;background:rgba(2,2,2,.85);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.ov.open{opacity:1;pointer-events:auto}
+@media(min-width:720px){.ov{align-items:center;padding:24px}}
+.dr{position:relative;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;background:#0a0a0a;border:1px solid rgba(212,175,55,.2);border-radius:26px 26px 0 0;padding:30px;transform:translateY(40px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 80px rgba(212,175,55,.12)}
+@media(min-width:720px){.dr{border-radius:26px}}
+.ov.open .dr{transform:none}
+.x{position:absolute;top:16px;left:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#aaa;display:flex;align-items:center;justify-content:center}
+.x:hover{color:var(--gold2);border-color:rgba(212,175,55,.4)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.fact{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.fact span{display:block;font-size:.7rem;color:#777;margin-bottom:4px}
+.fact b{font-family:'Inter',sans-serif;font-size:.95rem}
+.shots{display:flex;gap:10px;overflow-x:auto;margin:16px 0;padding-bottom:6px;scroll-snap-type:x mandatory}
+.shots img{height:220px;border-radius:14px;border:1px solid rgba(255,255,255,.08);scroll-snap-align:start}
+.feats{list-style:none;display:grid;gap:8px;margin:14px 0 20px}
+.feats li{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.7}
+.feats i{color:var(--gold2);margin-top:6px;font-size:.7rem}
+footer{position:relative;z-index:1;border-top:1px solid rgba(212,175,55,.08);padding:30px 0;text-align:center;color:rgba(255,255,255,.35);font-size:.82rem}
+
+/* cinematic */
+#cine{position:fixed;inset:0;z-index:300;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 50%,rgba(245,224,140,.22),rgba(5,5,5,.55) 55%,rgba(5,5,5,.8))}
+#cine::before{content:'';position:absolute;left:0;right:0;top:50%;height:2px;transform:translateY(-50%) scaleX(0);background:linear-gradient(90deg,transparent,#fff,#F5E08C,#fff,transparent);box-shadow:0 0 30px 6px rgba(245,224,140,.7)}
+#cine.play{animation:cf .75s ease both}#cine.play::before{animation:cl .75s ease both}
+@keyframes cf{0%{opacity:0}35%{opacity:1}100%{opacity:0}}
+@keyframes cl{0%{transform:translateY(-50%) scaleX(0)}45%{transform:translateY(-50%) scaleX(1)}100%{transform:translateY(-50%) scaleX(1);opacity:0}}
+@media(prefers-reduced-motion:reduce){.card{opacity:1;transform:none;transition:none}.gt{animation:none}#cine.play,#cine.play::before{animation:none}.ripple{display:none}}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="glowbg"></div>
+<div id="cine"></div>
+
+<nav><div class="wrap in">
+  <a href="/" class="brand gt">SD GENESIS</a>
+  <div class="navlinks"><a href="/">الرئيسية</a><a href="/#services" class="hide-sm">خدماتنا</a><a href="/#contact">تواصل معنا</a></div>
+</div></nav>
+
+<header class="wrap hero">
+  <span class="eyebrow">PRODUCTS</span>
+  <h1><span class="gt">منتجاتنا</span><br>من مختبر المستقبل</h1>
+  <p class="lead">تطبيقات رسمية تطوّرها SD GENESIS، شركة تكنولوجية تبني منتجات رقمية بجودة عالمية. حمّل أي منتج مباشرة بإصداره الأحدث.</p>
+  <div class="kpis">
+    <div class="kpi"><b class="gt" id="k-apps">0</b><span>منتج منشور</span></div>
+    <div class="kpi"><b class="gt" id="k-dl">0</b><span>تنزيل موثّق</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="controls">
+    <label class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="q" type="search" placeholder="ابحث عن منتج…" autocomplete="off"></label>
+    <div class="chips">
+      <button class="chip on" data-sort="new">الأحدث</button>
+      <button class="chip" data-sort="dl">الأكثر تنزيلًا</button>
+    </div>
+  </div>
+  <div class="grid" id="grid"><p class="empty">جارٍ تحميل المنتجات…</p></div>
+</main>
+
+<footer>© <span id="yr"></span> SD GENESIS — جميع الحقوق محفوظة</footer>
+
+<div class="ov" id="ov"><div class="dr" id="dr"><button class="x" id="x" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button><div id="drbody"></div></div></div>
+
+<script>
+const esc = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+document.getElementById('yr').textContent = new Date().getFullYear();
+const fmtSize = (b) => { b = Number(b) || 0; if (!b) return '—'; const u = ['B','KB','MB','GB']; let i = 0; while (b >= 1024 && i < 3) { b /= 1024; i++; } return b.toFixed(i ? 1 : 0) + ' ' + u[i]; };
+const fmtDate = (iso) => { try { return new Date(iso).toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric' }); } catch { return ''; } };
+
+/* starfield (light, paused when tab hidden) */
+(function () {
+  const cv = document.getElementById('stars'), ctx = cv.getContext('2d'); if (!ctx) return;
+  const weak = (navigator.hardwareConcurrency || 4) <= 2;
+  let W, H, st = [];
+  function size() { W = cv.width = innerWidth; H = cv.height = innerHeight; st = Array.from({ length: weak ? 40 : innerWidth < 640 ? 60 : 110 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.3 + .3, s: Math.random() * .25 + .05, p: Math.random() * 6 })); }
+  size(); addEventListener('resize', size);
+  let t = 0, raf;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const s of st) { if (!reduce) { s.y -= s.s; if (s.y < -2) { s.y = H + 2; s.x = Math.random() * W; } } ctx.globalAlpha = .25 + .55 * (.5 + .5 * Math.sin(t * 1.4 + s.p)); ctx.fillStyle = s.r > 1.1 ? '#F5E08C' : '#fff'; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill(); }
+    t += .016; raf = requestAnimationFrame(draw);
+  }
+  if (reduce) { draw(); cancelAnimationFrame(raf); } else { draw(); document.addEventListener('visibilitychange', () => { cancelAnimationFrame(raf); if (!document.hidden) draw(); }); }
+})();
+
+/* cinematic + ripple */
+const cine = document.getElementById('cine');
+function playCine() { if (reduce) return; cine.classList.remove('play'); void cine.offsetWidth; cine.classList.add('play'); }
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('.btn');
+  if (b && !reduce) { const r = b.getBoundingClientRect(), s = document.createElement('span'); s.className = 'ripple'; s.style.left = (e.clientX - r.left) + 'px'; s.style.top = (e.clientY - r.top) + 'px'; b.appendChild(s); setTimeout(() => s.remove(), 750); }
+  const a = e.target.closest('a[href]');
+  if (a && !reduce && !e.metaKey && !e.ctrlKey && a.target !== '_blank') {
+    const h = a.getAttribute('href');
+    if (h.startsWith('/') && !h.startsWith('//')) { e.preventDefault(); playCine(); setTimeout(() => { location.href = h; }, 380); }
+  }
+});
+
+/* data */
+let apps = [], sort = 'new', query = '';
+const grid = document.getElementById('grid');
+const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+
+function iconHTML(a) { return a.icon_url ? `<img src="${esc(a.icon_url)}" alt="" onerror="this.parentNode.textContent='${esc((a.name || '?').charAt(0))}'">` : esc((a.name || '?').charAt(0)); }
+
+function render() {
+  let list = apps.filter((a) => (a.name + ' ' + (a.description || '')).toLowerCase().includes(query));
+  list = list.slice().sort((x, y) => sort === 'dl' ? (y.download_count || 0) - (x.download_count || 0) : new Date(y.updated_at) - new Date(x.updated_at));
+  if (!list.length) { grid.innerHTML = `<div class="empty"><i class="fa-solid fa-satellite-dish"></i>${apps.length ? 'لا نتائج مطابقة للبحث.' : 'لا توجد منتجات منشورة بعد — تابعونا قريبًا.'}</div>`; return; }
+  grid.innerHTML = list.map((a) => `
+    <article class="card" data-slug="${esc(a.slug)}">
+      <div class="card-in">
+        <div class="visual">${(a.screenshots && a.screenshots[0]) ? `<img class="shot" src="${esc(a.screenshots[0])}" alt="" loading="lazy">` : ''}<div class="icon">${iconHTML(a)}</div></div>
+        <div class="body">
+          <h3>${esc(a.name)}</h3>
+          <div class="meta"><span class="pill">v${esc(a.version)}</span><span class="pill">${fmtSize(a.size_bytes)}</span><span class="pill"><i class="fa-solid fa-download"></i> ${(a.download_count || 0).toLocaleString('en-US')}</span></div>
+          <p class="desc">${esc(a.description)}</p>
+          <div class="actions">
+            <button class="btn btn-glass" data-more="${esc(a.slug)}"><i class="fa-solid fa-circle-info"></i>تعرّف على المنتج</button>
+            <button class="btn btn-gold" data-dl="${esc(a.slug)}"><i class="fa-solid fa-download"></i>تنزيل</button>
+          </div>
+        </div>
+      </div>
+    </article>`).join('');
+  grid.querySelectorAll('.card').forEach((c, i) => { c.style.transitionDelay = Math.min(i, 5) * 70 + 'ms'; io.observe(c); });
+  grid.querySelectorAll('[data-more]').forEach((b) => b.addEventListener('click', () => openDrawer(b.dataset.more)));
+  grid.querySelectorAll('[data-dl]').forEach((b) => b.addEventListener('click', () => download(b.dataset.dl)));
+  if (fine && !reduce) grid.querySelectorAll('.card').forEach((c) => {
+    const inner = c.querySelector('.card-in');
+    c.addEventListener('pointermove', (e) => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; inner.style.transform = `perspective(900px) rotateY(${x * 7}deg) rotateX(${-y * 7}deg)`; });
+    c.addEventListener('pointerleave', () => { inner.style.transform = ''; });
+  });
+}
+
+function download(slug) { window.location.href = `/api/apps/${encodeURIComponent(slug)}/download`; setTimeout(load, 1800); }
+
+async function load() {
+  try {
+    const res = await fetch('/api/apps'); if (!res.ok) throw 0;
+    apps = await res.json();
+    document.getElementById('k-apps').textContent = apps.length;
+    document.getElementById('k-dl').textContent = apps.reduce((s, a) => s + (a.download_count || 0), 0).toLocaleString('en-US');
+    render();
+  } catch { grid.innerHTML = '<div class="empty"><i class="fa-solid fa-triangle-exclamation"></i>تعذّر تحميل المنتجات، حاول لاحقًا.</div>'; }
+}
+
+document.getElementById('q').addEventListener('input', (e) => { query = e.target.value.trim().toLowerCase(); render(); });
+document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { document.querySelectorAll('.chip').forEach((x) => x.classList.toggle('on', x === c)); sort = c.dataset.sort; render(); }));
+
+/* drawer: full product details (features = real changelog lines) */
+const ov = document.getElementById('ov'), drbody = document.getElementById('drbody');
+async function openDrawer(slug) {
+  playCine();
+  try {
+    const res = await fetch(`/api/apps/${encodeURIComponent(slug)}`); if (!res.ok) return;
+    const a = await res.json();
+    const lines = (a.changelog || '').split('\n').map((l) => l.replace(/^[\s\-•*]+/, '').trim()).filter(Boolean);
+    drbody.innerHTML = `
+      <div style="display:flex;align-items:center;gap:16px"><div class="icon" style="width:72px;height:72px;font-size:1.7rem">${iconHTML(a)}</div>
+      <div><h2 style="font-size:1.4rem;font-weight:900">${esc(a.name)}</h2><span class="pill">متاح للتنزيل</span></div></div>
+      <p style="color:rgba(255,255,255,.55);line-height:1.9;font-size:.92rem;margin-top:18px">${esc(a.description)}</p>
+      <div class="facts"><div class="fact"><span>الإصدار</span><b>v${esc(a.version)}</b></div><div class="fact"><span>الحجم</span><b>${fmtSize(a.size_bytes)}</b></div><div class="fact"><span>التنزيلات</span><b>${(a.download_count || 0).toLocaleString('en-US')}</b></div></div>
+      ${(a.screenshots && a.screenshots.length) ? `<div class="shots">${a.screenshots.map((s) => `<img src="${esc(s)}" alt="" loading="lazy">`).join('')}</div>` : ''}
+      ${lines.length ? `<h4 style="font-weight:900;margin-top:6px">آخر التحديثات</h4><ul class="feats">${lines.map((l) => `<li><i class="fa-solid fa-circle"></i><span>${esc(l)}</span></li>`).join('')}</ul>` : ''}
+      <p style="font-size:.75rem;color:#666;margin:6px 0 16px">آخر تحديث: ${fmtDate(a.updated_at)} · المطوّر: SD GENESIS</p>
+      <button class="btn btn-gold" style="width:100%;padding:15px" id="drdl"><i class="fa-solid fa-download"></i>تنزيل الآن</button>`;
+    document.getElementById('drdl').addEventListener('click', () => download(a.slug));
+    ov.classList.add('open'); document.body.style.overflow = 'hidden';
+  } catch {}
+}
+function closeDrawer() { ov.classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('x').addEventListener('click', closeDrawer);
+ov.addEventListener('click', (e) => { if (e.target === ov) closeDrawer(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+load();
+</script>
+</body>
+</html>
