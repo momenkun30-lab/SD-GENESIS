@@ -157,7 +157,67 @@
         .footer-social a.facebook:hover { color:#fff; background:#1877F2; }
         .footer-social a.whatsapp:hover { color:#fff; background:#25D366; }
         .footer-social a.channel:hover { color:#050505; background:#D4AF37; }
-    </style>
+    
+        /* ===== Future company section ===== */
+        .future-section { position:relative; overflow:hidden; background:radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.07), transparent 60%); }
+        .future-grid-bg { position:absolute; inset:0; pointer-events:none; opacity:.5;
+            background-image:linear-gradient(rgba(212,175,55,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.06) 1px, transparent 1px);
+            background-size:56px 56px; -webkit-mask-image:radial-gradient(ellipse at center, #000 20%, transparent 75%); mask-image:radial-gradient(ellipse at center, #000 20%, transparent 75%); }
+        .future-core { position:relative; width:min(300px,70vw); aspect-ratio:1; margin:0 auto; perspective:900px; }
+        .future-ring { position:absolute; inset:0; border-radius:50%; border:1px solid rgba(245,224,140,0.35); box-shadow:0 0 30px rgba(212,175,55,0.15), inset 0 0 30px rgba(255,255,255,0.04); animation:ringspin 14s linear infinite; transform-style:preserve-3d; }
+        .future-ring.r2 { inset:12%; border-color:rgba(255,255,255,0.3); animation-duration:9s; animation-direction:reverse; }
+        .future-ring.r3 { inset:26%; border-color:rgba(212,175,55,0.5); animation-duration:6s; }
+        .future-ring::after { content:''; position:absolute; top:-4px; left:50%; width:8px; height:8px; margin-left:-4px; border-radius:50%; background:#fff; box-shadow:0 0 14px 4px rgba(245,224,140,0.9); }
+        @keyframes ringspin { from{ transform:rotateX(68deg) rotateZ(0deg); } to{ transform:rotateX(68deg) rotateZ(360deg); } }
+        .future-ring.r2 { animation-name:ringspin2; } .future-ring.r3 { animation-name:ringspin3; }
+        @keyframes ringspin2 { from{ transform:rotateX(68deg) rotateY(25deg) rotateZ(0deg); } to{ transform:rotateX(68deg) rotateY(25deg) rotateZ(360deg); } }
+        @keyframes ringspin3 { from{ transform:rotateX(55deg) rotateY(-30deg) rotateZ(0deg); } to{ transform:rotateX(55deg) rotateY(-30deg) rotateZ(360deg); } }
+        .future-orb { position:absolute; inset:36%; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(1rem,4vw,1.4rem); color:#fff;
+            background:radial-gradient(circle at 35% 30%, #fff8dc, #D4AF37 45%, #5a4500 100%); box-shadow:0 0 50px rgba(245,224,140,0.55), 0 0 110px rgba(212,175,55,0.25); animation:orbpulse 4s ease-in-out infinite; }
+        @keyframes orbpulse { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.07); } }
+        .pillar { position:relative; background:rgba(17,17,17,0.6); border:1px solid rgba(212,175,55,0.1); border-radius:18px; padding:26px 22px; transition:transform .4s ease, border-color .4s ease, box-shadow .4s ease; overflow:hidden; }
+        .pillar::before { content:''; position:absolute; top:0; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent); transition:left .8s ease; }
+        .pillar:hover { transform:translateY(-6px); border-color:rgba(245,224,140,0.4); box-shadow:0 18px 50px rgba(212,175,55,0.1); }
+        .pillar:hover::before { left:140%; }
+        .pillar-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#F5D060; background:linear-gradient(135deg,rgba(212,175,55,0.2),rgba(255,255,255,0.04)); border:1px solid rgba(245,224,140,0.2); margin-bottom:16px; }
+
+        /* ===== Rotating light border on the selected service ===== */
+        @property --ga { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+        .service-card { position:relative; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+        .service-card:focus-visible { outline:2px solid #F5D060; outline-offset:4px; }
+        .service-card::before, .service-card::after {
+            content:''; position:absolute; inset:-1px; border-radius:inherit; padding:2px; pointer-events:none; opacity:0; transition:opacity .5s ease;
+            background:conic-gradient(from var(--ga), transparent 0deg, transparent 230deg, rgba(212,175,55,0.2) 270deg, #D4AF37 310deg, #ffffff 345deg, #F5E08C 360deg);
+            -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+            mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite:exclude;
+        }
+        .service-card::after { filter:blur(7px); inset:-3px; padding:5px; }
+        .service-card.selected::before, .service-card.selected::after { opacity:1; animation:glowspin 3.2s linear infinite; }
+        .service-card.selected { border-color:transparent; }
+        @keyframes glowspin { to { --ga:360deg; } }
+
+        /* ===== Service panel ===== */
+        .service-panel { max-width:72rem; margin:40px auto 0; }
+        .service-panel[hidden] { display:none; }
+        .panel-fade { animation:panelin .5s ease both; }
+        @keyframes panelin { from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
+        .cat-tile { display:block; background:rgba(17,17,17,0.6); border:1px solid rgba(212,175,55,0.1); border-radius:16px; overflow:hidden; transition:transform .35s ease, border-color .35s ease; }
+        .cat-tile:hover { transform:translateY(-6px); border-color:rgba(245,224,140,0.4); }
+        .cat-tile .img { aspect-ratio:16/10; background:linear-gradient(135deg,#111,#1a1a1a); overflow:hidden; display:flex; align-items:center; justify-content:center; color:#D4AF37; font-size:30px; }
+        .cat-tile img { width:100%; height:100%; object-fit:cover; }
+        .vchip { padding:6px 14px; border-radius:999px; font-size:12px; font-weight:600; border:1px solid rgba(212,175,55,0.25); color:#bbb; background:transparent; cursor:pointer; transition:all .25s ease; }
+        .vchip.on { background:rgba(212,175,55,0.15); color:#F5D060; border-color:#D4AF37; }
+        .vcard { background:rgba(17,17,17,0.6); border:1px solid rgba(212,175,55,0.1); border-radius:16px; overflow:hidden; cursor:pointer; text-align:right; transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease; }
+        .vcard:hover { transform:translateY(-6px); border-color:rgba(245,224,140,0.4); box-shadow:0 18px 50px rgba(212,175,55,0.1); }
+        .vthumb { position:relative; aspect-ratio:16/9; background:#0a0a0a; overflow:hidden; }
+        .vthumb img, .vthumb video { width:100%; height:100%; object-fit:cover; }
+        .vplay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(to top, rgba(0,0,0,0.55), transparent 55%); }
+        .vplay i { width:54px; height:54px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(5,5,5,0.55); border:1px solid rgba(245,224,140,0.6); color:#F5E08C; box-shadow:0 0 24px rgba(212,175,55,0.35); transition:transform .3s ease; }
+        .vcard:hover .vplay i { transform:scale(1.12); }
+        .video-modal-box { position:relative; width:100%; max-width:900px; }
+        .video-modal-box video { width:100%; max-height:70vh; border-radius:16px; background:#000; border:1px solid rgba(212,175,55,0.2); }
+        @media (prefers-reduced-motion:reduce) { .future-ring, .future-orb, .service-card.selected::before, .service-card.selected::after { animation:none; } }
+</style>
 </head>
 
 <body>
@@ -248,21 +308,33 @@
     </div>
 </section>
 
-<section class="relative py-16 sm:py-20 border-y border-white/[0.03]">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-4">
-            <div class="text-center" data-aos="fade-up" data-aos-delay="0">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-2" id="stat-apps">0</div>
-                <p class="text-white/40 text-sm font-medium">تطبيق منشور — بيانات حقيقية</p>
+<section id="company" class="future-section py-20 sm:py-28 border-y border-white/[0.03]">
+    <div class="future-grid-bg"></div>
+    <div class="orb w-[320px] h-[320px] bg-gold-600 top-[10%] right-[-8%]" style="opacity:.35;animation:pulse-orb 10s ease-in-out infinite"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div data-aos="fade-up">
+                <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">شركة المستقبل</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-5 leading-tight">نبني <span class="gradient-text">مستقبل التقنية</span><br>من السودان إلى العالم</h2>
+                <p class="text-white/50 leading-loose text-base mb-6">SD GENESIS شركة تقنية تتطلع إلى الغد: ندمج الذكاء الاصطناعي بالتصميم والبرمجة لنحوّل أفكار عملائنا إلى منتجات رقمية ذكية، ونطمح أن نكون اسمًا يُحتذى به في صناعة التقنية في المنطقة.</p>
+                <div class="flex flex-wrap items-center gap-3 text-xs font-semibold text-white/60">
+                    <span class="px-4 py-2 rounded-full border border-gold-500/25 bg-gold-500/5"><i class="fa-solid fa-location-dot ml-2 text-gold-400"></i>المقر: السودان</span>
+                    <span class="px-4 py-2 rounded-full border border-white/10 bg-white/[0.03]"><i class="fa-solid fa-mobile-screen-button ml-2 text-gold-400"></i><span id="stat-apps">0</span> تطبيق منشور</span>
+                    <span class="px-4 py-2 rounded-full border border-white/10 bg-white/[0.03]"><i class="fa-solid fa-download ml-2 text-gold-400"></i><span id="stat-downloads">0</span> تنزيل موثّق</span>
+                </div>
             </div>
-            <div class="text-center" data-aos="fade-up" data-aos-delay="150">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-2" id="stat-downloads">0</div>
-                <p class="text-white/40 text-sm font-medium">تنزيل موثّق — بيانات حقيقية</p>
+            <div data-aos="zoom-in" data-aos-delay="150">
+                <div class="future-core" aria-hidden="true">
+                    <div class="future-ring"></div><div class="future-ring r2"></div><div class="future-ring r3"></div>
+                    <div class="future-orb">SD</div>
+                </div>
             </div>
-            <div class="text-center col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="300">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-2">السودان</div>
-                <p class="text-white/40 text-sm font-medium">مقر الشركة</p>
-            </div>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
+            <div class="pillar" data-aos="fade-up" data-aos-delay="0"><div class="pillar-icon"><i class="fa-solid fa-brain"></i></div><h3 class="font-bold mb-2">الذكاء الاصطناعي</h3><p class="text-white/40 text-sm leading-relaxed">نوظّف الذكاء الاصطناعي في بناء وتطوير حلول أسرع وأذكى.</p></div>
+            <div class="pillar" data-aos="fade-up" data-aos-delay="100"><div class="pillar-icon"><i class="fa-solid fa-lightbulb"></i></div><h3 class="font-bold mb-2">الابتكار</h3><p class="text-white/40 text-sm leading-relaxed">أفكار جديدة بتصاميم تصنع الفرق وتسبق التوقعات.</p></div>
+            <div class="pillar" data-aos="fade-up" data-aos-delay="200"><div class="pillar-icon"><i class="fa-solid fa-cloud"></i></div><h3 class="font-bold mb-2">منصات سحابية</h3><p class="text-white/40 text-sm leading-relaxed">منتجات حديثة جاهزة للنمو وتعمل على جميع الأجهزة.</p></div>
+            <div class="pillar" data-aos="fade-up" data-aos-delay="300"><div class="pillar-icon"><i class="fa-solid fa-rocket"></i></div><h3 class="font-bold mb-2">الطموح</h3><p class="text-white/40 text-sm leading-relaxed">رؤيتنا أن نكون من أبرز شركات التقنية في المنطقة.</p></div>
         </div>
     </div>
 </section>
@@ -276,7 +348,7 @@
             <p class="text-white/40 max-w-xl mx-auto text-base">نقدم حلولًا رقمية شاملة مصممة لتلبية احتياجات عملك وتحقيق أهدافك</p>
         </div>
         <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
-            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-aos="fade-up" data-aos-delay="0">
+            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-service="website" role="button" tabindex="0" aria-pressed="false" data-aos="fade-up" data-aos-delay="0">
                 <div class="card-icon w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center text-gold-400 text-3xl border border-gold-500/10">
                     <i class="fa-solid fa-globe"></i>
                 </div>
@@ -284,7 +356,7 @@
                 <p class="text-white/40 text-sm leading-relaxed mb-5">مواقع عصرية وسريعة ومتجاوبة مع جميع الأجهزة، مبنية بأحدث التقنيات لضمان أفضل تجربة للمستخدم وتصدر نتائج البحث.</p>
                 <a href="/design-gallery.html?type=website" class="btn-outline inline-block px-5 py-2 rounded-full text-xs">تصفّح تصاميم المواقع</a>
             </div>
-            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-aos="fade-up" data-aos-delay="150">
+            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-service="app" role="button" tabindex="0" aria-pressed="false" data-aos="fade-up" data-aos-delay="150">
                 <div class="card-icon w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center text-gold-400 text-3xl border border-gold-500/10">
                     <i class="fa-solid fa-mobile-screen-button"></i>
                 </div>
@@ -292,14 +364,15 @@
                 <p class="text-white/40 text-sm leading-relaxed mb-5">تطبيقات ذكية لنظامي iOS وAndroid بتصميم جذاب وأداء عالي، من الفكرة إلى الإطلاق على المتاجر بأفضل معايير الجودة.</p>
                 <a href="/design-gallery.html?type=app" class="btn-outline inline-block px-5 py-2 rounded-full text-xs">تصفّح تصاميم التطبيقات</a>
             </div>
-            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-card bg-dark-700/50 backdrop-blur-sm rounded-2xl p-8 text-center group" data-service="video" role="button" tabindex="0" aria-pressed="false" data-aos="fade-up" data-aos-delay="300">
                 <div class="card-icon w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center text-gold-400 text-3xl border border-gold-500/10">
                     <i class="fa-solid fa-film"></i>
                 </div>
-                <h3 class="text-xl font-bold mb-3 group-hover:text-gold-400 transition-colors">إنتاج الفيديوهات التسويقية</h3>
+                <h3 class="text-xl font-bold mb-3 group-hover:text-gold-400 transition-colors">تصميم الفيديو</h3>
                 <p class="text-white/40 text-sm leading-relaxed">فيديوهات احترافية تسوّق علامتك التجارية بإبداع، من السيناريو إلى المونتاج بمؤثرات بصرية صادمة تزيد من مبيعاتك.</p>
             </div>
         </div>
+        <div id="service-panel" class="service-panel" hidden aria-live="polite"></div>
     </div>
 </section>
 
@@ -409,6 +482,14 @@
 <div id="toast" class="toast fixed bottom-6 right-6 z-50 bg-dark-600 border border-gold-500/20 rounded-xl px-6 py-4 flex items-center gap-3 shadow-2xl">
     <div class="w-8 h-8 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 flex-shrink-0"><i class="fa-solid fa-check text-sm"></i></div>
     <p id="toastMessage" class="text-sm font-medium">تم الإرسال بنجاح!</p>
+</div>
+
+<div class="app-modal-overlay" id="video-modal" hidden>
+    <div class="video-modal-box">
+        <button class="app-modal-close" id="video-modal-close" aria-label="إغلاق" style="top:-46px;left:0"><i class="fa-solid fa-xmark"></i></button>
+        <video id="video-modal-player" controls playsinline></video>
+        <div class="mt-4 text-right"><h3 class="font-bold text-lg" id="video-modal-title"></h3><p class="text-white/50 text-sm mt-1 leading-relaxed" id="video-modal-desc"></p></div>
+    </div>
 </div>
 
 <div class="app-modal-overlay" id="app-modal" hidden>
@@ -690,6 +771,103 @@ document.getElementById('app-modal').addEventListener('click', (e) => { if (e.ta
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.getElementById('app-modal').hidden = true; });
 
 loadApps();
+</script>
+<script>
+// ===== Service selector (website / app / video) =====
+(function () {
+    const cards = document.querySelectorAll('.service-card[data-service]');
+    const panel = document.getElementById('service-panel');
+    const vModal = document.getElementById('video-modal');
+    const vPlayer = document.getElementById('video-modal-player');
+    const esc = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    const labels = { website: 'تصاميم المواقع الإلكترونية', app: 'تصاميم التطبيقات' };
+    let current = null, videos = null;
+
+    async function showDesigns(type) {
+        panel.innerHTML = '<p class="text-center text-white/40 py-10">جارٍ التحميل…</p>';
+        try {
+            const res = await fetch('/api/design-categories/' + type);
+            const cats = await res.json();
+            const tiles = (Array.isArray(cats) ? cats : []).map((c) => `
+                <a class="cat-tile" href="/design-gallery.html?type=${type}">
+                    <div class="img">${c.image_url ? `<img src="${esc(c.image_url)}" alt="${esc(c.name)}" loading="lazy">` : '<i class="fa-solid fa-layer-group"></i>'}</div>
+                    <div class="p-4 text-right"><h4 class="font-bold">${esc(c.name)}</h4>
+                    <p class="text-white/40 text-xs mt-1">${esc(c.description || '')}</p>
+                    <p class="text-gold-400 text-xs mt-2 font-semibold">${c.design_count} تصميم</p></div>
+                </a>`).join('');
+            panel.innerHTML = `<div class="panel-fade">
+                <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+                    <h3 class="text-xl sm:text-2xl font-black gradient-text">${labels[type]}</h3>
+                    <a href="/design-gallery.html?type=${type}" class="btn-gold px-6 py-2.5 rounded-full text-sm font-bold">افتح المعرض كاملًا</a>
+                </div>
+                ${tiles ? `<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">${tiles}</div>` : '<p class="text-center text-white/40 py-10">لم تُضَف تصنيفات بعد.</p>'}
+            </div>`;
+        } catch { panel.innerHTML = '<p class="text-center text-white/40 py-10">تعذر تحميل المحتوى حاليًا.</p>'; }
+    }
+
+    function renderVideos(list, f) {
+        const shown = list.filter((v) => (!f.vt || v.video_type === f.vt) && (!f.dt || v.design_type === f.dt));
+        const chips = (key, val, all) => ['', ...[...new Set(list.map((v) => v[key]).filter(Boolean))]]
+            .map((x) => `<button class="vchip ${f[val] === x ? 'on' : ''}" data-f="${val}" data-v="${esc(x)}">${x ? esc(x) : all}</button>`).join('');
+        const hasVt = list.some((v) => v.video_type), hasDt = list.some((v) => v.design_type);
+        panel.innerHTML = `<div class="panel-fade">
+            <h3 class="text-xl sm:text-2xl font-black gradient-text mb-5">تصميم الفيديو</h3>
+            ${hasVt ? `<div class="flex flex-wrap gap-2 mb-3">${chips('video_type', 'vt', 'كل الأنواع')}</div>` : ''}
+            ${hasDt ? `<div class="flex flex-wrap gap-2 mb-6">${chips('design_type', 'dt', 'كل التصاميم')}</div>` : ''}
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            ${shown.map((v) => `
+                <div class="vcard" data-vid="${esc(v.id)}" role="button" tabindex="0">
+                    <div class="vthumb">${v.thumbnail_url ? `<img src="${esc(v.thumbnail_url)}" alt="${esc(v.title)}" loading="lazy">` : `<video src="${esc(v.video_url)}#t=0.5" preload="metadata" muted playsinline></video>`}
+                    <div class="vplay"><i class="fa-solid fa-play"></i></div></div>
+                    <div class="p-4"><h4 class="font-bold mb-1">${esc(v.title)}</h4>
+                    <p class="text-gold-400 text-xs font-semibold mb-1">${[v.video_type, v.design_type].filter(Boolean).map(esc).join(' · ')}</p>
+                    <p class="text-white/40 text-xs leading-relaxed">${esc(v.description)}</p></div>
+                </div>`).join('')}
+            </div></div>`;
+        panel.querySelectorAll('.vchip').forEach((b) => b.addEventListener('click', () => { f[b.dataset.f] = b.dataset.v; renderVideos(list, f); }));
+        panel.querySelectorAll('.vcard').forEach((c) => {
+            const open = () => openVideo(list.find((v) => v.id === c.dataset.vid));
+            c.addEventListener('click', open);
+            c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+        });
+    }
+
+    async function showVideos() {
+        panel.innerHTML = '<p class="text-center text-white/40 py-10">جارٍ التحميل…</p>';
+        try {
+            if (!videos) videos = await (await fetch('/api/videos')).json();
+            if (!Array.isArray(videos) || !videos.length) { panel.innerHTML = '<div class="panel-fade text-center py-12"><h3 class="text-xl font-black gradient-text mb-3">تصميم الفيديو</h3><p class="text-white/40">سيتم عرض أعمالنا في الفيديو هنا قريبًا.</p></div>'; return; }
+            renderVideos(videos, { vt: '', dt: '' });
+        } catch { videos = null; panel.innerHTML = '<p class="text-center text-white/40 py-10">تعذر تحميل الفيديوهات حاليًا.</p>'; }
+    }
+
+    function openVideo(v) {
+        if (!v) return;
+        document.getElementById('video-modal-title').textContent = v.title;
+        document.getElementById('video-modal-desc').textContent = v.description || '';
+        vPlayer.poster = v.thumbnail_url || '';
+        vPlayer.src = v.video_url;
+        vModal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        vPlayer.play().catch(() => {});
+    }
+    function closeVideo() { vPlayer.pause(); vPlayer.removeAttribute('src'); vPlayer.load(); vModal.hidden = true; document.body.style.overflow = ''; }
+    document.getElementById('video-modal-close').addEventListener('click', closeVideo);
+    vModal.addEventListener('click', (e) => { if (e.target === vModal) closeVideo(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !vModal.hidden) closeVideo(); });
+
+    function select(type) {
+        current = type;
+        cards.forEach((c) => { const on = c.dataset.service === type; c.classList.toggle('selected', on); c.setAttribute('aria-pressed', on); });
+        panel.hidden = false;
+        if (type === 'video') showVideos(); else showDesigns(type);
+        setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
+    }
+    cards.forEach((c) => {
+        c.addEventListener('click', (e) => { if (e.target.closest('a')) return; select(c.dataset.service); });
+        c.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('a')) { e.preventDefault(); select(c.dataset.service); } });
+    });
+})();
 </script>
 
 </body>
