@@ -226,7 +226,7 @@
         .cosmos-logo img { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 0 10px rgba(245,224,140,.9)); }
         .cosmos-fallback { position:absolute; inset:6%; width:auto; }
         .cosmos-fallback[hidden] { display:none; }
-        .cosmos.no-canvas .cosmos-logo { display:none; }
+        .cosmos.no-canvas .logo-ring { display:none; }
 
         /* ===== Glass / digital-space buttons ===== */
         .btn-gold, .btn-outline { position:relative; overflow:hidden; isolation:isolate; backdrop-filter:blur(10px) saturate(140%); -webkit-backdrop-filter:blur(10px) saturate(140%); transform-style:preserve-3d;
@@ -253,6 +253,45 @@
         @keyframes cineflash { 0%{opacity:0} 35%{opacity:1} 100%{opacity:0} }
         @keyframes cineline { 0%{transform:translateY(-50%) scaleX(0)} 45%{transform:translateY(-50%) scaleX(1)} 100%{transform:translateY(-50%) scaleX(1); opacity:0} }
         @media (prefers-reduced-motion:reduce) { .btn-gold,.btn-outline,#hero .btn-gold,#hero .btn-outline { animation:none; } #cine.play,#cine.play::before { animation:none; } .ripple { display:none; } }
+
+        /* ===== Deep-space background (Milky Way + tech network) ===== */
+        #company.future-section { background:#000; }
+        .space-layer { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; z-index:0; }
+        .space-vignette { position:absolute; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(0,0,0,.75) 100%); }
+
+        /* ===== Motto ===== */
+        .motto { position:relative; display:flex; gap:12px; align-items:flex-start; padding:14px 18px; border-radius:14px;
+            background:linear-gradient(135deg,rgba(212,175,55,.08),rgba(200,208,220,.04) 50%,rgba(74,222,128,.06)); border:1px solid rgba(255,255,255,.07);
+            font-weight:800; font-size:clamp(1.02rem,2.6vw,1.22rem); line-height:1.8; }
+        .motto::before { content:''; position:absolute; top:10px; bottom:10px; inset-inline-start:0; width:3px; border-radius:3px; background:linear-gradient(#D4AF37,#d9dee6,#4ade80); }
+        .motto i { color:#D4AF37; font-size:.85em; margin-top:.45em; flex-shrink:0; }
+        .motto span { background:linear-gradient(110deg,#F5E08C 0%,#D4AF37 30%,#e6e9ee 55%,#4ade80 85%,#F5E08C 100%); background-size:220% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation:shimmer 9s linear infinite; }
+
+        /* ===== Tri-colour energy ring around the logo (brand mark) ===== */
+        @property --c1 { syntax:'<color>'; initial-value:#D4AF37; inherits:true; }
+        @property --c2 { syntax:'<color>'; initial-value:#C9CED6; inherits:true; }
+        @property --c3 { syntax:'<color>'; initial-value:#22C55E; inherits:true; }
+        @property --rr { syntax:'<angle>'; initial-value:0deg; inherits:true; }
+        .cosmos #cosmos-back, .cosmos #cosmos-front { position:absolute; inset:0; width:100%; height:100%; display:block; }
+        .cosmos #cosmos-back { z-index:1; } .cosmos #cosmos-front { z-index:4; pointer-events:none; }
+        .logo-ring { position:absolute; left:50%; top:50%; width:27%; aspect-ratio:1; transform:translate(-50%,-50%); border-radius:50%; z-index:3;
+            --c1:#D4AF37; --c2:#C9CED6; --c3:#22C55E; animation:ringcolors 12s linear infinite, ringrot 30s linear infinite; }
+        .logo-ring::before, .logo-ring::after { content:''; position:absolute; inset:0; border-radius:50%; padding:4px;
+            background:conic-gradient(from var(--rr), var(--c1) 0deg, var(--c1) 95deg, var(--c2) 125deg, var(--c2) 215deg, var(--c3) 245deg, var(--c3) 335deg, var(--c1) 360deg);
+            -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+            mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite:exclude; }
+        .logo-ring::after { inset:-5px; padding:9px; filter:blur(9px); opacity:.65; }
+        .logo-disc { position:absolute; inset:5px; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center;
+            background:radial-gradient(circle at 50% 38%, #141414, #030303 72%); box-shadow:inset 0 0 18px rgba(0,0,0,.9), inset 0 0 2px rgba(255,255,255,.15); }
+        .logo-disc img { width:86%; height:86%; object-fit:contain; }
+        .logo-disc span { font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(1.1rem,4.6vw,1.9rem); letter-spacing:.02em; }
+        @keyframes ringcolors {
+            0%   { --c1:#D4AF37; --c2:#C9CED6; --c3:#22C55E; }
+            33.3%{ --c1:#C9CED6; --c2:#22C55E; --c3:#D4AF37; }
+            66.6%{ --c1:#22C55E; --c2:#D4AF37; --c3:#C9CED6; }
+            100% { --c1:#D4AF37; --c2:#C9CED6; --c3:#22C55E; } }
+        @keyframes ringrot { to { --rr:360deg; } }
+        @media (prefers-reduced-motion:reduce) { .logo-ring { animation:none; } .motto span { animation:none; } }
 </style>
 </head>
 
@@ -347,14 +386,16 @@
 </section>
 
 <section id="company" class="future-section py-20 sm:py-28 border-y border-white/[0.03]">
-    <div class="future-grid-bg"></div>
-    <div class="orb w-[320px] h-[320px] bg-gold-600 top-[10%] right-[-8%]" style="opacity:.35;animation:pulse-orb 10s ease-in-out infinite"></div>
+    <canvas id="space-static" class="space-layer" aria-hidden="true"></canvas>
+    <canvas id="space-anim" class="space-layer" aria-hidden="true"></canvas>
+    <div class="space-vignette" aria-hidden="true"></div>
     <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div data-aos="fade-up">
                 <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">شركة المستقبل</span>
                 <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-5 leading-tight">نبني <span class="gradient-text">مستقبل التكنولوجيا</span><br>من السودان إلى العالم</h2>
-                <p class="text-white/50 leading-loose text-base mb-6">SD GENESIS شركة تكنولوجية تتطلع إلى الغد: ندمج الذكاء الاصطناعي بالتصميم والبرمجة لنحوّل أفكار عملائنا إلى منتجات رقمية ذكية، ونطمح أن نكون اسمًا يُحتذى به في صناعة التكنولوجيا في المنطقة.</p>
+                <p class="text-white/50 leading-loose text-base mb-6">SD GENESIS شركة تكنولوجية تتطلع إلى الغد: ندمج الذكاء الاصطناعي بالتصميم والبرمجة لنحوّل أفكار عملائنا إلى منتجات رقمية ذكية.</p>
+                <p class="motto mb-7"><i class="fa-solid fa-quote-right"></i><span>نطمح أن نكون اسماً يُحتذى به في صناعة التكنولوجيا في التاريخ</span></p>
                 <div class="flex flex-wrap items-center gap-3 text-xs font-semibold text-white/60">
                     <span class="px-4 py-2 rounded-full border border-gold-500/25 bg-gold-500/5"><i class="fa-solid fa-location-dot ml-2 text-gold-400"></i>المقر: السودان</span>
                     <span class="px-4 py-2 rounded-full border border-white/10 bg-white/[0.03]"><i class="fa-solid fa-mobile-screen-button ml-2 text-gold-400"></i><span id="stat-apps">0</span> تطبيق منشور</span>
@@ -363,8 +404,11 @@
             </div>
             <div data-aos="zoom-in" data-aos-delay="150">
                 <div class="cosmos" id="cosmos" aria-hidden="true">
-                    <canvas id="cosmos-canvas"></canvas>
-                    <div class="cosmos-logo" id="cosmos-logo"><img id="cosmos-logo-img" alt="" hidden><span id="cosmos-logo-text">SD</span></div>
+                    <canvas id="cosmos-back"></canvas>
+                    <div class="logo-ring" id="cosmos-logo">
+                        <div class="logo-disc"><img id="cosmos-logo-img" alt="SD GENESIS" hidden><span id="cosmos-logo-text" class="genesis-gradient">SD</span></div>
+                    </div>
+                    <canvas id="cosmos-front"></canvas>
                     <div class="future-core cosmos-fallback" id="cosmos-fallback" hidden>
                         <div class="future-ring"></div><div class="future-ring r2"></div><div class="future-ring r3"></div>
                         <div class="future-orb">SD</div>
@@ -921,111 +965,242 @@ loadApps();
     });
 })();
 
-// ===== Cosmos: miniature solar system (canvas, 3D-projected) =====
+// ===== Cosmos: 3D planetary system around the logo, alternating horizontal / vertical orbits =====
 (function () {
     const box = document.getElementById('cosmos');
-    const cv = document.getElementById('cosmos-canvas');
-    const ctx = cv && cv.getContext && cv.getContext('2d');
-    if (!ctx) { box && box.classList.add('no-canvas'); const f = document.getElementById('cosmos-fallback'); if (f) f.hidden = false; return; }
+    const back = document.getElementById('cosmos-back'), front = document.getElementById('cosmos-front');
+    const bx = back && back.getContext && back.getContext('2d'), fx = front && front.getContext && front.getContext('2d');
+    if (!bx || !fx) { box && box.classList.add('no-canvas'); const f = document.getElementById('cosmos-fallback'); if (f) f.hidden = false; return; }
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
-    const small = innerWidth < 640;
     const DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 2);
-    const PITCH = 1.05, D = 4.2;
-    let W = 0, H = 0, R = 0, stars = [], running = false, last = 0, t = 0, visible = true;
+    const D = 4.4, HOLD = 10, MORPH = 5, CYCLE = 2 * (HOLD + MORPH);
+    let W = 0, R = 0, running = false, last = 0, t = 2, visible = true;
 
+    // each planet: orbit size/ellipse, size, speed, colours; tilt (rx) + roll (rz) used in the vertical mode
     const planets = [
-        { a: .34, e: .86, r: .028, sp: 1.9, ph: .4, incl: .10, c: ['#fff8e1', '#F5D060', '#6b4e00'] },
-        { a: .50, e: .84, r: .040, sp: 1.25, ph: 2.2, incl: -.07, c: ['#ffffff', '#e8d9a8', '#7a6a3a'] },
-        { a: .68, e: .82, r: .046, sp: .82, ph: 4.1, incl: .12, c: ['#fff1c1', '#D4AF37', '#5a4200'] },
-        { a: .85, e: .80, r: .034, sp: .55, ph: 1.0, incl: -.11, c: ['#ffffff', '#cfd6e6', '#5b6477'], ring: true },
-        { a: 1.0, e: .78, r: .024, sp: .38, ph: 5.3, incl: .06, c: ['#ffe9a8', '#B8960C', '#4a3800'] },
+        { a: .40, e: .92, r: .030, sp: 1.70, ph: .4, rx: 1.35, rz: .25,  c: ['#fffbe8', '#F5D060', '#6b4e00'] },
+        { a: .54, e: .90, r: .042, sp: 1.15, ph: 2.3, rx: -1.15, rz: -.55, c: ['#ffffff', '#d7dce4', '#5b6270'] },
+        { a: .69, e: .88, r: .036, sp: .80,  ph: 4.0, rx: .95,  rz: 1.05, c: ['#eafff1', '#4ade80', '#0f5a2c'] },
+        { a: .84, e: .86, r: .048, sp: .56,  ph: 1.0, rx: -1.45, rz: .75, c: ['#fff1c1', '#D4AF37', '#5a4200'], ring: true },
+        { a: .98, e: .84, r: .026, sp: .40,  ph: 5.3, rx: 1.2,  rz: -1.2, c: ['#ffffff', '#c9ced6', '#4b515c'] },
     ];
-
-    function resize() {
-        const r = box.getBoundingClientRect();
-        W = Math.max(1, Math.round(r.width)); H = W;
-        cv.width = W * DPR; cv.height = H * DPR;
-        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        R = W / 2 * .92;
-        const n = weak ? 45 : small ? 70 : 120;
-        stars = Array.from({ length: n }, () => ({ x: Math.random(), y: Math.random(), z: Math.random(), tw: Math.random() * 6.28, s: .4 + Math.random() * 1.3 }));
+    const ease = (x) => x * x * (3 - 2 * x);
+    function modeMix(time) {                    // 0 = horizontal, 1 = vertical, smooth in between
+        const u = time % CYCLE;
+        if (u < HOLD) return 0;
+        if (u < HOLD + MORPH) return ease((u - HOLD) / MORPH);
+        if (u < 2 * HOLD + MORPH) return 1;
+        return 1 - ease((u - 2 * HOLD - MORPH) / MORPH);
     }
-    function project(x, y, z) {
-        const y2 = y * Math.cos(PITCH) - z * Math.sin(PITCH);
-        const z2 = y * Math.sin(PITCH) + z * Math.cos(PITCH);
-        const k = D / (D - z2);
-        return { x: W / 2 + x * k * R / 1.05, y: H / 2 + y2 * k * R / 1.05, k, z: z2 };
+    function size() {
+        W = Math.max(1, Math.round(box.getBoundingClientRect().width));
+        for (const c of [back, front]) { c.width = W * DPR; c.height = W * DPR; }
+        bx.setTransform(DPR, 0, 0, DPR, 0, 0); fx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        R = W / 2 * .9;
     }
-    function pos(p, ang) {
-        const x = p.a * Math.cos(ang), z = p.a * p.e * Math.sin(ang);
-        return project(x * Math.cos(p.incl), x * Math.sin(p.incl), z);
+    // orbit-plane point -> world -> camera -> screen
+    function place(p, ang, m, time) {
+        let x = p.a * Math.cos(ang), y = 0, z = p.a * p.e * Math.sin(ang);
+        const rx = p.rx * m, rz = (.06 * Math.sin(p.ph * 3)) * (1 - m) + p.rz * m;
+        let c = Math.cos(rx), s = Math.sin(rx);
+        [y, z] = [y * c - z * s, y * s + z * c];
+        c = Math.cos(rz); s = Math.sin(rz);
+        [x, y] = [x * c - y * s, x * s + y * c];
+        const yaw = reduce ? .3 : time * .05;                 // slow camera drift = gentle change of viewpoint
+        c = Math.cos(yaw); s = Math.sin(yaw);
+        [x, z] = [x * c + z * s, -x * s + z * c];
+        const pitch = 1.12 * (1 - m) + .42 * m;               // look from above (horizontal) -> from the side (vertical)
+        c = Math.cos(pitch); s = Math.sin(pitch);
+        [y, z] = [y * c - z * s, y * s + z * c];
+        const k = D / (D - z);
+        return { x: W / 2 + x * k * R, y: W / 2 + y * k * R, k, z };
     }
-    function drawStars(time) {
-        for (const s of stars) {
-            const drift = reduce ? 0 : time * .004 * (.3 + s.z);
-            const x = ((s.x + drift) % 1) * W, y = s.y * H;
-            const a = .25 + .6 * (reduce ? .6 : (.5 + .5 * Math.sin(time * 1.6 + s.tw)));
-            ctx.globalAlpha = a * (.4 + s.z * .6);
-            ctx.fillStyle = s.z > .8 ? '#F5E08C' : '#ffffff';
-            ctx.beginPath(); ctx.arc(x, y, s.s * (.6 + s.z * .6), 0, 6.283); ctx.fill();
+    function halo(ctx, time) {
+        const cx = W / 2, r = W * .135, pulse = reduce ? 1 : 1 + .04 * Math.sin(time * 1.1);
+        ctx.globalCompositeOperation = 'lighter';
+        const g = ctx.createRadialGradient(cx, cx, r * .8, cx, cx, r * 3.2 * pulse);
+        g.addColorStop(0, 'rgba(245,224,140,.30)'); g.addColorStop(.35, 'rgba(201,206,214,.10)'); g.addColorStop(.6, 'rgba(74,222,128,.05)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cx, r * 3.2 * pulse, 0, 6.283); ctx.fill();
+        ctx.globalCompositeOperation = 'source-over';
+    }
+    function orbit(p, m, time) {
+        const N = weak ? 60 : 110; let prev = null;
+        for (let i = 0; i <= N; i++) {
+            const q = place(p, i / N * 6.2832, m, time);
+            if (prev) {
+                const ctx = (prev.z + q.z) / 2 > 0 ? fx : bx;
+                const depth = .10 + .14 * Math.max(0, Math.min(1, ((prev.z + q.z) / 2 + 1) / 2));
+                ctx.strokeStyle = `rgba(230,224,200,${depth})`; ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+            }
+            prev = q;
         }
-        ctx.globalAlpha = 1;
     }
-    function drawOrbit(p) {
-        ctx.beginPath();
-        for (let i = 0; i <= 90; i++) { const q = pos(p, i / 90 * 6.2832); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }
-        ctx.strokeStyle = 'rgba(245,224,140,.16)'; ctx.lineWidth = 1; ctx.stroke();
-    }
-    function drawSun(time) {
-        const cx = W / 2, cy = H / 2, r = R * .17, pulse = reduce ? 1 : 1 + .03 * Math.sin(time * 1.4);
+    function planet(ctx, p, q) {
+        const r = p.r * R * q.k * 1.3, cx = W / 2;
+        const dx = cx - q.x, dy = cx - q.y, d = Math.hypot(dx, dy) || 1;
+        const lx = q.x + dx / d * r * .45, ly = q.y + dy / d * r * .45;      // lit side faces the logo/sun
+        const fade = .55 + .45 * Math.max(0, Math.min(1, (q.z + 1) / 2));    // farther = dimmer (depth cue)
+        ctx.globalAlpha = fade;
         ctx.globalCompositeOperation = 'lighter';
-        let g = ctx.createRadialGradient(cx, cy, r * .5, cx, cy, r * 4.2 * pulse);
-        g.addColorStop(0, 'rgba(255,236,170,.55)'); g.addColorStop(.35, 'rgba(212,175,55,.18)'); g.addColorStop(1, 'rgba(212,175,55,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r * 4.2 * pulse, 0, 6.283); ctx.fill();
+        let g = ctx.createRadialGradient(q.x, q.y, r * .5, q.x, q.y, r * 2.4);
+        g.addColorStop(0, p.c[1] + '55'); g.addColorStop(1, p.c[1] + '00');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r * 2.4, 0, 6.283); ctx.fill();
         ctx.globalCompositeOperation = 'source-over';
-        g = ctx.createRadialGradient(cx - r * .3, cy - r * .35, r * .1, cx, cy, r * pulse);
-        g.addColorStop(0, '#fffdf2'); g.addColorStop(.45, '#F5D060'); g.addColorStop(1, '#a87c10');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r * pulse, 0, 6.283); ctx.fill();
-    }
-    function drawPlanet(p, q, ang) {
-        const r = p.r * R * q.k * 1.35;
-        // light comes from the sun: shade the side facing the centre
-        const dx = W / 2 - q.x, dy = H / 2 - q.y, d = Math.hypot(dx, dy) || 1;
-        const lx = q.x + dx / d * r * .45, ly = q.y + dy / d * r * .45;
-        ctx.globalCompositeOperation = 'lighter';
-        let g = ctx.createRadialGradient(q.x, q.y, r * .6, q.x, q.y, r * 2.6);
-        g.addColorStop(0, 'rgba(245,224,140,.28)'); g.addColorStop(1, 'rgba(245,224,140,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r * 2.6, 0, 6.283); ctx.fill();
-        ctx.globalCompositeOperation = 'source-over';
-        if (p.ring) { ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(-.35); ctx.scale(1, .32); ctx.strokeStyle = 'rgba(255,248,225,.55)'; ctx.lineWidth = r * .28; ctx.beginPath(); ctx.arc(0, 0, r * 1.75, Math.PI, 0); ctx.stroke(); ctx.restore(); }
-        g = ctx.createRadialGradient(lx, ly, r * .1, q.x, q.y, r);
+        const ring = (from, to) => { ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(-.4); ctx.scale(1, .3); ctx.strokeStyle = 'rgba(255,246,215,.65)'; ctx.lineWidth = r * .26; ctx.beginPath(); ctx.arc(0, 0, r * 1.8, from, to); ctx.stroke(); ctx.restore(); };
+        if (p.ring) ring(Math.PI, 0);
+        g = ctx.createRadialGradient(lx, ly, r * .08, q.x, q.y, r);
         g.addColorStop(0, p.c[0]); g.addColorStop(.55, p.c[1]); g.addColorStop(1, p.c[2]);
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.283); ctx.fill();
-        if (p.ring) { ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(-.35); ctx.scale(1, .32); ctx.strokeStyle = 'rgba(255,248,225,.7)'; ctx.lineWidth = r * .28; ctx.beginPath(); ctx.arc(0, 0, r * 1.75, 0, Math.PI); ctx.stroke(); ctx.restore(); }
+        if (p.ring) ring(0, Math.PI);
+        ctx.globalAlpha = 1;
     }
     function frame(time) {
-        ctx.clearRect(0, 0, W, H);
-        drawStars(time);
-        planets.forEach(drawOrbit);
-        const items = planets.map((p) => { const ang = p.ph + time * .22 * p.sp; return { p, ang, q: pos(p, ang) }; });
-        items.push({ sun: true, q: { z: 0 } });
-        items.sort((u, v) => u.q.z - v.q.z);
-        for (const it of items) it.sun ? drawSun(time) : drawPlanet(it.p, it.q, it.ang);
+        bx.clearRect(0, 0, W, W); fx.clearRect(0, 0, W, W);
+        const m = modeMix(time);
+        halo(bx, time);
+        planets.forEach((p) => orbit(p, m, time));
+        const list = planets.map((p) => ({ p, q: place(p, p.ph + time * .2 * p.sp, m, time) })).sort((u, v) => u.q.z - v.q.z);
+        for (const it of list) planet(it.q.z > 0 ? fx : bx, it.p, it.q);    // in front of the logo -> front canvas
     }
     function loop(now) {
         if (!running) return;
         if (!last) last = now;
         const dt = Math.min(.05, (now - last) / 1000);
-        if (!weak || now - last > 30) { t += dt; frame(t); last = now; }
+        if (!weak || now - last > 32) { t += dt; frame(t); last = now; }
         requestAnimationFrame(loop);
     }
     function start() { if (running || reduce) return; running = true; last = 0; requestAnimationFrame(loop); }
     function stop() { running = false; }
-    resize(); frame(1.5);
-    addEventListener('resize', () => { resize(); frame(t || 1.5); });
+    size(); frame(t);
+    addEventListener('resize', () => { size(); frame(t); });
+    window.__cosmos = { mix: modeMix, frameAt: (x) => { t = x; frame(x); } };
     if (!reduce) {
         new IntersectionObserver((e) => { visible = e[0].isIntersecting; visible && !document.hidden ? start() : stop(); }, { threshold: .05 }).observe(box);
+        document.addEventListener('visibilitychange', () => { document.hidden ? stop() : (visible && start()); });
+    }
+})();
+
+// ===== Deep-space background: Milky Way band, nebulae, smart-network nodes, data flow =====
+(function () {
+    const sec = document.getElementById('company');
+    const sc = document.getElementById('space-static'), ac = document.getElementById('space-anim');
+    const sx = sc && sc.getContext && sc.getContext('2d'), ax = ac && ac.getContext && ac.getContext('2d');
+    if (!sx || !ax) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
+    const small = innerWidth < 640;
+    const DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 1.5);
+    const GOLD = '212,175,55', SILVER = '214,219,227', GREEN = '74,222,128', WHITE = '255,255,255';
+    let W = 0, H = 0, nodes = [], parts = [], pulses = [], running = false, last = 0, t = 0, visible = false, rt;
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
+
+    function paintStatic() {
+        sx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        sx.fillStyle = '#000'; sx.fillRect(0, 0, W, H);
+        // Milky Way band: a diagonal line through the section
+        const ang = -0.38, cx = W * .5, cy = H * .48, L = Math.hypot(W, H), bw = Math.min(W, H) * (small ? .16 : .12);
+        const ux = Math.cos(ang), uy = Math.sin(ang), nx = -uy, ny = ux;
+        const along = (u, v) => [cx + ux * u * L / 2 + nx * v, cy + uy * u * L / 2 + ny * v];
+        sx.globalCompositeOperation = 'lighter';
+        // soft nebula clouds (gold / silver / green)
+        const clouds = weak ? 8 : 16;
+        for (let i = 0; i < clouds; i++) {
+            const u = rnd(-1, 1), v = gauss() * bw * .9, [x, y] = along(u, v), r = rnd(.6, 1.6) * bw * 1.6;
+            const col = [GOLD, SILVER, GREEN, SILVER, GOLD][i % 5], a = col === GREEN ? .035 : .05;
+            const g = sx.createRadialGradient(x, y, 0, x, y, r);
+            g.addColorStop(0, `rgba(${col},${a})`); g.addColorStop(1, `rgba(${col},0)`);
+            sx.fillStyle = g; sx.beginPath(); sx.arc(x, y, r, 0, 6.283); sx.fill();
+        }
+        // dense star clusters along the band + sparse field stars
+        const band = weak ? 900 : small ? 1300 : 2600, field = weak ? 220 : 420;
+        for (let i = 0; i < band + field; i++) {
+            let x, y, a;
+            if (i < band) { const v = gauss() * bw; [x, y] = along(rnd(-1, 1), v); a = .25 + .6 * (1 - Math.abs(v) / (bw * 1.6)); }
+            else { x = Math.random() * W; y = Math.random() * H; a = rnd(.2, .8); }
+            const r = Math.random() < .03 ? rnd(.9, 1.5) : rnd(.25, .8);
+            const pick = Math.random(), col = pick < .07 ? GOLD : pick < .1 ? GREEN : pick < .3 ? SILVER : WHITE;
+            sx.fillStyle = `rgba(${col},${Math.max(.08, a)})`; sx.beginPath(); sx.arc(x, y, r, 0, 6.283); sx.fill();
+            if (r > 1.1) { const g = sx.createRadialGradient(x, y, 0, x, y, r * 5); g.addColorStop(0, `rgba(${col},.25)`); g.addColorStop(1, `rgba(${col},0)`); sx.fillStyle = g; sx.beginPath(); sx.arc(x, y, r * 5, 0, 6.283); sx.fill(); }
+        }
+        // dark dust lane through the middle of the band
+        sx.globalCompositeOperation = 'source-over';
+        for (let i = 0; i < 10; i++) {
+            const [x, y] = along(rnd(-.9, .9), gauss() * bw * .25), r = rnd(.4, .9) * bw;
+            const g = sx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, 'rgba(0,0,0,.35)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+            sx.fillStyle = g; sx.beginPath(); sx.arc(x, y, r, 0, 6.283); sx.fill();
+        }
+        // faint futuristic geometry: concentric arcs + thin digital lines
+        sx.lineWidth = 1;
+        const gx = W * (small ? .5 : .72), gy = H * .45;
+        for (let i = 1; i <= 4; i++) { sx.strokeStyle = `rgba(${SILVER},${.05 - i * .008})`; sx.setLineDash(i % 2 ? [2, 10] : []); sx.beginPath(); sx.arc(gx, gy, Math.min(W, H) * .17 * i, 0, 6.283); sx.stroke(); }
+        sx.setLineDash([]);
+        for (let i = 0; i < 6; i++) { const y = rnd(.05, .95) * H; const g = sx.createLinearGradient(0, y, W, y); g.addColorStop(0, `rgba(${GOLD},0)`); g.addColorStop(.5, `rgba(${i % 2 ? GREEN : GOLD},.06)`); g.addColorStop(1, `rgba(${GOLD},0)`); sx.strokeStyle = g; sx.beginPath(); sx.moveTo(0, y); sx.lineTo(W, y); sx.stroke(); }
+    }
+    function seed() {
+        const nN = weak ? 7 : small ? 9 : 16;
+        nodes = Array.from({ length: nN }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: rnd(-.08, .08), vy: rnd(-.06, .06), c: Math.random() < .5 ? GOLD : Math.random() < .5 ? SILVER : GREEN, p: rnd(0, 6) }));
+        parts = Array.from({ length: weak ? 25 : small ? 35 : 60 }, () => ({ x: Math.random() * W, y: Math.random() * H, s: rnd(.08, .35), r: rnd(.4, 1.3), c: [GOLD, SILVER, GREEN, WHITE][Math.floor(Math.random() * 4)], p: rnd(0, 6) }));
+        pulses = [];
+    }
+    function size() {
+        const r = sec.getBoundingClientRect(); W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+        for (const c of [sc, ac]) { c.width = W * DPR; c.height = H * DPR; }
+        ax.setTransform(DPR, 0, 0, DPR, 0, 0);
+        paintStatic(); seed(); draw(0);
+    }
+    function draw(dt) {
+        ax.clearRect(0, 0, W, H);
+        const link = Math.min(W, H) * (small ? .38 : .28);
+        // moving nodes + connecting lines (smart network)
+        for (const n of nodes) { if (!reduce) { n.x += n.vx * dt * 60; n.y += n.vy * dt * 60; if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1; } }
+        ax.lineWidth = 1;
+        for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+            const a = nodes[i], b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+            if (d < link) {
+                const al = (1 - d / link) * .16;
+                ax.strokeStyle = `rgba(${a.c},${al})`; ax.beginPath(); ax.moveTo(a.x, a.y); ax.lineTo(b.x, b.y); ax.stroke();
+                if (!reduce && pulses.length < (weak ? 3 : 7) && Math.random() < .002) pulses.push({ a, b, u: 0, sp: rnd(.25, .5) });
+            }
+        }
+        // data / energy pulses travelling along links
+        ax.globalCompositeOperation = 'lighter';
+        pulses = pulses.filter((q) => (q.u += q.sp * dt) < 1);
+        for (const q of pulses) {
+            const x = q.a.x + (q.b.x - q.a.x) * q.u, y = q.a.y + (q.b.y - q.a.y) * q.u;
+            const g = ax.createRadialGradient(x, y, 0, x, y, 7); g.addColorStop(0, `rgba(${q.a.c},.9)`); g.addColorStop(1, `rgba(${q.a.c},0)`);
+            ax.fillStyle = g; ax.beginPath(); ax.arc(x, y, 7, 0, 6.283); ax.fill();
+        }
+        for (const n of nodes) {
+            const pr = reduce ? 1 : .7 + .3 * Math.sin(t * 2 + n.p);
+            const g = ax.createRadialGradient(n.x, n.y, 0, n.x, n.y, 9 * pr); g.addColorStop(0, `rgba(${n.c},.55)`); g.addColorStop(1, `rgba(${n.c},0)`);
+            ax.fillStyle = g; ax.beginPath(); ax.arc(n.x, n.y, 9 * pr, 0, 6.283); ax.fill();
+            ax.fillStyle = `rgba(${WHITE},.85)`; ax.beginPath(); ax.arc(n.x, n.y, 1.3, 0, 6.283); ax.fill();
+        }
+        // rising digital particles
+        for (const q of parts) {
+            if (!reduce) { q.y -= q.s * dt * 60; if (q.y < -4) { q.y = H + 4; q.x = Math.random() * W; } }
+            ax.fillStyle = `rgba(${q.c},${.25 + .45 * (reduce ? .5 : .5 + .5 * Math.sin(t * 1.7 + q.p))})`;
+            ax.fillRect(q.x, q.y, q.r, q.r * (q.s > .25 ? 4 : 1.4));
+        }
+        ax.globalCompositeOperation = 'source-over';
+    }
+    function loop(now) {
+        if (!running) return;
+        if (!last) last = now;
+        const dt = Math.min(.05, (now - last) / 1000);
+        if (now - last > (weak ? 40 : 30)) { t += dt; draw(dt); last = now; }
+        requestAnimationFrame(loop);
+    }
+    function start() { if (running || reduce) return; running = true; last = 0; requestAnimationFrame(loop); }
+    function stop() { running = false; }
+    size();
+    addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(size, 200); });
+    if ('ResizeObserver' in window) { let lh = H; new ResizeObserver(() => { const h = Math.round(sec.getBoundingClientRect().height); if (Math.abs(h - lh) > 20) { lh = h; clearTimeout(rt); rt = setTimeout(size, 200); } }).observe(sec); }
+    if (!reduce) {
+        new IntersectionObserver((e) => { visible = e[0].isIntersecting; visible && !document.hidden ? start() : stop(); }, { threshold: 0 }).observe(sec);
         document.addEventListener('visibilitychange', () => { document.hidden ? stop() : (visible && start()); });
     }
 })();
