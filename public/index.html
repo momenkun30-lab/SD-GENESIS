@@ -312,10 +312,10 @@
         .cs-main { stop-color:var(--claw); }
         .cs-dark { stop-color:color-mix(in srgb, var(--claw) 45%, #000); }
         .cs-hi   { stop-color:#fffbe8; }
-        .mf-text { position:relative; z-index:2; }
-        .mf-p { font-family:'Cairo',sans-serif; font-weight:700; font-size:clamp(1rem,2.4vw,1.1rem); line-height:2.15; text-align:justify; text-justify:inter-word; margin-bottom:16px; direction:rtl;
-            color:#dfe3e8; -webkit-text-fill-color:#dfe3e8;
-            text-shadow:0 -1px 0 rgba(255,255,255,.55), 0 1px 0 #6f7680, 0 2px 1px rgba(0,0,0,.85), 0 0 3px #000, 0 0 8px rgba(0,0,0,.9); }
+        .mf-text { position:relative; z-index:2; -webkit-user-select:text; user-select:text; }
+        .mf-p { font-family:'Cairo',sans-serif; font-weight:700; font-size:clamp(1rem,2.4vw,1.1rem); line-height:2.15; text-align:justify; text-justify:inter-word; margin-bottom:16px; direction:rtl; unicode-bidi:plaintext;
+            color:#e4e7eb; -webkit-text-fill-color:#e4e7eb; text-shadow:0 1px 0 rgba(0,0,0,.9), 0 0 6px rgba(0,0,0,.85);
+            -webkit-user-select:text; user-select:text; -webkit-touch-callout:default; }
         .mf-p:last-child { margin-bottom:0; }
         .mf-name { font-family:'Inter',sans-serif; font-weight:900; letter-spacing:.06em; font-size:1.12em; white-space:nowrap; color:#ffffff; -webkit-text-fill-color:#ffffff; text-shadow:0 0 10px rgba(238,241,244,.55), 0 1px 0 #6f7680, 0 0 3px #000; }
         .mf-key { font-style:normal; font-weight:900; font-size:1.12em; position:relative; white-space:nowrap; color:#ffffff; -webkit-text-fill-color:#ffffff; text-shadow:0 0 12px rgba(238,241,244,.6), 0 1px 0 #6f7680, 0 0 3px #000; }
@@ -1217,10 +1217,10 @@ window.__buildCssCosmos = function () {
 };
 </script>
 <script>
-// ===== Cosmos: orbital rings, each carrying exactly 10 spinning planets, rings made of stardust =====
+// ===== Cosmos: rings around the logo, exactly 10 spinning planets per ring =====
+// Drawn ONLY with direct canvas paths & gradients (the technique proven to work on the owner's phone):
+// no off-screen canvases, no drawImage, no pixel read/write, no clip().
 (function () {
-  try {
     var box = document.getElementById('cosmos');
     var back = document.getElementById('cosmos-back'), front = document.getElementById('cosmos-front');
-    function report(where, e) { (window.__sdErrors = window.__sdErrors || []).push('cosmos/' + where + ': ' + (e && e.message ? e.message : e)); if (window.console) console.warn('[cosmos]', where, e); }
-    function useFallback(why) { report('fallback', why); if (box) box.classList.add('no-canvas'); if (window.__
+    function report(where, e) { (window.__sdErrors = window.__sdErrors || []).push('cosm
