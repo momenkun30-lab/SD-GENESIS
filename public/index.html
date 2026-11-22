@@ -226,7 +226,7 @@
         .cosmos-logo img { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 0 10px rgba(245,224,140,.9)); }
         .cosmos-fallback { position:absolute; inset:6%; width:auto; }
         .cosmos-fallback[hidden] { display:none; }
-        .cosmos.no-canvas .logo-ring { display:none; }
+
 
         /* ===== Glass / digital-space buttons ===== */
         .btn-gold, .btn-outline { position:relative; overflow:hidden; isolation:isolate; backdrop-filter:blur(10px) saturate(140%); -webkit-backdrop-filter:blur(10px) saturate(140%); transform-style:preserve-3d;
@@ -371,6 +371,24 @@
         .manifesto { margin-top:70px; margin-bottom:120px; height:auto; min-height:0; overflow:visible; }
         @media (max-width:640px) { .cb-1 { left:-30px; top:-78px; } .cb-2 { right:-62px; } .cb-3 { bottom:-104px; } }
         @media (prefers-reduced-motion:reduce) { .future-eyebrow { animation:none; } .manifesto .claw.big { clip-path:none; transition:none; } }
+
+        /* ===== CSS cosmos fallback (3 rings × 10 planets) ===== */
+        .cosmos-fallback { position:absolute; inset:0; z-index:2; pointer-events:none; }
+        .css-cosmos { position:absolute; inset:0; perspective:900px; }
+        .cc-ring { position:absolute; left:50%; top:50%; width:var(--d); height:var(--d); transform-style:preserve-3d; translate:-50% -50%;
+            animation:ccTilt var(--td) ease-in-out infinite alternate; }
+        @keyframes ccTilt { from { transform:rotateX(var(--t1)) rotateY(var(--y1)); } to { transform:rotateX(var(--t2)) rotateY(var(--y2)); } }
+        .cc-orbit { position:absolute; inset:0; border-radius:50%; transform-style:preserve-3d; animation:ccSpin var(--dur) linear infinite;
+            border:2px dotted rgba(var(--c),.55); box-shadow:0 0 14px rgba(var(--c),.25), inset 0 0 14px rgba(var(--c),.15); }
+        .cc-orbit::before { content:''; position:absolute; inset:-4%; border-radius:50%; border:1px dotted rgba(255,255,255,.25); animation:ccSpin calc(var(--dur) / 3) linear infinite reverse; }
+        .cc-orbit.rev { animation-direction:reverse; }
+        @keyframes ccSpin { to { transform:rotateZ(360deg); } }
+        .cc-arm { position:absolute; inset:0; transform-style:preserve-3d; }
+        .cc-planet { position:absolute; top:50%; width:var(--s); aspect-ratio:1; border-radius:50%; background-size:100% 300%, 100% 100%; background-blend-mode:soft-light;
+            left:100%; transform:translate(-50%,-50%); animation:ccAxis var(--sd) linear infinite;
+            box-shadow:inset -3px -3px 7px rgba(0,0,0,.75), 0 0 10px rgba(var(--glow),.55); }
+        @keyframes ccAxis { to { background-position:0 -300%, 0 0; } }
+        @media (prefers-reduced-motion:reduce) { .cc-ring, .cc-orbit, .cc-orbit::before, .cc-planet { animation:none; } }
 </style>
 </head>
 
@@ -530,10 +548,7 @@
                         <div class="logo-disc"><img id="cosmos-logo-img" alt="SD GENESIS" hidden><span id="cosmos-logo-text" class="genesis-gradient">SD</span></div>
                     </div>
                     <canvas id="cosmos-front"></canvas>
-                    <div class="future-core cosmos-fallback" id="cosmos-fallback" hidden>
-                        <div class="future-ring"></div><div class="future-ring r2"></div><div class="future-ring r3"></div>
-                        <div class="future-orb">SD</div>
-                    </div>
+                    <div class="cosmos-fallback" id="cosmos-fallback" hidden></div>
                 </div>
             </div>
         </div>
@@ -1173,61 +1188,39 @@ loadApps();
 
 </script>
 <script>
+// ===== CSS cosmos: same idea (3 rings × 10 spinning planets) for browsers where the canvas can't paint =====
+window.__buildCssCosmos = function () {
+    var host = document.getElementById('cosmos-fallback');
+    if (!host || host.getAttribute('data-built')) { if (host) host.hidden = false; return; }
+    host.setAttribute('data-built', '1');
+    var cols = [['#fff3c4', '#D4AF37', '#5a4200', '212,175,55'], ['#ffffff', '#c9ced6', '#4b525c', '214,219,227'], ['#d9ffe8', '#4ade80', '#0b3d22', '74,222,128'],
+                ['#e0f2ff', '#60a5fa', '#0b2a5b', '96,165,250'], ['#3a3a3a', '#111111', '#000000', '212,175,55'], ['#fff1c1', '#F5D060', '#6b4e00', '245,208,96'],
+                ['#d5fff7', '#2dd4bf', '#06302c', '45,212,191'], ['#f4f6f8', '#a3aab3', '#3d434c', '226,231,238'], ['#efe7ff', '#a78bfa', '#24104d', '167,139,250'], ['#ffd9b0', '#e08a3c', '#3b1a06', '224,138,60']];
+    var rings = [
+        { d: 58, t1: 72, t2: 50, y1: -12, y2: 18, dur: 22, td: 14, c: '212,175,55' },
+        { d: 78, t1: 12, t2: 38, y1: 70, y2: 48, dur: 30, td: 17, c: '214,219,227', rev: true },
+        { d: 96, t1: 60, t2: 80, y1: 30, y2: -20, dur: 40, td: 20, c: '74,222,128' },
+    ];
+    var html = '<div class="css-cosmos">';
+    rings.forEach(function (r, ri) {
+        html += '<div class="cc-ring" style="--d:' + r.d + '%;--t1:' + r.t1 + 'deg;--t2:' + r.t2 + 'deg;--y1:' + r.y1 + 'deg;--y2:' + r.y2 + 'deg;--td:' + r.td + 's">' +
+                '<div class="cc-orbit' + (r.rev ? ' rev' : '') + '" style="--dur:' + r.dur + 's;--c:' + r.c + '">';
+        for (var i = 0; i < 10; i++) {
+            var c = cols[(i * 3 + ri * 7) % 10], s = (ri === 2 ? 5.2 : ri === 1 ? 4.4 : 3.6) * (.8 + ((i * 37) % 10) / 22);
+            html += '<i class="cc-arm" style="transform:rotate(' + (i * 36) + 'deg)"><span class="cc-planet" style="--s:' + s.toFixed(2) + '%;--sd:' + (3 + (i % 4) * 1.3).toFixed(1) + 's;--glow:' + c[3] + ';' +
+                    'background-image:repeating-linear-gradient(0deg,' + c[1] + ' 0 18%,' + c[0] + ' 18% 26%,' + c[2] + ' 26% 34%,' + c[1] + ' 34% 50%),radial-gradient(circle at 32% 30%,' + c[0] + ',' + c[1] + ' 55%,' + c[2] + ')"></span></i>';
+        }
+        html += '</div></div>';
+    });
+    host.innerHTML = html + '</div>';
+    host.hidden = false;
+};
+</script>
+<script>
 // ===== Cosmos: orbital rings, each carrying exactly 10 spinning planets, rings made of stardust =====
 (function () {
+  try {
     var box = document.getElementById('cosmos');
     var back = document.getElementById('cosmos-back'), front = document.getElementById('cosmos-front');
-    var bx = back && back.getContext && back.getContext('2d'), fx = front && front.getContext && front.getContext('2d');
-    if (!bx || !fx) { if (box) box.classList.add('no-canvas'); var fb = document.getElementById('cosmos-fallback'); if (fb) fb.hidden = false; return; }
-    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
-    var small = innerWidth < 640;
-    var DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 2);
-    var PER_RING = 10;                                   // exactly 10 planets on every ring
-    var D = 5.6, PITCH = .34, TEX = weak ? 40 : small ? 64 : 88;
-    var DUST = weak ? 45 : small ? 80 : 130, TAIL = weak ? 3 : 6;
-    var W = 0, R = 0, running = false, last = 0, t = 2, visible = true, GA = 1;
-
-    var PAL = {
-        gold: ['#7a5a00', '#D4AF37', '#F5D060', '#fff3c4'], silver: ['#3d434c', '#a3aab3', '#e3e7ec', '#ffffff'],
-        green: ['#0b3d22', '#16a34a', '#4ade80', '#d9ffe8'], blue: ['#0b2a5b', '#2563eb', '#60a5fa', '#e0f2ff'],
-        teal: ['#06302c', '#0f766e', '#2dd4bf', '#d5fff7'], violet: ['#1d0d40', '#6d28d9', '#a78bfa', '#efe7ff'],
-        obsidian: ['#000000', '#0b0b0b', '#1f1f1f', '#3a3a3a'], copper: ['#3b1a06', '#9a4a12', '#e08a3c', '#ffd9b0'],
-    };
-    var RGB = { gold: '245,208,96', silver: '226,231,238', green: '74,222,128', blue: '120,180,255', teal: '94,234,212', violet: '186,166,255', obsidian: '212,175,55', copper: '240,160,90' };
-
-    // ten planet archetypes — every ring carries one of each, so each ring has 10 distinct planets
-    var KINDS = [
-        { kind: 'rock', col: 'gold', size: .9 }, { kind: 'earth', col: 'green', size: 1.1 }, { kind: 'gas', col: 'silver', size: 1.35, ring: true },
-        { kind: 'ice', col: 'blue', size: 1.0 }, { kind: 'obsidian', col: 'obsidian', size: .95, gloss: true }, { kind: 'gas', col: 'gold', size: 1.5, ring: true },
-        { kind: 'gas', col: 'teal', size: 1.1 }, { kind: 'rock', col: 'silver', size: .75 }, { kind: 'gas', col: 'violet', size: 1.05 },
-        { kind: 'rock', col: 'copper', size: .85 },
-    ];
-    // rings: base plane + slow, continuous drift of the plane (horizontal / vertical / tilted)
-    var RINGS_ALL = [
-        { a: .46, e: .93, rx: .08,  rz: .04,  ax: .55, az: .25, w: .060, sp:  .52, flow:  .95, col: 'gold',   base: .026 },
-        { a: .63, e: .91, rx: 1.48, rz: .12,  ax: .40, az: .35, w: .045, sp: -.40, flow: -.70, col: 'silver', base: .030 },
-        { a: .80, e: .89, rx: .82,  rz: .55,  ax: .45, az: .30, w: .038, sp:  .31, flow:  .55, col: 'green',  base: .033 },
-        { a: .97, e: .87, rx: -.70, rz: -.50, ax: .35, az: .40, w: .030, sp: -.24, flow: -.42, col: 'gold',   base: .036 },
-    ];
-    var RINGS = weak ? [RINGS_ALL[1], RINGS_ALL[3]] : small ? [RINGS_ALL[0], RINGS_ALL[2], RINGS_ALL[3]] : RINGS_ALL;
-
-    function rnd(seed) { var s = seed % 2147483647; if (s <= 0) s += 2147483646; return function () { s = s * 16807 % 2147483647; return (s - 1) / 2147483646; }; }
-    RINGS.forEach(function (ring, ri) {
-        var r = rnd(97 + ri * 31);
-        ring.ph = ri * 1.7;
-        ring.planets = [];
-        for (var i = 0; i < PER_RING; i++) {
-            var k = KINDS[(i * 3 + ri * 7) % KINDS.length];       // shuffled order per ring
-            ring.planets.push({
-                k: k, slot: i / PER_RING * 6.2832 + (r() - .5) * .18,
-                wob: .08 + r() * .09, ww: .35 + r() * .9, wp: r() * 6.28,                      // individual speed variation, never leaves its slot
-                size: ring.base * k.size * (.85 + r() * .3),
-                spin: r(), spinSp: (r() < .5 ? -1 : 1) * (.06 + r() * .14),
-                tilt: (r() - .5) * .9,
-            });
-        }
-        ring.dust = [];
-        for (var j = 0; j < DUST; j++) ring.dust.push({ u: r() * 6.2832, j: (r() - .5) * .035, v: (r() - .5) * .025, s: 1 + r() * 1.6, a: .4 + r() * .6, tw: r() * 6.28, hot: r() < .14, c: r() < .25 ? 'white' : r() < .5 ? 'green' : ring.col });
-        ring.ringP = [];
-        for (var m = 0; m < (weak ? 24 : 48); m++) ring.ringP.push({ u: r() * 6.2832, rr: 1.5 + 
+    function report(where, e) { (window.__sdErrors = window.__sdErrors || []).push('cosmos/' + where + ': ' + (e && e.message ? e.message : e)); if (window.console) console.warn('[cosmos]', where, e); }
+    function useFallback(why) { report('fallback', why); if (box) box.classList.add('no-canvas'); if (window.__
