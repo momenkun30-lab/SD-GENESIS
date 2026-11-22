@@ -64,7 +64,7 @@
             position:absolute; inset:0; z-index:1;
             background:
                 radial-gradient(ellipse at 50% 50%, rgba(5,5,5,0.3) 0%, rgba(5,5,5,0.85) 70%),
-                linear-gradient(180deg, rgba(5,5,5,0.5) 0%, rgba(5,5,5,0.2) 50%, rgba(5,5,5,0.9) 100%);
+                linear-gradient(180deg, rgba(5,5,5,0.5) 0%, rgba(5,5,5,0.2) 50%, rgba(0,0,0,0.92) 88%, #000 100%);
         }
         #matrix-canvas { position:absolute; inset:0; z-index:2; width:100%; height:100%; pointer-events:none; }
 
@@ -219,7 +219,7 @@
         @media (prefers-reduced-motion:reduce) { .future-ring, .future-orb, .service-card.selected::before, .service-card.selected::after { animation:none; } }
 
         /* ===== Cosmos (solar system) ===== */
-        .cosmos { position:relative; width:min(520px,92vw); aspect-ratio:1; margin:0 auto; }
+        .cosmos { position:relative; width:min(580px,94vw); aspect-ratio:1; margin:0 auto; }
         .cosmos canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
         .cosmos-logo { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:19%; aspect-ratio:1; display:flex; align-items:center; justify-content:center; pointer-events:none; z-index:3;
             font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(.9rem,3.4vw,1.35rem); color:#2a1d00; text-shadow:0 0 12px rgba(255,248,220,.9); }
@@ -334,6 +334,45 @@
         .manifesto.in .cl-1 { transition-delay:.15s; } .manifesto.in .cl-2 { transition-delay:.45s; } .manifesto.in .cl-3 { transition-delay:.75s; } .manifesto.in .cl-4 { transition-delay:1s; }
         @media (max-width:640px) { .manifesto { padding:26px 20px; } .mf-p { line-height:2.05; text-align:right; } .cl-2 { right:-14px; } .cl-4 { left:-12px; } }
         @media (prefers-reduced-motion:reduce) { .loading-motto { animation:none; } .manifesto { animation:none; } .manifesto .mf-p, .manifesto .claw { opacity:1; transform:none; clip-path:none; transition:none; } }
+
+        /* ===== Eyebrow ===== */
+        .future-eyebrow { display:inline-block; font-family:'Cairo',sans-serif; font-weight:900; font-size:clamp(1.2rem,3.2vw,1.6rem); line-height:1.4; letter-spacing:0;
+            background:linear-gradient(120deg,#F5E08C,#D4AF37 40%,#fff3c4 55%,#D4AF37 75%); background-size:200% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            filter:drop-shadow(0 0 12px rgba(212,175,55,.35)); animation:shimmer 6s linear infinite; }
+        .font-inter { font-family:'Inter',sans-serif; letter-spacing:.01em; }
+
+        /* ===== Hero: binary rain ↔ space ===== */
+        #hero { background:#000; }
+        .hero-seam { position:absolute; left:0; right:0; bottom:0; height:38%; z-index:1; pointer-events:none; background:linear-gradient(180deg,rgba(0,0,0,0),#000 80%); }
+        #hero-space, #hero-dust { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; display:block; }
+        #hero-space { z-index:2; } #matrix-canvas { z-index:3; } #hero-dust { z-index:4; }
+        #matrix-canvas {
+            -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 46%,rgba(0,0,0,.55) 64%,rgba(0,0,0,.12) 80%,transparent 92%), linear-gradient(90deg,transparent 0%,#000 10%,#000 90%,transparent 100%);
+            -webkit-mask-composite:source-in;
+            mask-image:linear-gradient(180deg,#000 0%,#000 46%,rgba(0,0,0,.55) 64%,rgba(0,0,0,.12) 80%,transparent 92%), linear-gradient(90deg,transparent 0%,#000 10%,#000 90%,transparent 100%);
+            mask-composite:intersect; }
+
+        /* ===== Big metallic tiger claws (gold rim, deep black core) ===== */
+        .cw-outer { fill:url(#claw-gold); }
+        .cw-core  { fill:url(#claw-core); }
+        .cw-hi    { fill:none; stroke:#fff3c4; stroke-width:1.4; stroke-linecap:round; opacity:.85; }
+        .cw-lo    { fill:none; stroke:#3a2a00; stroke-width:1.6; stroke-linecap:round; opacity:.8; }
+        .manifesto .claw.big { position:absolute; z-index:0; pointer-events:none;
+            filter:drop-shadow(2px 4px 3px rgba(0,0,0,.85)) drop-shadow(0 0 8px color-mix(in srgb, var(--claw) 70%, transparent)); }
+        .cb-1 { width:clamp(130px,26%,200px); top:-92px; left:-58px; transform:rotate(-6deg); }
+        .cb-2 { width:clamp(110px,20%,160px); top:38%; right:-84px; transform:scaleX(-1) rotate(-12deg); }
+        .cb-3 { width:clamp(120px,22%,170px); bottom:-120px; left:34%; transform:rotate(22deg); }
+        .mf-p { filter:drop-shadow(0 0 2px rgba(0,0,0,.95)) drop-shadow(0 0 4px rgba(0,0,0,.9)) drop-shadow(0 1px 0 rgba(0,0,0,.6)); }
+        .carve { position:relative; display:inline-block; isolation:isolate; padding:0 .1em; background:none; color:#eef1f4; -webkit-text-fill-color:#eef1f4;
+            text-shadow:0 1px 0 #8a919b, 0 -1px 0 #ffffff, 0 0 3px #000, 0 0 6px #000; }
+        .carve-mark { position:absolute; z-index:-1; left:50%; top:50%; width:2.5em; height:2.9em; transform:translate(-50%,-50%) rotate(8deg); opacity:.95; pointer-events:none;
+            filter:drop-shadow(1px 2px 1px rgba(0,0,0,.9)) drop-shadow(0 0 5px color-mix(in srgb, var(--claw) 70%, transparent)); }
+        .manifesto .claw.big { clip-path:inset(0 0 100% 0); transition:clip-path .6s cubic-bezier(.7,0,.2,1); }
+        .manifesto.in .claw.big { clip-path:inset(-20% -20% -20% -20%); }
+        .manifesto.in .cb-1 { transition-delay:.15s; } .manifesto.in .cb-2 { transition-delay:.5s; } .manifesto.in .cb-3 { transition-delay:.85s; }
+        .manifesto { margin-top:70px; margin-bottom:120px; }
+        @media (max-width:640px) { .cb-1 { left:-30px; top:-78px; } .cb-2 { right:-62px; } .cb-3 { bottom:-104px; } }
+        @media (prefers-reduced-motion:reduce) { .future-eyebrow { animation:none; } .manifesto .claw.big { clip-path:none; transition:none; } }
 </style>
 </head>
 
@@ -396,7 +435,10 @@
     <div class="orb w-[400px] h-[400px] bg-amber-700 bottom-[-5%] left-[-5%] z-[1]" style="animation:pulse-orb 8s ease-in-out infinite 2s"></div>
     <div class="orb w-[300px] h-[300px] bg-yellow-900 top-[40%] left-[30%] z-[1]" style="animation:pulse-orb 7s ease-in-out infinite 1s"></div>
 
+    <div class="hero-seam" aria-hidden="true"></div>
+    <canvas id="hero-space" aria-hidden="true"></canvas>
     <canvas id="matrix-canvas"></canvas>
+    <canvas id="hero-dust" aria-hidden="true"></canvas>
 
     <div class="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
         <div class="hero-text-logo" data-aos="zoom-in" data-aos-duration="900">
@@ -428,40 +470,38 @@
     </div>
 </section>
 
-<section id="company" class="future-section py-20 sm:py-28 border-y border-white/[0.03]">
+<section id="company" class="future-section py-20 sm:py-28">
     <canvas id="space-static" class="space-layer" aria-hidden="true"></canvas>
     <canvas id="space-anim" class="space-layer" aria-hidden="true"></canvas>
     <div class="space-vignette" aria-hidden="true"></div>
     <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div data-aos="fade-up">
-                <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">شركة المستقبل</span>
-                <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-5 leading-tight">نبني <span class="gradient-text">مستقبل التكنولوجيا</span><br>من السودان إلى العالم</h2>
+                <span class="future-eyebrow mb-4">شركة المستقبل</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-5 leading-tight"><span class="gradient-text font-inter" dir="ltr">SD GENESIS</span><br>من السودان إلى العالم</h2>
                 <div class="manifesto" id="manifesto">
                     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
                         <defs>
-                            <linearGradient id="claw-metal" x1="0" y1="1" x2="1" y2="0">
-                                <stop offset="0" class="cs-dark"/><stop offset=".35" class="cs-main"/>
-                                <stop offset=".48" class="cs-hi"><animate attributeName="offset" values="-.1;1.1;-.1" dur="5s" repeatCount="indefinite"/></stop>
-                                <stop offset=".62" class="cs-main"/><stop offset="1" class="cs-dark"/>
+                            <linearGradient id="claw-gold" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#5a4200"/><stop offset=".22" stop-color="#D4AF37"/><stop offset=".38" stop-color="#F5D060"/>
+                                <stop offset=".5" stop-color="#fff6d6"><animate attributeName="offset" values=".05;.95;.05" dur="6s" repeatCount="indefinite"/></stop>
+                                <stop offset=".64" stop-color="#E7C14A"/><stop offset=".82" stop-color="#A57C0C"/><stop offset="1" stop-color="#4a3600"/>
                             </linearGradient>
-                            <symbol id="tiger-claw" viewBox="0 0 120 110">
-                                <path fill="url(#claw-metal)" d="M6 104 C30 80 58 50 101 6 C96 16 70 46 46 72 C30 89 18 99 6 104 Z"/>
-                                <path fill="url(#claw-metal)" d="M24 108 C48 84 78 52 116 14 C110 25 86 52 62 78 C47 94 35 104 24 108 Z"/>
-                                <path fill="url(#claw-metal)" d="M44 109 C64 90 86 66 112 40 C108 50 92 68 74 88 C62 100 53 106 44 109 Z"/>
-                            </symbol>
+                            <linearGradient id="claw-core" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0" stop-color="#000"/><stop offset=".5" stop-color="#0d0a04"/><stop offset="1" stop-color="#000"/>
+                            </linearGradient>
+                            <symbol id="tiger-claw" viewBox="0 0 210 245"><path class="cw-outer" d="M178.0 8.0 L171.4 13.3 L165.2 19.1 L159.4 25.3 L152.3 30.6 L146.2 36.9 L141.0 44.0 L134.4 50.2 L128.4 57.0 L121.8 63.5 L115.3 70.3 L111.2 79.1 L105.4 86.7 L97.1 92.7 L92.5 101.6 L85.8 109.1 L82.0 119.1 L75.1 126.8 L68.7 135.1 L64.0 144.9 L56.8 152.9 L51.2 162.4 L46.5 172.9 L40.4 182.4 L33.9 191.8 L27.9 201.7 L22.0 212.0 L22.0 212.0 L31.1 204.4 L39.8 196.6 L48.2 188.8 L56.5 181.1 L64.6 173.3 L72.6 165.6 L80.3 157.9 L87.8 150.2 L95.1 142.5 L102.2 134.8 L109.0 127.1 L115.6 119.4 L121.9 111.6 L127.8 103.7 L133.5 95.8 L138.8 87.8 L143.9 79.9 L148.8 71.9 L153.4 63.9 L157.7 55.9 L161.8 47.9 L165.6 40.0 L169.2 32.0 L172.5 24.1 L175.5 16.1 L178.0 8.0 Z"/><path class="cw-core" d="M178.0 8.0 L172.5 14.0 L167.0 20.3 L161.5 26.7 L156.0 33.2 L150.4 39.9 L144.8 46.7 L139.1 53.6 L133.4 60.6 L127.6 67.8 L121.8 75.1 L115.9 82.6 L110.0 90.2 L104.0 97.9 L98.1 105.9 L92.1 114.0 L86.1 122.2 L80.0 130.6 L73.9 139.2 L67.7 147.8 L61.4 156.6 L55.0 165.5 L48.5 174.5 L42.0 183.7 L35.4 193.0 L28.7 202.4 L22.0 212.0 L22.0 212.0 L30.3 203.7 L38.3 195.4 L46.2 187.1 L53.9 178.9 L61.4 170.7 L68.8 162.6 L76.1 154.5 L83.2 146.5 L90.1 138.6 L96.8 130.6 L103.4 122.7 L109.8 114.9 L116.0 107.1 L121.9 99.2 L127.6 91.4 L133.1 83.6 L138.5 75.8 L143.7 68.1 L148.6 60.5 L153.4 52.8 L158.0 45.3 L162.4 37.7 L166.6 30.2 L170.7 22.8 L174.5 15.4 L178.0 8.0 Z"/><path class="cw-hi" d="M178.0 8.0 L170.1 15.4 L162.4 23.3 L154.8 31.3 L147.1 39.7 L139.4 48.3 L131.7 57.1 L124.0 66.3 L116.2 75.7 L108.5 85.4 L100.7 95.4 L92.9 105.7 L85.2 116.3 L77.4 127.2 L69.6 138.4 L61.7 149.9 L53.8 161.7 L45.9 173.8 L37.9 186.2 L29.8 198.8 L22.0 212.0"/><path class="cw-lo" d="M178.0 8.0 L174.2 18.2 L169.6 28.2 L164.7 38.3 L159.4 48.4 L153.8 58.6 L147.7 68.8 L141.3 79.0 L134.4 89.3 L127.2 99.5 L119.5 109.8 L111.5 120.0 L103.1 130.3 L94.2 140.5 L85.0 150.7 L75.5 161.0 L65.5 171.2 L55.2 181.5 L44.6 191.7 L33.6 202.0 L22.0 212.0"/><path class="cw-outer" d="M198.0 40.0 L191.2 44.5 L184.8 49.5 L177.9 54.3 L171.5 59.5 L167.0 66.4 L161.0 72.2 L153.1 76.8 L147.3 83.1 L141.5 89.6 L136.7 97.1 L130.0 103.2 L124.3 110.2 L118.7 117.5 L114.7 126.2 L108.5 133.3 L103.3 141.4 L97.2 149.0 L91.4 156.9 L86.5 165.7 L82.3 175.3 L77.4 184.4 L72.6 193.8 L67.6 203.2 L62.0 212.3 L56.9 222.0 L52.0 232.0 L52.0 232.0 L60.6 224.9 L68.7 217.6 L76.7 210.3 L84.5 203.1 L92.1 195.9 L99.6 188.7 L106.9 181.5 L114.0 174.3 L120.8 167.1 L127.5 160.0 L133.9 152.8 L140.1 145.5 L146.0 138.3 L151.5 130.9 L156.8 123.4 L161.8 115.9 L166.5 108.4 L171.0 100.9 L175.2 93.3 L179.3 85.8 L183.0 78.2 L186.6 70.6 L189.9 63.1 L193.0 55.5 L195.8 47.9 L198.0 40.0 Z"/><path class="cw-core" d="M198.0 40.0 L192.4 45.4 L186.9 51.0 L181.4 56.8 L175.9 62.7 L170.4 68.8 L164.8 75.1 L159.3 81.4 L153.7 87.9 L148.1 94.6 L142.5 101.4 L136.9 108.4 L131.3 115.6 L125.7 122.9 L120.2 130.4 L114.7 138.1 L109.1 145.9 L103.6 153.9 L98.0 162.0 L92.4 170.3 L86.7 178.7 L81.0 187.2 L75.3 195.9 L69.5 204.7 L63.7 213.6 L57.8 222.7 L52.0 232.0 L52.0 232.0 L59.7 224.2 L67.1 216.3 L74.3 208.5 L81.4 200.7 L88.4 193.0 L95.3 185.3 L102.0 177.7 L108.6 170.2 L115.1 162.7 L121.4 155.3 L127.5 147.9 L133.5 140.5 L139.3 133.1 L144.8 125.8 L150.2 118.4 L155.4 111.1 L160.4 103.8 L165.2 96.6 L169.9 89.4 L174.4 82.2 L178.8 75.1 L183.0 68.0 L187.1 61.0 L190.9 54.0 L194.6 47.0 L198.0 40.0 Z"/><path class="cw-hi" d="M198.0 40.0 L189.9 46.5 L182.2 53.4 L174.5 60.7 L166.8 68.3 L159.2 76.1 L151.6 84.2 L144.1 92.7 L136.7 101.5 L129.3 110.6 L121.9 120.0 L114.7 129.7 L107.5 139.8 L100.4 150.2 L93.3 160.9 L86.3 172.0 L79.3 183.3 L72.4 195.0 L65.4 206.9 L58.6 219.2 L52.0 232.0"/><path class="cw-lo" d="M198.0 40.0 L194.4 49.7 L190.1 59.3 L185.5 68.8 L180.6 78.4 L175.3 88.0 L169.6 97.7 L163.6 107.3 L157.2 117.0 L150.5 126.6 L143.3 136.2 L135.8 145.8 L127.9 155.4 L119.7 165.0 L111.1 174.6 L102.1 184.2 L92.8 193.8 L83.2 203.4 L73.2 213.0 L62.9 222.6 L52.0 232.0"/><path class="cw-outer" d="M200.0 92.0 L195.2 95.4 L190.7 99.1 L186.5 103.1 L181.8 106.9 L177.6 111.2 L172.8 115.3 L168.4 119.7 L165.0 125.1 L160.8 130.0 L154.7 133.7 L151.6 139.8 L147.4 145.2 L141.3 149.3 L138.4 156.0 L133.5 161.4 L130.1 168.1 L125.7 174.1 L122.5 181.3 L117.5 187.3 L113.0 193.8 L109.3 201.1 L104.9 208.0 L100.7 215.3 L96.5 222.7 L92.2 230.2 L88.0 238.0 L88.0 238.0 L94.8 232.3 L101.2 226.5 L107.5 220.8 L113.7 215.1 L119.7 209.4 L125.5 203.8 L131.2 198.1 L136.7 192.6 L142.1 187.0 L147.2 181.4 L152.2 175.9 L157.0 170.3 L161.5 164.8 L165.7 159.2 L169.8 153.5 L173.6 147.9 L177.1 142.2 L180.5 136.6 L183.7 131.0 L186.7 125.4 L189.4 119.8 L192.0 114.2 L194.4 108.7 L196.6 103.1 L198.5 97.6 L200.0 92.0 Z"/><path class="cw-core" d="M200.0 92.0 L196.1 95.9 L192.2 100.1 L188.3 104.3 L184.4 108.7 L180.4 113.2 L176.4 117.9 L172.4 122.6 L168.3 127.5 L164.1 132.5 L160.0 137.6 L155.8 142.9 L151.5 148.3 L147.2 153.8 L143.0 159.6 L138.7 165.4 L134.4 171.4 L130.0 177.5 L125.6 183.7 L121.1 190.1 L116.5 196.6 L111.9 203.2 L107.3 209.9 L102.5 216.7 L97.7 223.7 L92.8 230.7 L88.0 238.0 L88.0 238.0 L94.1 231.8 L100.1 225.6 L105.9 219.4 L111.5 213.4 L117.1 207.3 L122.5 201.4 L127.8 195.5 L133.0 189.6 L138.0 183.8 L142.9 178.1 L147.7 172.4 L152.3 166.8 L156.8 161.2 L161.0 155.5 L165.1 150.0 L169.0 144.5 L172.8 139.0 L176.4 133.6 L179.9 128.2 L183.3 122.9 L186.4 117.6 L189.5 112.4 L192.4 107.2 L195.1 102.1 L197.7 97.1 L200.0 92.0 Z"/><path class="cw-hi" d="M200.0 92.0 L194.3 96.8 L188.9 101.9 L183.4 107.3 L177.9 112.9 L172.4 118.8 L166.8 124.8 L161.3 131.2 L155.7 137.8 L150.1 144.7 L144.6 151.8 L139.0 159.2 L133.4 166.9 L127.8 174.8 L122.2 183.1 L116.5 191.5 L110.9 200.3 L105.2 209.3 L99.4 218.5 L93.6 228.1 L88.0 238.0"/><path class="cw-lo" d="M200.0 92.0 L197.5 99.0 L194.6 105.9 L191.3 112.9 L187.7 120.0 L183.8 127.1 L179.6 134.3 L175.1 141.5 L170.2 148.7 L165.1 156.0 L159.6 163.3 L153.8 170.7 L147.7 178.1 L141.3 185.4 L134.6 192.9 L127.6 200.3 L120.3 207.8 L112.7 215.4 L104.8 222.9 L96.7 230.5 L88.0 238.0"/></symbol>
                         </defs>
                     </svg>
-                    <svg class="claw cl-1" viewBox="0 0 120 110" aria-hidden="true"><use href="#tiger-claw"/></svg>
-                    <svg class="claw cl-2" viewBox="0 0 120 110" aria-hidden="true"><use href="#tiger-claw"/></svg>
-                    <svg class="claw cl-3" viewBox="0 0 120 110" aria-hidden="true"><use href="#tiger-claw"/></svg>
-                    <svg class="claw cl-4" viewBox="0 0 120 110" aria-hidden="true"><use href="#tiger-claw"/></svg>
+                    <svg class="claw big cb-1" viewBox="0 0 210 245" aria-hidden="true"><use href="#tiger-claw"/></svg>
+                    <svg class="claw big cb-2" viewBox="0 0 210 245" aria-hidden="true"><use href="#tiger-claw"/></svg>
+                    <svg class="claw big cb-3" viewBox="0 0 210 245" aria-hidden="true"><use href="#tiger-claw"/></svg>
                     <div class="mf-text">
                         <p class="mf-p" style="--d:0ms">نحن لا ننتظر الغد، نحن من يمنحه شكله ووزنه واسمه، ولا نسير خلف المستقبل، نحن من يرسم له الطريق ثم يقف على حافته ويدعوه أن يلحق بنا؛</p>
                         <p class="mf-p" style="--d:140ms">قبل أن يُسمّى ما لم يكن، كنّا نحن اسمه، وقبل أن يطرح العالم سؤاله الأول، كنّا نحن الجواب القابع على طرف الصمت، نبتكر لا لنُدهش بل لنُعيد تعريف الممكن من جذره، ونخترع لا لنُضيف إلى الموجود بل لنمحو حدّاً رسمه غيرنا وسمّاه مستحيلاً ونحن نسمّيه "لم يُحلّ بعد"،</p>
                         <p class="mf-p" style="--d:280ms">فكل ما تلمسه اليوم كان بالأمس حلماً في رأس أحدنا لم يصدّقه أحد، وكل ما ستلمسه غداً هو الآن فكرة تشتعل في صمت مختبراتنا بينما العالم نائم،</p>
-                        <p class="mf-p" style="--d:420ms">لا ننافس أحداً لأننا لا نلعب اللعبة، نحن من يكتب قواعدها ويكسر ما لا يعجبه منها، ولا نبحث عن موضع في التاريخ، نحن من يصنع الصفحة التي سيُكتب عليها والحبر الذي ستُكتب به واليد التي ستكتب، لا نتبع موجة، نحن الزلزال الذي يولّدها، ولا نطلب إذناً من الواقع، نحن من يعيد تشكيله ثم يقول له "تعلّم أن تعيش فينا"،</p>
-                        <p class="mf-p" style="--d:560ms">نحن <strong class="mf-name">SD GENESIS</strong>، لم نأتِ من المستقبل، <em class="mf-key">المستقبل أتى منّا</em>، وسيظل يأتي، طالما فينا عقلٌ يرفض أن يقول "هذا مستحيل".</p>
+                        <p class="mf-p" style="--d:420ms">لا ننافس أحداً لأننا لا نلعب اللعبة، نحن من يكتب قواعدها <span class="carve">ويكسر<svg class="carve-mark" viewBox="0 0 210 245" aria-hidden="true"><use href="#tiger-claw"/></svg></span> ما لا يعجبه منها، ولا نبحث عن موضع في التاريخ، نحن من يصنع الصفحة التي سيُكتب عليها والحبر الذي ستُكتب به واليد التي ستكتب، لا نتبع موجة، نحن <span class="carve">الزلزال<svg class="carve-mark" viewBox="0 0 210 245" aria-hidden="true"><use href="#tiger-claw"/></svg></span> الذي يولّدها، ولا نطلب إذناً من الواقع، نحن من يعيد تشكيله ثم يقول له "تعلّم أن تعيش فينا"،</p>
+                        <p class="mf-p" style="--d:560ms">نحن <strong class="mf-name">SD GENESIS</strong>، لم نأتِ من المستقبل، <em class="mf-key">المستقبل أتى منّا</em>، وسيظل يأتي، طالما فينا عقلٌ يرفض أن يقول "هذا <span class="carve">مستحيل<svg class="carve-mark" viewBox="0 0 210 245" aria-hidden="true"><use href="#tiger-claw"/></svg></span>".</p>
                     </div>
                 </div>
                 <p class="motto mb-7"><i class="fa-solid fa-quote-right"></i><span>نطمح أن نكون اسماً يُحتذى به في صناعة التكنولوجيا في التاريخ</span></p>
@@ -707,6 +747,79 @@ async function applyBranding() {
 }
 applyBranding();
 
+// ===== Hero: binary rain dissolving into stars (shared space with the section below) =====
+(function () {
+    const hero = document.getElementById('hero');
+    const sc = document.getElementById('hero-space'), dc = document.getElementById('hero-dust');
+    const sx = sc && sc.getContext && sc.getContext('2d'), dx = dc && dc.getContext && dc.getContext('2d');
+    if (!hero || !sx || !dx) return;
+    const weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
+    const DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 1.5);
+    const COLS = [[255, 255, 255], [245, 224, 140], [226, 231, 238], [134, 239, 172]];
+    let W = 0, H = 0, parts = [], stars = [], last = performance.now(), tt = 0;
+    const MAXP = weak ? 50 : innerWidth < 640 ? 90 : 160, MAXS = weak ? 60 : 150;
+
+    function paint() {
+        W = hero.offsetWidth; H = hero.offsetHeight;
+        for (const c of [sc, dc]) { c.width = W * DPR; c.height = H * DPR; }
+        sx.setTransform(DPR, 0, 0, DPR, 0, 0); dx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        sx.clearRect(0, 0, W, H);
+        // faint cosmic haze rising from the bottom (matches the deep-space section below)
+        sx.globalCompositeOperation = 'lighter';
+        for (const [x, col, a] of [[.2, '212,175,55', .06], [.55, '214,219,227', .045], [.85, '74,222,128', .045]]) {
+            const g = sx.createRadialGradient(W * x, H * .74, 0, W * x, H * .74, Math.max(W, H) * .32);
+            g.addColorStop(0, `rgba(${col},${a})`); g.addColorStop(1, `rgba(${col},0)`); sx.fillStyle = g; sx.fillRect(0, 0, W, H);
+        }
+        sx.globalCompositeOperation = 'destination-out';            // haze fades to pure black at the seam
+        const fade = sx.createLinearGradient(0, H * .8, 0, H); fade.addColorStop(0, 'rgba(0,0,0,0)'); fade.addColorStop(1, 'rgba(0,0,0,1)');
+        sx.fillStyle = fade; sx.fillRect(0, H * .8, W, H * .2);
+        sx.globalCompositeOperation = 'lighter';
+        // stars: denser toward the bottom and the edges, where the digits fade out
+        const n = weak ? 220 : 520;
+        for (let i = 0; i < n; i++) {
+            const y = H * Math.pow(Math.random(), .55), x = Math.random() * W;
+            const edge = Math.min(x, W - x) / W, depth = y / H;
+            if (depth < .45 && edge > .12 && Math.random() < .8) continue;
+            const c = COLS[Math.random() < .7 ? 0 : 1 + Math.floor(Math.random() * 3)], r = Math.random() < .04 ? 1.4 : .3 + Math.random() * .7;
+            sx.fillStyle = `rgba(${c},${.2 + Math.random() * .6})`; sx.beginPath(); sx.arc(x, y, r, 0, 6.283); sx.fill();
+        }
+        sx.globalCompositeOperation = 'source-over';
+    }
+    // a digit that reaches the fade zone becomes a drifting particle, which cools from green to star-white/gold
+    window.__heroDust = {
+        spawn(x, y) {
+            if (parts.length >= MAXP) return;
+            const c = COLS[Math.floor(Math.random() * COLS.length)];
+            parts.push({ x, y, vx: (Math.random() - .5) * 14, vy: 8 + Math.random() * 18, life: 0, max: 1.6 + Math.random() * 2.2, c, s: 1 + Math.random() * 1.4 });
+        },
+        step() {
+            const now = performance.now(), dt = Math.min(.05, (now - last) / 1000); last = now; tt += dt;
+            dx.clearRect(0, 0, W, H);
+            dx.globalCompositeOperation = 'lighter';
+            parts = parts.filter((p) => {
+                p.life += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .985; p.vy *= .975;
+                const k = p.life / p.max;
+                if (k >= 1) { if (stars.length < MAXS && Math.random() < .45) stars.push({ x: p.x, y: p.y, c: p.c, s: .5 + Math.random() * .8, ph: Math.random() * 6, life: 0, max: 14 + Math.random() * 16 }); return false; }
+                const r = Math.round(0 + (p.c[0] - 0) * k), g = Math.round(255 + (p.c[1] - 255) * k), b = Math.round(136 + (p.c[2] - 136) * k);
+                const a = (k < .15 ? k / .15 : 1) * (1 - k * .55), s = p.s * (1.6 - k);
+                const gr = dx.createRadialGradient(p.x, p.y, 0, p.x, p.y, s * 3);
+                gr.addColorStop(0, `rgba(${r},${g},${b},${a})`); gr.addColorStop(1, `rgba(${r},${g},${b},0)`);
+                dx.fillStyle = gr; dx.beginPath(); dx.arc(p.x, p.y, s * 3, 0, 6.283); dx.fill();
+                return true;
+            });
+            stars = stars.filter((s) => {          // the dust settles into twinkling stars, then quietly fades
+                s.life += dt; if (s.life > s.max) return false;
+                const fade = Math.min(1, s.life / 1.5) * Math.min(1, (s.max - s.life) / 3);
+                dx.fillStyle = `rgba(${s.c},${(.35 + .45 * Math.sin(tt * 2.2 + s.ph)) * fade})`;
+                dx.beginPath(); dx.arc(s.x, s.y, s.s, 0, 6.283); dx.fill(); return true;
+            });
+            dx.globalCompositeOperation = 'source-over';
+        },
+    };
+    paint();
+    let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(paint, 200); });
+})();
+
 (function() {
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
@@ -728,9 +841,15 @@ applyBranding();
         ctx.fillStyle = 'rgba(5, 5, 5, 0.08)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.font = fontSize + 'px "Inter", monospace';
+        const z0 = canvas.height * .5, z1 = canvas.height * .86;
         for (let i = 0; i < drops.length; i++) {
             const char = chars[Math.floor(Math.random() * chars.length)];
             const x = i * fontSize, y = drops[i] * fontSize;
+            // lower zone: the digit fades and turns into a drifting particle that settles as a star
+            const fz = y <= z0 ? 0 : Math.min(1, (y - z0) / (z1 - z0));
+            if (fz > 0 && window.__heroDust && Math.random() < .22 * fz) window.__heroDust.spawn(x + fontSize / 2, y - fontSize / 2);
+            if (fz >= 1) { drops[i] += 1; if (Math.random() > .9) drops[i] = Math.random() * -20; continue; }
+            ctx.globalAlpha = 1 - fz;
             ctx.fillStyle = 'rgba(0, 255, 136, 0.9)';
             ctx.shadowColor = '#00ff88'; ctx.shadowBlur = 15;
             ctx.fillText(char, x, y);
@@ -742,13 +861,18 @@ applyBranding();
             drops[i] += speed < 0.6 ? 0.8 : speed < 0.9 ? 1.2 : 2.0;
             if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = Math.random() * -20;
         }
+        ctx.globalAlpha = 1;
+        if (window.__heroDust) window.__heroDust.step();
+        if (matrixReduce) return;
         matrixAnimId = requestAnimationFrame(drawMatrix);
     }
 
-    initMatrix(); drawMatrix();
+    const matrixReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    initMatrix();
+    if (matrixReduce) { for (let k = 0; k < 90; k++) drawMatrix(); } else drawMatrix();
     window.addEventListener('resize', initMatrix);
     new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (!entry.isIntersecting) cancelAnimationFrame(matrixAnimId); else drawMatrix(); });
+        entries.forEach(entry => { cancelAnimationFrame(matrixAnimId); if (entry.isIntersecting && !matrixReduce) drawMatrix(); });
     }, { threshold: 0.1 }).observe(document.getElementById('hero'));
 })();
 
@@ -1035,7 +1159,7 @@ loadApps();
     });
 })();
 
-// ===== Cosmos: 3D planetary system around the logo, alternating horizontal / vertical orbits =====
+// ===== Cosmos: many textured planets, stardust orbital rings, moons, particle rings =====
 (function () {
     const box = document.getElementById('cosmos');
     const back = document.getElementById('cosmos-back'), front = document.getElementById('cosmos-front');
@@ -1043,271 +1167,57 @@ loadApps();
     if (!bx || !fx) { box && box.classList.add('no-canvas'); const f = document.getElementById('cosmos-fallback'); if (f) f.hidden = false; return; }
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
+    const small = innerWidth < 640;
     const DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 2);
-    const D = 4.4, HOLD = 10, MORPH = 5, CYCLE = 2 * (HOLD + MORPH);
+    const D = 5.6, PITCH = .34, TEX = weak ? 48 : small ? 80 : 112;
+    const DUST = weak ? 40 : small ? 60 : 95, TAIL = weak ? 12 : 22, RINGP = weak ? 30 : small ? 55 : 90;
     let W = 0, R = 0, running = false, last = 0, t = 2, visible = true;
 
-    // each planet: orbit size/ellipse, size, speed, colours; tilt (rx) + roll (rz) used in the vertical mode
-    const planets = [
-        { a: .40, e: .92, r: .030, sp: 1.70, ph: .4, rx: 1.35, rz: .25,  c: ['#fffbe8', '#F5D060', '#6b4e00'] },
-        { a: .54, e: .90, r: .042, sp: 1.15, ph: 2.3, rx: -1.15, rz: -.55, c: ['#ffffff', '#d7dce4', '#5b6270'] },
-        { a: .69, e: .88, r: .036, sp: .80,  ph: 4.0, rx: .95,  rz: 1.05, c: ['#eafff1', '#4ade80', '#0f5a2c'] },
-        { a: .84, e: .86, r: .048, sp: .56,  ph: 1.0, rx: -1.45, rz: .75, c: ['#fff1c1', '#D4AF37', '#5a4200'], ring: true },
-        { a: .98, e: .84, r: .026, sp: .40,  ph: 5.3, rx: 1.2,  rz: -1.2, c: ['#ffffff', '#c9ced6', '#4b515c'] },
-    ];
-    const ease = (x) => x * x * (3 - 2 * x);
-    function modeMix(time) {                    // 0 = horizontal, 1 = vertical, smooth in between
-        const u = time % CYCLE;
-        if (u < HOLD) return 0;
-        if (u < HOLD + MORPH) return ease((u - HOLD) / MORPH);
-        if (u < 2 * HOLD + MORPH) return 1;
-        return 1 - ease((u - 2 * HOLD - MORPH) / MORPH);
-    }
-    function size() {
-        W = Math.max(1, Math.round(box.getBoundingClientRect().width));
-        for (const c of [back, front]) { c.width = W * DPR; c.height = W * DPR; }
-        bx.setTransform(DPR, 0, 0, DPR, 0, 0); fx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        R = W / 2 * .9;
-    }
-    // orbit-plane point -> world -> camera -> screen
-    function place(p, ang, m, time) {
-        let x = p.a * Math.cos(ang), y = 0, z = p.a * p.e * Math.sin(ang);
-        const rx = p.rx * m, rz = (.06 * Math.sin(p.ph * 3)) * (1 - m) + p.rz * m;
-        let c = Math.cos(rx), s = Math.sin(rx);
-        [y, z] = [y * c - z * s, y * s + z * c];
-        c = Math.cos(rz); s = Math.sin(rz);
-        [x, y] = [x * c - y * s, x * s + y * c];
-        const yaw = reduce ? .3 : time * .05;                 // slow camera drift = gentle change of viewpoint
-        c = Math.cos(yaw); s = Math.sin(yaw);
-        [x, z] = [x * c + z * s, -x * s + z * c];
-        const pitch = 1.12 * (1 - m) + .42 * m;               // look from above (horizontal) -> from the side (vertical)
-        c = Math.cos(pitch); s = Math.sin(pitch);
-        [y, z] = [y * c - z * s, y * s + z * c];
-        const k = D / (D - z);
-        return { x: W / 2 + x * k * R, y: W / 2 + y * k * R, k, z };
-    }
-    function halo(ctx, time) {
-        const cx = W / 2, r = W * .135, pulse = reduce ? 1 : 1 + .04 * Math.sin(time * 1.1);
-        ctx.globalCompositeOperation = 'lighter';
-        const g = ctx.createRadialGradient(cx, cx, r * .8, cx, cx, r * 3.2 * pulse);
-        g.addColorStop(0, 'rgba(245,224,140,.30)'); g.addColorStop(.35, 'rgba(201,206,214,.10)'); g.addColorStop(.6, 'rgba(74,222,128,.05)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cx, r * 3.2 * pulse, 0, 6.283); ctx.fill();
-        ctx.globalCompositeOperation = 'source-over';
-    }
-    function orbit(p, m, time) {
-        const N = weak ? 60 : 110; let prev = null;
-        for (let i = 0; i <= N; i++) {
-            const q = place(p, i / N * 6.2832, m, time);
-            if (prev) {
-                const ctx = (prev.z + q.z) / 2 > 0 ? fx : bx;
-                const depth = .10 + .14 * Math.max(0, Math.min(1, ((prev.z + q.z) / 2 + 1) / 2));
-                ctx.strokeStyle = `rgba(230,224,200,${depth})`; ctx.lineWidth = 1;
-                ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(q.x, q.y); ctx.stroke();
-            }
-            prev = q;
-        }
-    }
-    function planet(ctx, p, q) {
-        const r = p.r * R * q.k * 1.3, cx = W / 2;
-        const dx = cx - q.x, dy = cx - q.y, d = Math.hypot(dx, dy) || 1;
-        const lx = q.x + dx / d * r * .45, ly = q.y + dy / d * r * .45;      // lit side faces the logo/sun
-        const fade = .55 + .45 * Math.max(0, Math.min(1, (q.z + 1) / 2));    // farther = dimmer (depth cue)
-        ctx.globalAlpha = fade;
-        ctx.globalCompositeOperation = 'lighter';
-        let g = ctx.createRadialGradient(q.x, q.y, r * .5, q.x, q.y, r * 2.4);
-        g.addColorStop(0, p.c[1] + '55'); g.addColorStop(1, p.c[1] + '00');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r * 2.4, 0, 6.283); ctx.fill();
-        ctx.globalCompositeOperation = 'source-over';
-        const ring = (from, to) => { ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(-.4); ctx.scale(1, .3); ctx.strokeStyle = 'rgba(255,246,215,.65)'; ctx.lineWidth = r * .26; ctx.beginPath(); ctx.arc(0, 0, r * 1.8, from, to); ctx.stroke(); ctx.restore(); };
-        if (p.ring) ring(Math.PI, 0);
-        g = ctx.createRadialGradient(lx, ly, r * .08, q.x, q.y, r);
-        g.addColorStop(0, p.c[0]); g.addColorStop(.55, p.c[1]); g.addColorStop(1, p.c[2]);
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.283); ctx.fill();
-        if (p.ring) ring(0, Math.PI);
-        ctx.globalAlpha = 1;
-    }
-    function frame(time) {
-        bx.clearRect(0, 0, W, W); fx.clearRect(0, 0, W, W);
-        const m = modeMix(time);
-        halo(bx, time);
-        planets.forEach((p) => orbit(p, m, time));
-        const list = planets.map((p) => ({ p, q: place(p, p.ph + time * .2 * p.sp, m, time) })).sort((u, v) => u.q.z - v.q.z);
-        for (const it of list) planet(it.q.z > 0 ? fx : bx, it.p, it.q);    // in front of the logo -> front canvas
-    }
-    function loop(now) {
-        if (!running) return;
-        if (!last) last = now;
-        const dt = Math.min(.05, (now - last) / 1000);
-        if (!weak || now - last > 32) { t += dt; frame(t); last = now; }
-        requestAnimationFrame(loop);
-    }
-    function start() { if (running || reduce) return; running = true; last = 0; requestAnimationFrame(loop); }
-    function stop() { running = false; }
-    size(); frame(t);
-    addEventListener('resize', () => { size(); frame(t); });
-    window.__cosmos = { mix: modeMix, frameAt: (x) => { t = x; frame(x); } };
-    if (!reduce) {
-        new IntersectionObserver((e) => { visible = e[0].isIntersecting; visible && !document.hidden ? start() : stop(); }, { threshold: .05 }).observe(box);
-        document.addEventListener('visibilitychange', () => { document.hidden ? stop() : (visible && start()); });
-    }
-})();
-
-// ===== Deep-space background: Milky Way band, nebulae, smart-network nodes, data flow =====
-(function () {
-    const sec = document.getElementById('company');
-    const sc = document.getElementById('space-static'), ac = document.getElementById('space-anim');
-    const sx = sc && sc.getContext && sc.getContext('2d'), ax = ac && ac.getContext && ac.getContext('2d');
-    if (!sx || !ax) return;
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
-    const small = innerWidth < 640;
-    const DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 1.5);
-    const GOLD = '212,175,55', SILVER = '214,219,227', GREEN = '74,222,128', WHITE = '255,255,255';
-    let W = 0, H = 0, nodes = [], parts = [], pulses = [], running = false, last = 0, t = 0, visible = false, rt;
-    const rnd = (a, b) => a + Math.random() * (b - a);
-    const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
-
-    function paintStatic() {
-        sx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        sx.fillStyle = '#000'; sx.fillRect(0, 0, W, H);
-        // Milky Way band: a diagonal line through the section
-        const ang = -0.38, cx = W * .5, cy = H * .48, L = Math.hypot(W, H), bw = Math.min(W, H) * (small ? .16 : .12);
-        const ux = Math.cos(ang), uy = Math.sin(ang), nx = -uy, ny = ux;
-        const along = (u, v) => [cx + ux * u * L / 2 + nx * v, cy + uy * u * L / 2 + ny * v];
-        sx.globalCompositeOperation = 'lighter';
-        // soft nebula clouds (gold / silver / green)
-        const clouds = weak ? 8 : 16;
-        for (let i = 0; i < clouds; i++) {
-            const u = rnd(-1, 1), v = gauss() * bw * .9, [x, y] = along(u, v), r = rnd(.6, 1.6) * bw * 1.6;
-            const col = [GOLD, SILVER, GREEN, SILVER, GOLD][i % 5], a = col === GREEN ? .035 : .05;
-            const g = sx.createRadialGradient(x, y, 0, x, y, r);
-            g.addColorStop(0, `rgba(${col},${a})`); g.addColorStop(1, `rgba(${col},0)`);
-            sx.fillStyle = g; sx.beginPath(); sx.arc(x, y, r, 0, 6.283); sx.fill();
-        }
-        // dense star clusters along the band + sparse field stars
-        const band = weak ? 900 : small ? 1300 : 2600, field = weak ? 220 : 420;
-        for (let i = 0; i < band + field; i++) {
-            let x, y, a;
-            if (i < band) { const v = gauss() * bw; [x, y] = along(rnd(-1, 1), v); a = .25 + .6 * (1 - Math.abs(v) / (bw * 1.6)); }
-            else { x = Math.random() * W; y = Math.random() * H; a = rnd(.2, .8); }
-            const r = Math.random() < .03 ? rnd(.9, 1.5) : rnd(.25, .8);
-            const pick = Math.random(), col = pick < .07 ? GOLD : pick < .1 ? GREEN : pick < .3 ? SILVER : WHITE;
-            sx.fillStyle = `rgba(${col},${Math.max(.08, a)})`; sx.beginPath(); sx.arc(x, y, r, 0, 6.283); sx.fill();
-            if (r > 1.1) { const g = sx.createRadialGradient(x, y, 0, x, y, r * 5); g.addColorStop(0, `rgba(${col},.25)`); g.addColorStop(1, `rgba(${col},0)`); sx.fillStyle = g; sx.beginPath(); sx.arc(x, y, r * 5, 0, 6.283); sx.fill(); }
-        }
-        // dark dust lane through the middle of the band
-        sx.globalCompositeOperation = 'source-over';
-        for (let i = 0; i < 10; i++) {
-            const [x, y] = along(rnd(-.9, .9), gauss() * bw * .25), r = rnd(.4, .9) * bw;
-            const g = sx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, 'rgba(0,0,0,.35)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-            sx.fillStyle = g; sx.beginPath(); sx.arc(x, y, r, 0, 6.283); sx.fill();
-        }
-        // faint futuristic geometry: concentric arcs + thin digital lines
-        sx.lineWidth = 1;
-        const gx = W * (small ? .5 : .72), gy = H * .45;
-        for (let i = 1; i <= 4; i++) { sx.strokeStyle = `rgba(${SILVER},${.05 - i * .008})`; sx.setLineDash(i % 2 ? [2, 10] : []); sx.beginPath(); sx.arc(gx, gy, Math.min(W, H) * .17 * i, 0, 6.283); sx.stroke(); }
-        sx.setLineDash([]);
-        for (let i = 0; i < 6; i++) { const y = rnd(.05, .95) * H; const g = sx.createLinearGradient(0, y, W, y); g.addColorStop(0, `rgba(${GOLD},0)`); g.addColorStop(.5, `rgba(${i % 2 ? GREEN : GOLD},.06)`); g.addColorStop(1, `rgba(${GOLD},0)`); sx.strokeStyle = g; sx.beginPath(); sx.moveTo(0, y); sx.lineTo(W, y); sx.stroke(); }
-    }
-    function seed() {
-        const nN = weak ? 7 : small ? 9 : 16;
-        nodes = Array.from({ length: nN }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: rnd(-.08, .08), vy: rnd(-.06, .06), c: Math.random() < .5 ? GOLD : Math.random() < .5 ? SILVER : GREEN, p: rnd(0, 6) }));
-        parts = Array.from({ length: weak ? 25 : small ? 35 : 60 }, () => ({ x: Math.random() * W, y: Math.random() * H, s: rnd(.08, .35), r: rnd(.4, 1.3), c: [GOLD, SILVER, GREEN, WHITE][Math.floor(Math.random() * 4)], p: rnd(0, 6) }));
-        pulses = [];
-    }
-    function size() {
-        const r = sec.getBoundingClientRect(); W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
-        for (const c of [sc, ac]) { c.width = W * DPR; c.height = H * DPR; }
-        ax.setTransform(DPR, 0, 0, DPR, 0, 0);
-        paintStatic(); seed(); draw(0);
-    }
-    function draw(dt) {
-        ax.clearRect(0, 0, W, H);
-        const link = Math.min(W, H) * (small ? .38 : .28);
-        // moving nodes + connecting lines (smart network)
-        for (const n of nodes) { if (!reduce) { n.x += n.vx * dt * 60; n.y += n.vy * dt * 60; if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1; } }
-        ax.lineWidth = 1;
-        for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
-            const a = nodes[i], b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
-            if (d < link) {
-                const al = (1 - d / link) * .16;
-                ax.strokeStyle = `rgba(${a.c},${al})`; ax.beginPath(); ax.moveTo(a.x, a.y); ax.lineTo(b.x, b.y); ax.stroke();
-                if (!reduce && pulses.length < (weak ? 3 : 7) && Math.random() < .002) pulses.push({ a, b, u: 0, sp: rnd(.25, .5) });
-            }
-        }
-        // data / energy pulses travelling along links
-        ax.globalCompositeOperation = 'lighter';
-        pulses = pulses.filter((q) => (q.u += q.sp * dt) < 1);
-        for (const q of pulses) {
-            const x = q.a.x + (q.b.x - q.a.x) * q.u, y = q.a.y + (q.b.y - q.a.y) * q.u;
-            const g = ax.createRadialGradient(x, y, 0, x, y, 7); g.addColorStop(0, `rgba(${q.a.c},.9)`); g.addColorStop(1, `rgba(${q.a.c},0)`);
-            ax.fillStyle = g; ax.beginPath(); ax.arc(x, y, 7, 0, 6.283); ax.fill();
-        }
-        for (const n of nodes) {
-            const pr = reduce ? 1 : .7 + .3 * Math.sin(t * 2 + n.p);
-            const g = ax.createRadialGradient(n.x, n.y, 0, n.x, n.y, 9 * pr); g.addColorStop(0, `rgba(${n.c},.55)`); g.addColorStop(1, `rgba(${n.c},0)`);
-            ax.fillStyle = g; ax.beginPath(); ax.arc(n.x, n.y, 9 * pr, 0, 6.283); ax.fill();
-            ax.fillStyle = `rgba(${WHITE},.85)`; ax.beginPath(); ax.arc(n.x, n.y, 1.3, 0, 6.283); ax.fill();
-        }
-        // rising digital particles
-        for (const q of parts) {
-            if (!reduce) { q.y -= q.s * dt * 60; if (q.y < -4) { q.y = H + 4; q.x = Math.random() * W; } }
-            ax.fillStyle = `rgba(${q.c},${.25 + .45 * (reduce ? .5 : .5 + .5 * Math.sin(t * 1.7 + q.p))})`;
-            ax.fillRect(q.x, q.y, q.r, q.r * (q.s > .25 ? 4 : 1.4));
-        }
-        ax.globalCompositeOperation = 'source-over';
-    }
-    function loop(now) {
-        if (!running) return;
-        if (!last) last = now;
-        const dt = Math.min(.05, (now - last) / 1000);
-        if (now - last > (weak ? 40 : 30)) { t += dt; draw(dt); last = now; }
-        requestAnimationFrame(loop);
-    }
-    function start() { if (running || reduce) return; running = true; last = 0; requestAnimationFrame(loop); }
-    function stop() { running = false; }
-    size();
-    addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(size, 200); });
-    if ('ResizeObserver' in window) { let lh = H; new ResizeObserver(() => { const h = Math.round(sec.getBoundingClientRect().height); if (Math.abs(h - lh) > 20) { lh = h; clearTimeout(rt); rt = setTimeout(size, 200); } }).observe(sec); }
-    if (!reduce) {
-        new IntersectionObserver((e) => { visible = e[0].isIntersecting; visible && !document.hidden ? start() : stop(); }, { threshold: 0 }).observe(sec);
-        document.addEventListener('visibilitychange', () => { document.hidden ? stop() : (visible && start()); });
-    }
-})();
-
-// ===== Button ripple + cinematic transitions =====
-(function () {
-    const cine = document.getElementById('cine');
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.playCinematic = function () {
-        if (reduce || !cine) return;
-        cine.classList.remove('play'); void cine.offsetWidth; cine.classList.add('play');
+    const PAL = {
+        gold: ['#7a5a00', '#D4AF37', '#F5D060', '#fff3c4'], silver: ['#3d434c', '#a3aab3', '#e3e7ec', '#ffffff'],
+        green: ['#0b3d22', '#16a34a', '#4ade80', '#d9ffe8'], blue: ['#0b2a5b', '#2563eb', '#60a5fa', '#e0f2ff'],
+        teal: ['#06302c', '#0f766e', '#2dd4bf', '#d5fff7'], violet: ['#1d0d40', '#6d28d9', '#a78bfa', '#efe7ff'],
+        obsidian: ['#000000', '#0b0b0b', '#1f1f1f', '#3a3a3a'],
     };
-    document.addEventListener('click', (e) => {
-        const b = e.target.closest('.btn-gold, .btn-outline');
-        if (b && !reduce) {
-            const r = b.getBoundingClientRect(), s = document.createElement('span');
-            s.className = 'ripple'; s.style.left = (e.clientX - r.left) + 'px'; s.style.top = (e.clientY - r.top) + 'px';
-            b.appendChild(s); setTimeout(() => s.remove(), 750);
-        }
-        const a = e.target.closest('a[href]');
-        if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || a.target === '_blank') return;
-        const href = a.getAttribute('href');
-        if (href.startsWith('#') && href.length > 1) { playCinematic(); }
-        else if (href.startsWith('/') && !href.startsWith('//') && !reduce) {
-            e.preventDefault(); playCinematic(); setTimeout(() => { location.href = href; }, 380);
-        }
+    const RGB = { gold: '245,208,96', silver: '226,231,238', green: '74,222,128', blue: '120,180,255', teal: '94,234,212', violet: '186,166,255', obsidian: '212,175,55' };
+
+    // orbit groups: horizontal → right / left, vertical → up / down, plus tilted & precessing rings
+    const ALL = [
+        { a: .30, e: .92, r: .040, sp:  1.75, rx: .06,  rz: .04,  pa: 0,   kind: 'rock',     col: 'gold' },
+        { a: .39, e: .90, r: .050, sp:  1.40, rx: 1.52, rz: .10,  pa: .22, kind: 'earth',    col: 'green', moons: [{ d: 2.1, r: .32, sp: 3.2, col: 'silver' }] },
+        { a: .48, e: .90, r: .056, sp: -1.15, rx: .10,  rz: -.06, pa: 0,   kind: 'gas',      col: 'silver', ring: { tilt: -.35, sq: .3 } },
+        { a: .56, e: .88, r: .046, sp: -1.00, rx: 1.45, rz: -.18, pa: .35, kind: 'ice',      col: 'blue' },
+        { a: .65, e: .86, r: .044, sp:  .90,  rx: .80,  rz: .50,  pa: .50, kind: 'obsidian', col: 'obsidian', gloss: true, m: true },
+        { a: .74, e: .86, r: .074, sp: -.75,  rx: -.45, rz: -.35, pa: .18, kind: 'gas',      col: 'gold', ring: { tilt: .32, sq: .26 }, moons: [{ d: 2.0, r: .22, sp: 2.4, col: 'green' }, { d: 2.7, r: .16, sp: -1.8, col: 'silver' }] },
+        { a: .83, e: .84, r: .050, sp:  .62,  rx: 1.35, rz: .90,  pa: .30, kind: 'gas',      col: 'teal', m: true },
+        { a: .90, e: .84, r: .030, sp:  .55,  rx: .15,  rz: .12,  pa: 0,   kind: 'rock',     col: 'silver', m: true, d: true },
+        { a: .97, e: .82, r: .040, sp: -.48,  rx: -1.2, rz: -.60, pa: .25, kind: 'gas',      col: 'violet', m: true, d: true },
+    ];
+    const planets = ALL.filter((p) => !(small && p.d) && !(weak && p.m));
+    planets.forEach((p, i) => {
+        p.ph = i * 2.399; p.pw = .07 + (i % 3) * .03; p.spin = 0; p.spinSp = (i % 2 ? -1 : 1) * (.05 + (i % 4) * .025);
+        p.dust = Array.from({ length: DUST }, () => ({ u: Math.random() * 6.2832, j: (Math.random() - .5) * .03, v: (Math.random() - .5) * .02, s: 1.1 + Math.random() * 1.6, a: .45 + Math.random() * .55, tw: Math.random() * 6.28, hot: Math.random() < .16 }));
+        if (p.ring) p.ringP = Array.from({ length: RINGP }, () => ({ u: Math.random() * 6.2832, rr: 1.55 + Math.random() * .8, s: .5 + Math.random() * 1.1, a: .3 + Math.random() * .6 }));
     });
-})();
 
-// ===== Manifesto scroll reveal =====
-(function () {
-    const m = document.getElementById('manifesto'); if (!m) return;
-    if (!('IntersectionObserver' in window)) { m.classList.add('in'); return; }
-    const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) { m.classList.add('in'); io.disconnect(); } }, { threshold: .15 });
-    io.observe(m);
-})();
-</script>
-
-</body>
-</html>
+    // ---------- procedural planet textures (seamless horizontally so they can spin) ----------
+    function noiseGen(seed) {
+        const p = new Uint8Array(512); for (let i = 0; i < 256; i++) p[i] = i;
+        let s = seed * 9301 + 49297; for (let i = 255; i > 0; i--) { s = (s * 9301 + 49297) % 233280; const j = Math.floor(s / 233280 * (i + 1)); [p[i], p[j]] = [p[j], p[i]]; }
+        for (let i = 0; i < 256; i++) p[i + 256] = p[i];
+        const f = (x) => x * x * (3 - 2 * x);
+        function n(x, y, P) {
+            const xi = Math.floor(x), yi = Math.floor(y), u = f(x - xi), v = f(y - yi);
+            const X0 = ((xi % P) + P) % P, X1 = (X0 + 1) % P, Y0 = yi & 255, Y1 = (yi + 1) & 255;
+            const h = (X, Y) => p[p[X] + Y] / 255;
+            return (h(X0, Y0) * (1 - u) + h(X1, Y0) * u) * (1 - v) + (h(X0, Y1) * (1 - u) + h(X1, Y1) * u) * v;
+        }
+        return (x, y, P) => { let a = 0, amp = .5, q = 1; for (let o = 0; o < 4; o++) { a += amp * n(x * q, y * q, P * q); amp *= .5; q *= 2; } return a / .9375; };
+    }
+    const hex = (h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+    function ramp(pal, v) {
+        v = Math.max(0, Math.min(.999, v)) * (pal.length - 1); const i = Math.floor(v), f = v - i;
+        const a = hex(pal[i]), b = hex(pal[i + 1]); return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f];
+    }
+    function makeTex(p, seed) {
+        const T = TEX, Wt = T * 2, c = 
