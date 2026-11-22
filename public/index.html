@@ -313,13 +313,12 @@
         .cs-dark { stop-color:color-mix(in srgb, var(--claw) 45%, #000); }
         .cs-hi   { stop-color:#fffbe8; }
         .mf-text { position:relative; z-index:2; }
-        .mf-p { font-family:'Cairo',sans-serif; font-weight:600; font-size:clamp(.98rem,2.3vw,1.08rem); line-height:2.15; text-align:justify; text-justify:inter-word; margin-bottom:14px;
-            background:linear-gradient(180deg,#ffffff 0%,#e8ebef 30%,#a3aab3 52%,#f1f3f6 70%,#8a919b 100%); background-size:100% 2.15em;
-            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-            filter:drop-shadow(0 1px 0 rgba(0,0,0,.6)) drop-shadow(0 0 1px rgba(255,255,255,.12)); }
+        .mf-p { font-family:'Cairo',sans-serif; font-weight:700; font-size:clamp(1rem,2.4vw,1.1rem); line-height:2.15; text-align:justify; text-justify:inter-word; margin-bottom:16px; direction:rtl;
+            color:#dfe3e8; -webkit-text-fill-color:#dfe3e8;
+            text-shadow:0 -1px 0 rgba(255,255,255,.55), 0 1px 0 #6f7680, 0 2px 1px rgba(0,0,0,.85), 0 0 3px #000, 0 0 8px rgba(0,0,0,.9); }
         .mf-p:last-child { margin-bottom:0; }
-        .mf-name { font-family:'Inter',sans-serif; font-weight:900; letter-spacing:.06em; font-size:1.12em; white-space:nowrap; filter:drop-shadow(0 0 8px rgba(238,241,244,.35)); }
-        .mf-key { font-style:normal; font-weight:900; font-size:1.12em; position:relative; white-space:nowrap; filter:drop-shadow(0 0 10px rgba(238,241,244,.45)); }
+        .mf-name { font-family:'Inter',sans-serif; font-weight:900; letter-spacing:.06em; font-size:1.12em; white-space:nowrap; color:#ffffff; -webkit-text-fill-color:#ffffff; text-shadow:0 0 10px rgba(238,241,244,.55), 0 1px 0 #6f7680, 0 0 3px #000; }
+        .mf-key { font-style:normal; font-weight:900; font-size:1.12em; position:relative; white-space:nowrap; color:#ffffff; -webkit-text-fill-color:#ffffff; text-shadow:0 0 12px rgba(238,241,244,.6), 0 1px 0 #6f7680, 0 0 3px #000; }
         .mf-key::after { content:''; position:absolute; right:0; left:0; bottom:.05em; height:2px; border-radius:2px; background:linear-gradient(90deg,transparent,var(--claw),transparent); box-shadow:0 0 8px var(--claw); }
         .claw { position:absolute; z-index:1; pointer-events:none; filter:drop-shadow(0 0 4px var(--claw)) drop-shadow(0 0 10px color-mix(in srgb, var(--claw) 50%, transparent)); }
         .cl-1 { width:clamp(64px,12vw,96px); top:-34px; left:-18px; transform:rotate(-8deg); }
@@ -327,10 +326,10 @@
         .cl-3 { width:clamp(70px,13vw,104px); bottom:-36px; right:14%; transform:rotate(14deg); }
         .cl-4 { width:clamp(38px,6vw,52px); bottom:22%; left:-22px; transform:rotate(200deg); opacity:.8; }
         /* scroll reveal */
-        .manifesto .mf-p { opacity:0; transform:translateY(14px); transition:opacity .9s ease var(--d), transform .9s cubic-bezier(.2,.8,.2,1) var(--d); }
-        .manifesto .claw { clip-path:inset(0 0 100% 0); transition:clip-path .55s cubic-bezier(.7,0,.2,1); }
-        .manifesto.in .mf-p { opacity:1; transform:none; }
-        .manifesto.in .claw { clip-path:inset(0 0 0 0); }
+        .manifesto .mf-p { transition:opacity .9s ease var(--d), transform .9s cubic-bezier(.2,.8,.2,1) var(--d); }
+        .manifesto .claw { transition:clip-path .55s cubic-bezier(.7,0,.2,1); }
+        .manifesto.mf-ready:not(.in) .mf-p { opacity:0; transform:translateY(14px); }
+        .manifesto.mf-ready:not(.in) .claw { clip-path:inset(0 0 100% 0); }
         .manifesto.in .cl-1 { transition-delay:.15s; } .manifesto.in .cl-2 { transition-delay:.45s; } .manifesto.in .cl-3 { transition-delay:.75s; } .manifesto.in .cl-4 { transition-delay:1s; }
         @media (max-width:640px) { .manifesto { padding:26px 20px; } .mf-p { line-height:2.05; text-align:right; } .cl-2 { right:-14px; } .cl-4 { left:-12px; } }
         @media (prefers-reduced-motion:reduce) { .loading-motto { animation:none; } .manifesto { animation:none; } .manifesto .mf-p, .manifesto .claw { opacity:1; transform:none; clip-path:none; transition:none; } }
@@ -362,15 +361,14 @@
         .cb-1 { width:clamp(130px,26%,200px); top:-92px; left:-58px; transform:rotate(-6deg); }
         .cb-2 { width:clamp(110px,20%,160px); top:38%; right:-84px; transform:scaleX(-1) rotate(-12deg); }
         .cb-3 { width:clamp(120px,22%,170px); bottom:-120px; left:34%; transform:rotate(22deg); }
-        .mf-p { filter:drop-shadow(0 0 2px rgba(0,0,0,.95)) drop-shadow(0 0 4px rgba(0,0,0,.9)) drop-shadow(0 1px 0 rgba(0,0,0,.6)); }
-        .carve { position:relative; display:inline-block; isolation:isolate; padding:0 .1em; background:none; color:#eef1f4; -webkit-text-fill-color:#eef1f4;
+                .carve { position:relative; display:inline-block; isolation:isolate; padding:0 .1em; background:none; color:#eef1f4; -webkit-text-fill-color:#eef1f4;
             text-shadow:0 1px 0 #8a919b, 0 -1px 0 #ffffff, 0 0 3px #000, 0 0 6px #000; }
         .carve-mark { position:absolute; z-index:-1; left:50%; top:50%; width:2.5em; height:2.9em; transform:translate(-50%,-50%) rotate(8deg); opacity:.95; pointer-events:none;
             filter:drop-shadow(1px 2px 1px rgba(0,0,0,.9)) drop-shadow(0 0 5px color-mix(in srgb, var(--claw) 70%, transparent)); }
-        .manifesto .claw.big { clip-path:inset(0 0 100% 0); transition:clip-path .6s cubic-bezier(.7,0,.2,1); }
-        .manifesto.in .claw.big { clip-path:inset(-20% -20% -20% -20%); }
+        .manifesto .claw.big { transition:clip-path .6s cubic-bezier(.7,0,.2,1); }
+        .manifesto.mf-ready:not(.in) .claw.big { clip-path:inset(0 0 100% 0); }
         .manifesto.in .cb-1 { transition-delay:.15s; } .manifesto.in .cb-2 { transition-delay:.5s; } .manifesto.in .cb-3 { transition-delay:.85s; }
-        .manifesto { margin-top:70px; margin-bottom:120px; }
+        .manifesto { margin-top:70px; margin-bottom:120px; height:auto; min-height:0; overflow:visible; }
         @media (max-width:640px) { .cb-1 { left:-30px; top:-78px; } .cb-2 { right:-62px; } .cb-3 { bottom:-104px; } }
         @media (prefers-reduced-motion:reduce) { .future-eyebrow { animation:none; } .manifesto .claw.big { clip-path:none; transition:none; } }
 </style>
@@ -504,6 +502,20 @@
                         <p class="mf-p" style="--d:560ms">نحن <strong class="mf-name">SD GENESIS</strong>، لم نأتِ من المستقبل، <em class="mf-key">المستقبل أتى منّا</em>، وسيظل يأتي، طالما فينا عقلٌ يرفض أن يقول "هذا <span class="carve">مستحيل<svg class="carve-mark" viewBox="0 0 210 245" aria-hidden="true"><use href="#tiger-claw"/></svg></span>".</p>
                     </div>
                 </div>
+                <script>
+                (function () {
+                    var m = document.getElementById('manifesto');
+                    if (!m) return;
+                    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    if (reduce || !('IntersectionObserver' in window)) { m.className += ' in'; return; }
+                    m.className += ' mf-ready';
+                    var done = false;
+                    function show() { if (done) return; done = true; m.className += ' in'; }
+                    var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { show(); io.disconnect(); } }, { threshold: 0.05 });
+                    io.observe(m);
+                    setTimeout(show, 4000);                       // fail-safe: never stay hidden
+                })();
+                </script>
                 <p class="motto mb-7"><i class="fa-solid fa-quote-right"></i><span>نطمح أن نكون اسماً يُحتذى به في صناعة التكنولوجيا في التاريخ</span></p>
                 <div class="flex flex-wrap items-center gap-3 text-xs font-semibold text-white/60">
                     <span class="px-4 py-2 rounded-full border border-gold-500/25 bg-gold-500/5"><i class="fa-solid fa-location-dot ml-2 text-gold-400"></i>المقر: السودان</span>
@@ -1068,7 +1080,7 @@ loadApps();
     const panel = document.getElementById('service-panel');
     const vModal = document.getElementById('video-modal');
     const vPlayer = document.getElementById('video-modal-player');
-    const esc = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    const esc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
     const labels = { website: 'تصاميم المواقع الإلكترونية', app: 'تصاميم التطبيقات' };
     let current = null, videos = null;
 
@@ -1159,65 +1171,63 @@ loadApps();
     });
 })();
 
-// ===== Cosmos: many textured planets, stardust orbital rings, moons, particle rings =====
+</script>
+<script>
+// ===== Cosmos: orbital rings, each carrying exactly 10 spinning planets, rings made of stardust =====
 (function () {
-    const box = document.getElementById('cosmos');
-    const back = document.getElementById('cosmos-back'), front = document.getElementById('cosmos-front');
-    const bx = back && back.getContext && back.getContext('2d'), fx = front && front.getContext && front.getContext('2d');
-    if (!bx || !fx) { box && box.classList.add('no-canvas'); const f = document.getElementById('cosmos-fallback'); if (f) f.hidden = false; return; }
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
-    const small = innerWidth < 640;
-    const DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 2);
-    const D = 5.6, PITCH = .34, TEX = weak ? 48 : small ? 80 : 112;
-    const DUST = weak ? 40 : small ? 60 : 95, TAIL = weak ? 12 : 22, RINGP = weak ? 30 : small ? 55 : 90;
-    let W = 0, R = 0, running = false, last = 0, t = 2, visible = true;
+    var box = document.getElementById('cosmos');
+    var back = document.getElementById('cosmos-back'), front = document.getElementById('cosmos-front');
+    var bx = back && back.getContext && back.getContext('2d'), fx = front && front.getContext && front.getContext('2d');
+    if (!bx || !fx) { if (box) box.classList.add('no-canvas'); var fb = document.getElementById('cosmos-fallback'); if (fb) fb.hidden = false; return; }
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
+    var small = innerWidth < 640;
+    var DPR = Math.min(devicePixelRatio || 1, weak ? 1 : 2);
+    var PER_RING = 10;                                   // exactly 10 planets on every ring
+    var D = 5.6, PITCH = .34, TEX = weak ? 40 : small ? 64 : 88;
+    var DUST = weak ? 45 : small ? 80 : 130, TAIL = weak ? 3 : 6;
+    var W = 0, R = 0, running = false, last = 0, t = 2, visible = true, GA = 1;
 
-    const PAL = {
+    var PAL = {
         gold: ['#7a5a00', '#D4AF37', '#F5D060', '#fff3c4'], silver: ['#3d434c', '#a3aab3', '#e3e7ec', '#ffffff'],
         green: ['#0b3d22', '#16a34a', '#4ade80', '#d9ffe8'], blue: ['#0b2a5b', '#2563eb', '#60a5fa', '#e0f2ff'],
         teal: ['#06302c', '#0f766e', '#2dd4bf', '#d5fff7'], violet: ['#1d0d40', '#6d28d9', '#a78bfa', '#efe7ff'],
-        obsidian: ['#000000', '#0b0b0b', '#1f1f1f', '#3a3a3a'],
+        obsidian: ['#000000', '#0b0b0b', '#1f1f1f', '#3a3a3a'], copper: ['#3b1a06', '#9a4a12', '#e08a3c', '#ffd9b0'],
     };
-    const RGB = { gold: '245,208,96', silver: '226,231,238', green: '74,222,128', blue: '120,180,255', teal: '94,234,212', violet: '186,166,255', obsidian: '212,175,55' };
+    var RGB = { gold: '245,208,96', silver: '226,231,238', green: '74,222,128', blue: '120,180,255', teal: '94,234,212', violet: '186,166,255', obsidian: '212,175,55', copper: '240,160,90' };
 
-    // orbit groups: horizontal → right / left, vertical → up / down, plus tilted & precessing rings
-    const ALL = [
-        { a: .30, e: .92, r: .040, sp:  1.75, rx: .06,  rz: .04,  pa: 0,   kind: 'rock',     col: 'gold' },
-        { a: .39, e: .90, r: .050, sp:  1.40, rx: 1.52, rz: .10,  pa: .22, kind: 'earth',    col: 'green', moons: [{ d: 2.1, r: .32, sp: 3.2, col: 'silver' }] },
-        { a: .48, e: .90, r: .056, sp: -1.15, rx: .10,  rz: -.06, pa: 0,   kind: 'gas',      col: 'silver', ring: { tilt: -.35, sq: .3 } },
-        { a: .56, e: .88, r: .046, sp: -1.00, rx: 1.45, rz: -.18, pa: .35, kind: 'ice',      col: 'blue' },
-        { a: .65, e: .86, r: .044, sp:  .90,  rx: .80,  rz: .50,  pa: .50, kind: 'obsidian', col: 'obsidian', gloss: true, m: true },
-        { a: .74, e: .86, r: .074, sp: -.75,  rx: -.45, rz: -.35, pa: .18, kind: 'gas',      col: 'gold', ring: { tilt: .32, sq: .26 }, moons: [{ d: 2.0, r: .22, sp: 2.4, col: 'green' }, { d: 2.7, r: .16, sp: -1.8, col: 'silver' }] },
-        { a: .83, e: .84, r: .050, sp:  .62,  rx: 1.35, rz: .90,  pa: .30, kind: 'gas',      col: 'teal', m: true },
-        { a: .90, e: .84, r: .030, sp:  .55,  rx: .15,  rz: .12,  pa: 0,   kind: 'rock',     col: 'silver', m: true, d: true },
-        { a: .97, e: .82, r: .040, sp: -.48,  rx: -1.2, rz: -.60, pa: .25, kind: 'gas',      col: 'violet', m: true, d: true },
+    // ten planet archetypes — every ring carries one of each, so each ring has 10 distinct planets
+    var KINDS = [
+        { kind: 'rock', col: 'gold', size: .9 }, { kind: 'earth', col: 'green', size: 1.1 }, { kind: 'gas', col: 'silver', size: 1.35, ring: true },
+        { kind: 'ice', col: 'blue', size: 1.0 }, { kind: 'obsidian', col: 'obsidian', size: .95, gloss: true }, { kind: 'gas', col: 'gold', size: 1.5, ring: true },
+        { kind: 'gas', col: 'teal', size: 1.1 }, { kind: 'rock', col: 'silver', size: .75 }, { kind: 'gas', col: 'violet', size: 1.05 },
+        { kind: 'rock', col: 'copper', size: .85 },
     ];
-    const planets = ALL.filter((p) => !(small && p.d) && !(weak && p.m));
-    planets.forEach((p, i) => {
-        p.ph = i * 2.399; p.pw = .07 + (i % 3) * .03; p.spin = 0; p.spinSp = (i % 2 ? -1 : 1) * (.05 + (i % 4) * .025);
-        p.dust = Array.from({ length: DUST }, () => ({ u: Math.random() * 6.2832, j: (Math.random() - .5) * .03, v: (Math.random() - .5) * .02, s: 1.1 + Math.random() * 1.6, a: .45 + Math.random() * .55, tw: Math.random() * 6.28, hot: Math.random() < .16 }));
-        if (p.ring) p.ringP = Array.from({ length: RINGP }, () => ({ u: Math.random() * 6.2832, rr: 1.55 + Math.random() * .8, s: .5 + Math.random() * 1.1, a: .3 + Math.random() * .6 }));
-    });
+    // rings: base plane + slow, continuous drift of the plane (horizontal / vertical / tilted)
+    var RINGS_ALL = [
+        { a: .46, e: .93, rx: .08,  rz: .04,  ax: .55, az: .25, w: .060, sp:  .52, flow:  .95, col: 'gold',   base: .026 },
+        { a: .63, e: .91, rx: 1.48, rz: .12,  ax: .40, az: .35, w: .045, sp: -.40, flow: -.70, col: 'silver', base: .030 },
+        { a: .80, e: .89, rx: .82,  rz: .55,  ax: .45, az: .30, w: .038, sp:  .31, flow:  .55, col: 'green',  base: .033 },
+        { a: .97, e: .87, rx: -.70, rz: -.50, ax: .35, az: .40, w: .030, sp: -.24, flow: -.42, col: 'gold',   base: .036 },
+    ];
+    var RINGS = weak ? [RINGS_ALL[1], RINGS_ALL[3]] : small ? [RINGS_ALL[0], RINGS_ALL[2], RINGS_ALL[3]] : RINGS_ALL;
 
-    // ---------- procedural planet textures (seamless horizontally so they can spin) ----------
-    function noiseGen(seed) {
-        const p = new Uint8Array(512); for (let i = 0; i < 256; i++) p[i] = i;
-        let s = seed * 9301 + 49297; for (let i = 255; i > 0; i--) { s = (s * 9301 + 49297) % 233280; const j = Math.floor(s / 233280 * (i + 1)); [p[i], p[j]] = [p[j], p[i]]; }
-        for (let i = 0; i < 256; i++) p[i + 256] = p[i];
-        const f = (x) => x * x * (3 - 2 * x);
-        function n(x, y, P) {
-            const xi = Math.floor(x), yi = Math.floor(y), u = f(x - xi), v = f(y - yi);
-            const X0 = ((xi % P) + P) % P, X1 = (X0 + 1) % P, Y0 = yi & 255, Y1 = (yi + 1) & 255;
-            const h = (X, Y) => p[p[X] + Y] / 255;
-            return (h(X0, Y0) * (1 - u) + h(X1, Y0) * u) * (1 - v) + (h(X0, Y1) * (1 - u) + h(X1, Y1) * u) * v;
+    function rnd(seed) { var s = seed % 2147483647; if (s <= 0) s += 2147483646; return function () { s = s * 16807 % 2147483647; return (s - 1) / 2147483646; }; }
+    RINGS.forEach(function (ring, ri) {
+        var r = rnd(97 + ri * 31);
+        ring.ph = ri * 1.7;
+        ring.planets = [];
+        for (var i = 0; i < PER_RING; i++) {
+            var k = KINDS[(i * 3 + ri * 7) % KINDS.length];       // shuffled order per ring
+            ring.planets.push({
+                k: k, slot: i / PER_RING * 6.2832 + (r() - .5) * .18,
+                wob: .08 + r() * .09, ww: .35 + r() * .9, wp: r() * 6.28,                      // individual speed variation, never leaves its slot
+                size: ring.base * k.size * (.85 + r() * .3),
+                spin: r(), spinSp: (r() < .5 ? -1 : 1) * (.06 + r() * .14),
+                tilt: (r() - .5) * .9,
+            });
         }
-        return (x, y, P) => { let a = 0, amp = .5, q = 1; for (let o = 0; o < 4; o++) { a += amp * n(x * q, y * q, P * q); amp *= .5; q *= 2; } return a / .9375; };
-    }
-    const hex = (h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
-    function ramp(pal, v) {
-        v = Math.max(0, Math.min(.999, v)) * (pal.length - 1); const i = Math.floor(v), f = v - i;
-        const a = hex(pal[i]), b = hex(pal[i + 1]); return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f];
-    }
-    function makeTex(p, seed) {
-        const T = TEX, Wt = T * 2, c = 
+        ring.dust = [];
+        for (var j = 0; j < DUST; j++) ring.dust.push({ u: r() * 6.2832, j: (r() - .5) * .035, v: (r() - .5) * .025, s: 1 + r() * 1.6, a: .4 + r() * .6, tw: r() * 6.28, hot: r() < .14, c: r() < .25 ? 'white' : r() < .5 ? 'green' : ring.col });
+        ring.ringP = [];
+        for (var m = 0; m < (weak ? 24 : 48); m++) ring.ringP.push({ u: r() * 6.2832, rr: 1.5 + 
