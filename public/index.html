@@ -292,6 +292,48 @@
             100% { --c1:#D4AF37; --c2:#C9CED6; --c3:#22C55E; } }
         @keyframes ringrot { to { --rr:360deg; } }
         @media (prefers-reduced-motion:reduce) { .logo-ring { animation:none; } .motto span { animation:none; } }
+
+        /* ===== Loading-screen motto ===== */
+        .loading-motto { font-family:'Cairo',sans-serif; font-weight:900; font-size:clamp(1.05rem,4.4vw,1.7rem); text-align:center; padding:0 20px; line-height:1.7;
+            background:linear-gradient(110deg,#F5E08C 0%,#D4AF37 20%,#eef1f4 40%,#9aa1ab 55%,#4ade80 72%,#16a34a 85%,#F5E08C 100%); background-size:260% auto;
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            filter:drop-shadow(0 0 10px rgba(245,224,140,.35)) drop-shadow(0 0 22px rgba(74,222,128,.15));
+            animation:shimmer 4.5s linear infinite, mottoIn 1s cubic-bezier(.2,.8,.2,1) .1s both; }
+        .loading-motto span { display:inline-block; }
+        @keyframes mottoIn { from { opacity:0; letter-spacing:.35em; transform:translateY(10px) scale(.96); filter:blur(10px); } to { opacity:1; letter-spacing:0; transform:none; } }
+        .loading-screen.hidden .loading-motto { transition:transform .6s ease, opacity .6s ease, filter .6s ease; transform:scale(1.12); opacity:0; filter:blur(8px); }
+
+        /* ===== Manifesto: metallic silver text + animated tiger-claw marks ===== */
+        @property --claw { syntax:'<color>'; initial-value:#D4AF37; inherits:true; }
+        .manifesto { position:relative; margin:0 0 26px; padding:30px 26px 30px 30px; border-radius:18px;
+            background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,.01) 40%,rgba(0,0,0,.25)); border:1px solid rgba(214,219,227,.09);
+            --claw:#D4AF37; animation:clawEnergy 9s ease-in-out infinite; isolation:isolate; }
+        @keyframes clawEnergy { 0%,100% { --claw:#D4AF37; } 22% { --claw:#E4C23C; } 50% { --claw:#22C55E; } 78% { --claw:#8FC23A; } }
+        .cs-main { stop-color:var(--claw); }
+        .cs-dark { stop-color:color-mix(in srgb, var(--claw) 45%, #000); }
+        .cs-hi   { stop-color:#fffbe8; }
+        .mf-text { position:relative; z-index:2; }
+        .mf-p { font-family:'Cairo',sans-serif; font-weight:600; font-size:clamp(.98rem,2.3vw,1.08rem); line-height:2.15; text-align:justify; text-justify:inter-word; margin-bottom:14px;
+            background:linear-gradient(180deg,#ffffff 0%,#e8ebef 30%,#a3aab3 52%,#f1f3f6 70%,#8a919b 100%); background-size:100% 2.15em;
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            filter:drop-shadow(0 1px 0 rgba(0,0,0,.6)) drop-shadow(0 0 1px rgba(255,255,255,.12)); }
+        .mf-p:last-child { margin-bottom:0; }
+        .mf-name { font-family:'Inter',sans-serif; font-weight:900; letter-spacing:.06em; font-size:1.12em; white-space:nowrap; filter:drop-shadow(0 0 8px rgba(238,241,244,.35)); }
+        .mf-key { font-style:normal; font-weight:900; font-size:1.12em; position:relative; white-space:nowrap; filter:drop-shadow(0 0 10px rgba(238,241,244,.45)); }
+        .mf-key::after { content:''; position:absolute; right:0; left:0; bottom:.05em; height:2px; border-radius:2px; background:linear-gradient(90deg,transparent,var(--claw),transparent); box-shadow:0 0 8px var(--claw); }
+        .claw { position:absolute; z-index:1; pointer-events:none; filter:drop-shadow(0 0 4px var(--claw)) drop-shadow(0 0 10px color-mix(in srgb, var(--claw) 50%, transparent)); }
+        .cl-1 { width:clamp(64px,12vw,96px); top:-34px; left:-18px; transform:rotate(-8deg); }
+        .cl-2 { width:clamp(46px,8vw,66px); top:38%; right:-26px; transform:rotate(168deg) scaleX(-1); opacity:.9; }
+        .cl-3 { width:clamp(70px,13vw,104px); bottom:-36px; right:14%; transform:rotate(14deg); }
+        .cl-4 { width:clamp(38px,6vw,52px); bottom:22%; left:-22px; transform:rotate(200deg); opacity:.8; }
+        /* scroll reveal */
+        .manifesto .mf-p { opacity:0; transform:translateY(14px); transition:opacity .9s ease var(--d), transform .9s cubic-bezier(.2,.8,.2,1) var(--d); }
+        .manifesto .claw { clip-path:inset(0 0 100% 0); transition:clip-path .55s cubic-bezier(.7,0,.2,1); }
+        .manifesto.in .mf-p { opacity:1; transform:none; }
+        .manifesto.in .claw { clip-path:inset(0 0 0 0); }
+        .manifesto.in .cl-1 { transition-delay:.15s; } .manifesto.in .cl-2 { transition-delay:.45s; } .manifesto.in .cl-3 { transition-delay:.75s; } .manifesto.in .cl-4 { transition-delay:1s; }
+        @media (max-width:640px) { .manifesto { padding:26px 20px; } .mf-p { line-height:2.05; text-align:right; } .cl-2 { right:-14px; } .cl-4 { left:-12px; } }
+        @media (prefers-reduced-motion:reduce) { .loading-motto { animation:none; } .manifesto { animation:none; } .manifesto .mf-p, .manifesto .claw { opacity:1; transform:none; clip-path:none; transition:none; } }
 </style>
 </head>
 
@@ -303,6 +345,7 @@
         <span class="brand-logo-text text-2xl font-black gradient-text">SD GENESIS</span>
     </span>
     <div class="loader"></div>
+    <p class="loading-motto" aria-label="لم نأتِ من المستقبل، المستقبل أتى منّا"><span>لم نأتِ من المستقبل،</span> <span>المستقبل أتى منّا</span></p>
 </div>
 
 <nav class="navbar-glass fixed top-0 left-0 right-0 z-50" id="navbar">
@@ -394,7 +437,33 @@
             <div data-aos="fade-up">
                 <span class="inline-block text-gold-400 text-xs font-bold tracking-widest uppercase mb-4">شركة المستقبل</span>
                 <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-5 leading-tight">نبني <span class="gradient-text">مستقبل التكنولوجيا</span><br>من السودان إلى العالم</h2>
-                <p class="text-white/50 leading-loose text-base mb-6">SD GENESIS شركة تكنولوجية تتطلع إلى الغد: ندمج الذكاء الاصطناعي بالتصميم والبرمجة لنحوّل أفكار عملائنا إلى منتجات رقمية ذكية.</p>
+                <div class="manifesto" id="manifesto">
+                    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+                        <defs>
+                            <linearGradient id="claw-metal" x1="0" y1="1" x2="1" y2="0">
+                                <stop offset="0" class="cs-dark"/><stop offset=".35" class="cs-main"/>
+                                <stop offset=".48" class="cs-hi"><animate attributeName="offset" values="-.1;1.1;-.1" dur="5s" repeatCount="indefinite"/></stop>
+                                <stop offset=".62" class="cs-main"/><stop offset="1" class="cs-dark"/>
+                            </linearGradient>
+                            <symbol id="tiger-claw" viewBox="0 0 120 110">
+                                <path fill="url(#claw-metal)" d="M6 104 C30 80 58 50 101 6 C96 16 70 46 46 72 C30 89 18 99 6 104 Z"/>
+                                <path fill="url(#claw-metal)" d="M24 108 C48 84 78 52 116 14 C110 25 86 52 62 78 C47 94 35 104 24 108 Z"/>
+                                <path fill="url(#claw-metal)" d="M44 109 C64 90 86 66 112 40 C108 50 92 68 74 88 C62 100 53 106 44 109 Z"/>
+                            </symbol>
+                        </defs>
+                    </svg>
+                    <svg class="claw cl-1" viewBox="0 0 120 110" aria-hidden="true"><use href="#tiger-claw"/></svg>
+                    <svg class="claw cl-2" viewBox="0 0 120 110" aria-hidden="true"><use href="#tiger-claw"/></svg>
+                    <svg class="claw cl-3" viewBox="0 0 120 110" aria-hidden="true"><use href="#tiger-claw"/></svg>
+                    <svg class="claw cl-4" viewBox="0 0 120 110" aria-hidden="true"><use href="#tiger-claw"/></svg>
+                    <div class="mf-text">
+                        <p class="mf-p" style="--d:0ms">نحن لا ننتظر الغد، نحن من يمنحه شكله ووزنه واسمه، ولا نسير خلف المستقبل، نحن من يرسم له الطريق ثم يقف على حافته ويدعوه أن يلحق بنا؛</p>
+                        <p class="mf-p" style="--d:140ms">قبل أن يُسمّى ما لم يكن، كنّا نحن اسمه، وقبل أن يطرح العالم سؤاله الأول، كنّا نحن الجواب القابع على طرف الصمت، نبتكر لا لنُدهش بل لنُعيد تعريف الممكن من جذره، ونخترع لا لنُضيف إلى الموجود بل لنمحو حدّاً رسمه غيرنا وسمّاه مستحيلاً ونحن نسمّيه "لم يُحلّ بعد"،</p>
+                        <p class="mf-p" style="--d:280ms">فكل ما تلمسه اليوم كان بالأمس حلماً في رأس أحدنا لم يصدّقه أحد، وكل ما ستلمسه غداً هو الآن فكرة تشتعل في صمت مختبراتنا بينما العالم نائم،</p>
+                        <p class="mf-p" style="--d:420ms">لا ننافس أحداً لأننا لا نلعب اللعبة، نحن من يكتب قواعدها ويكسر ما لا يعجبه منها، ولا نبحث عن موضع في التاريخ، نحن من يصنع الصفحة التي سيُكتب عليها والحبر الذي ستُكتب به واليد التي ستكتب، لا نتبع موجة، نحن الزلزال الذي يولّدها، ولا نطلب إذناً من الواقع، نحن من يعيد تشكيله ثم يقول له "تعلّم أن تعيش فينا"،</p>
+                        <p class="mf-p" style="--d:560ms">نحن <strong class="mf-name">SD GENESIS</strong>، لم نأتِ من المستقبل، <em class="mf-key">المستقبل أتى منّا</em>، وسيظل يأتي، طالما فينا عقلٌ يرفض أن يقول "هذا مستحيل".</p>
+                    </div>
+                </div>
                 <p class="motto mb-7"><i class="fa-solid fa-quote-right"></i><span>نطمح أن نكون اسماً يُحتذى به في صناعة التكنولوجيا في التاريخ</span></p>
                 <div class="flex flex-wrap items-center gap-3 text-xs font-semibold text-white/60">
                     <span class="px-4 py-2 rounded-full border border-gold-500/25 bg-gold-500/5"><i class="fa-solid fa-location-dot ml-2 text-gold-400"></i>المقر: السودان</span>
@@ -593,7 +662,8 @@
 AOS.init({ duration:800, easing:'ease-out-cubic', once:true, offset:80 });
 
 function hideLoadingScreen() { const el = document.getElementById('loadingScreen'); if (el) el.classList.add('hidden'); }
-document.addEventListener('DOMContentLoaded', () => { setTimeout(hideLoadingScreen, 250); });
+// keep the screen just long enough for the motto to be read (~1.1s from navigation start), never longer than before (3s cap below)
+document.addEventListener('DOMContentLoaded', () => { setTimeout(hideLoadingScreen, Math.max(250, 1100 - performance.now())); });
 setTimeout(hideLoadingScreen, 3000);
 
 document.getElementById('footer-year').textContent = new Date().getFullYear();
@@ -1228,6 +1298,14 @@ loadApps();
             e.preventDefault(); playCinematic(); setTimeout(() => { location.href = href; }, 380);
         }
     });
+})();
+
+// ===== Manifesto scroll reveal =====
+(function () {
+    const m = document.getElementById('manifesto'); if (!m) return;
+    if (!('IntersectionObserver' in window)) { m.classList.add('in'); return; }
+    const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) { m.classList.add('in'); io.disconnect(); } }, { threshold: .15 });
+    io.observe(m);
 })();
 </script>
 
