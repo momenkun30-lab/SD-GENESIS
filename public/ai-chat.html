@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>مركز الذكاء الاصطناعي | SD GENESIS</title>
+<meta name="description" content="مركز الذكاء الاصطناعي لشركة SD GENESIS — مساعد يجيب من المعلومات المعتمدة من الشركة فقط.">
+<meta name="theme-color" content="#02030a">
+<meta name="sd-build" content="2026-11-24-I">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#D4AF37;--gold2:#F5D060;--gold3:#F5E08C;--silver:#d9dee6;--green:#4ade80;--bg:#02030a;--panel:rgba(7,9,14,.78);--line:rgba(255,255,255,.08)}
+html{background:var(--bg);overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:#fff;min-height:100vh;min-height:100dvh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::selection{background:rgba(212,175,55,.3);color:var(--gold2)}
+
+/* ---------- the AI-core scene (behind everything) ---------- */
+#core{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(2,3,10,0) 0%,rgba(2,3,10,.35) 60%,rgba(2,3,10,.82) 100%)}
+.grid{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.35;background-image:linear-gradient(rgba(212,175,55,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(212,175,55,.05) 1px,transparent 1px);background-size:52px 52px;-webkit-mask-image:radial-gradient(ellipse 60% 55% at 50% 45%,#000 10%,transparent 72%);mask-image:radial-gradient(ellipse 60% 55% at 50% 45%,#000 10%,transparent 72%)}
+
+/* ---------- nav (same identity as the rest of the site) ---------- */
+nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(3,4,10,.6);border-bottom:1px solid rgba(212,175,55,.12)}
+nav .in{max-width:1200px;margin:0 auto;padding:0 18px;display:flex;align-items:center;justify-content:space-between;height:64px;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-weight:900;font-size:1.12rem;letter-spacing:.02em}
+.brand img{height:38px;width:auto;border-radius:8px}
+.gt{background:linear-gradient(135deg,#F5E08C,#D4AF37,#B8960C,#D4AF37,#F5E08C);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 5s linear infinite}
+@keyframes shimmer{to{background-position:200% center}}
+.navlinks{display:flex;align-items:center;gap:20px;font-size:.88rem;color:rgba(255,255,255,.68)}
+.navlinks a{position:relative;padding:6px 0;transition:color .25s}
+.navlinks a:hover{color:var(--gold2)}
+.navlinks a.active{color:var(--gold3);font-weight:800}
+.navlinks a.active::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--green),transparent)}
+@media(max-width:760px){.navlinks .hide-sm{display:none}.navlinks{gap:14px}}
+
+/* ---------- page ---------- */
+.stage{position:relative;z-index:2;max-width:1000px;margin:0 auto;padding:22px 16px 26px;display:flex;flex-direction:column;min-height:calc(100dvh - 64px)}
+.head{text-align:center;margin-bottom:18px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;direction:ltr;font-family:'Inter',sans-serif;font-weight:800;font-size:.7rem;letter-spacing:.3em;color:var(--gold3);padding:6px 15px;border-radius:999px;border:1px solid rgba(212,175,55,.35);background:rgba(212,175,55,.07)}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+h1{font-weight:900;font-size:clamp(1.7rem,4.6vw,2.9rem);line-height:1.3;margin:12px 0 6px;background:linear-gradient(120deg,#eef1f4 0%,#F5E08C 30%,#D4AF37 48%,#4ade80 78%,#eef1f4 100%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 6s linear infinite}
+.sub{color:rgba(255,255,255,.62);max-width:620px;margin:0 auto;line-height:1.85;font-size:clamp(.9rem,2.3vw,1.02rem)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.chip{font-size:.76rem;font-weight:700;padding:5px 12px;border-radius:999px;color:var(--silver);border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035)}
+.chip b{color:var(--green);margin-inline-end:5px}
+.chip.kb{color:var(--gold3);border-color:rgba(212,175,55,.28)}
+
+/* ---------- chat console ---------- */
+@property --rot{syntax:'<angle>';initial-value:0deg;inherits:false}
+.shell{position:relative;flex:1;display:flex;min-height:460px;border-radius:26px;padding:1.5px;--rot:0deg;
+  background:conic-gradient(from var(--rot),#D4AF37,#d9dee6 18%,#22c55e 36%,#0b0f0c 52%,#D4AF37 70%,#d9dee6 86%,#D4AF37);animation:spin 10s linear infinite;
+  box-shadow:0 30px 90px -30px rgba(0,0,0,.95),0 0 70px -22px rgba(212,175,55,.35)}
+@keyframes spin{to{--rot:360deg}}
+.console{position:relative;flex:1;display:flex;flex-direction:column;min-width:0;border-radius:24.5px;overflow:hidden;background:linear-gradient(160deg,rgba(7,9,13,.9),rgba(9,12,17,.86) 55%,rgba(5,7,10,.92));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.console::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.45;mix-blend-mode:screen;background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0,rgba(255,255,255,.022) 1px,transparent 1px,transparent 3px)}
+.corner{position:absolute;width:16px;height:16px;border:2px solid rgba(212,175,55,.65);pointer-events:none;z-index:2}
+.corner.tl{top:10px;left:10px;border-right:0;border-bottom:0}.corner.tr{top:10px;right:10px;border-left:0;border-bottom:0}
+.corner.bl{bottom:10px;left:10px;border-right:0;border-top:0}.corner.br{bottom:10px;right:10px;border-left:0;border-top:0}
+.bar{position:relative;z-index:1;display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(212,175,55,.08),transparent)}
+.avatar{width:40px;height:40px;flex:0 0 40px;border-radius:12px;display:grid;place-items:center;color:#1a1300;font-weight:900;font-family:'Inter',sans-serif;font-size:.8rem;background:linear-gradient(135deg,#F5E08C,#D4AF37 55%,#4ade80);box-shadow:0 0 20px -4px rgba(212,175,55,.75)}
+.bar-title{flex:1;min-width:0;line-height:1.35}
+.bar-title strong{display:block;font-size:1rem}
+.bar-title span{font-size:.74rem;color:rgba(255,255,255,.52);display:flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.dot.busy{background:var(--gold2);box-shadow:0 0 8px var(--gold2);animation:pulse 1s ease-in-out infinite}
+.dot.off{background:#f59e0b;box-shadow:0 0 8px #f59e0b}
+.newchat{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;border-radius:12px;border:1px solid rgba(212,175,55,.3);background:rgba(212,175,55,.08);color:var(--gold3);font-size:.82rem;font-weight:800;transition:background .2s,transform .2s}
+.newchat:hover{background:rgba(212,175,55,.18);transform:translateY(-1px)}
+.newchat svg{flex:0 0 auto}
+@media(max-width:420px){.newchat span{display:none}.newchat{padding:0 10px}}
+.log{position:relative;z-index:1;flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:16px;scroll-behavior:smooth;overscroll-behavior:contain;min-height:0}
+.log::-webkit-scrollbar{width:6px}.log::-webkit-scrollbar-thumb{background:rgba(212,175,55,.3);border-radius:6px}
+.msg{display:flex;gap:10px;max-width:100%;animation:msgin .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes msgin{from{opacity:0;transform:translateY(10px) scale(.985);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
+.msg.user{flex-direction:row-reverse}
+.msg .av{width:30px;height:30px;flex:0 0 30px;border-radius:10px;display:grid;place-items:center;font-size:.66rem;font-weight:900;font-family:'Inter',sans-serif}
+.msg.bot .av{color:#1a1300;background:linear-gradient(135deg,#F5E08C,#D4AF37 55%,#4ade80)}
+.msg.user .av{color:#0b0f0c;background:linear-gradient(135deg,#eef1f4,#9aa1ab);font-family:'Cairo',sans-serif}
+.wrap{min-width:0;max-width:min(calc(100% - 42px),640px)}
+.bubble{max-width:100%;width:fit-content;padding:11px 15px;border-radius:16px;font-size:.98rem;line-height:1.9;white-space:pre-wrap;overflow-wrap:break-word;direction:rtl;unicode-bidi:plaintext;text-align:start}
+.msg.bot .bubble{background:linear-gradient(160deg,rgba(255,255,255,.065),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.09);border-top-right-radius:4px;color:#eef1f4}
+.msg.user .bubble{background:linear-gradient(135deg,#F5E08C,#D4AF37);color:#1a1300;font-weight:700;border-top-left-radius:4px}
+.msg.bot.na .bubble{border-color:rgba(245,158,11,.4);background:linear-gradient(160deg,rgba(245,158,11,.09),rgba(255,255,255,.02))}
+.msg.bot.na .bubble::before{content:'ⓘ ';color:#f59e0b;font-weight:900}
+.msg.bot.info .bubble{border-color:rgba(74,222,128,.22)}
+.bubble a{color:var(--green);text-decoration:underline;text-underline-offset:3px;word-break:break-all}
+.msg.user .bubble a{color:#1a1300}
+.tag{display:inline-block;font-size:.66rem;font-weight:800;padding:2px 9px;border-radius:999px;margin-bottom:6px;color:var(--gold3);background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.25)}
+.sug{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.sug button{font-size:.82rem;font-weight:700;padding:7px 13px;border-radius:999px;color:var(--gold3);background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.3);transition:background .2s;text-align:start}
+.sug button:hover{background:rgba(212,175,55,.2)}
+.typing{position:relative;z-index:1;display:none;align-items:center;gap:10px;padding:0 20px 10px;font-size:.82rem;color:rgba(255,255,255,.58)}
+.typing.on{display:flex}
+.typing .dots{display:inline-flex;gap:4px}.typing .dots i{width:6px;height:6px;border-radius:50%;background:var(--green);animation:bounce 1s ease-in-out infinite}
+.typing .dots i:nth-child(2){animation-delay:.15s;background:var(--gold)}.typing .dots i:nth-child(3){animation-delay:.3s;background:var(--silver)}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-6px);opacity:1}}
+.form{position:relative;z-index:1;display:flex;align-items:flex-end;gap:10px;padding:12px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(0,0,0,.38)}
+.field{position:relative;flex:1}
+.input{width:100%;display:block;resize:none;min-height:50px;max-height:160px;padding:13px 16px 20px;border-radius:16px;font:inherit;font-size:16px;line-height:1.6;color:#fff;direction:rtl;unicode-bidi:plaintext;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);outline:none;transition:border-color .2s,box-shadow .2s}
+.input::placeholder{color:rgba(255,255,255,.35)}
+.input:focus{border-color:rgba(212,175,55,.7);box-shadow:0 0 0 3px rgba(212,175,55,.14)}
+.counter{position:absolute;bottom:4px;left:12px;font-size:.66rem;color:rgba(255,255,255,.32);font-family:'Inter',sans-serif;direction:ltr}
+.send{flex:0 0 52px;height:52px;border-radius:16px;border:0;display:grid;place-items:center;color:#1a1300;background:linear-gradient(135deg,#F5E08C,#D4AF37 60%,#b8960c);box-shadow:0 10px 26px -8px rgba(212,175,55,.75),0 0 0 1px rgba(255,255,255,.25) inset;transition:transform .2s,opacity .2s,box-shadow .2s}
+.send:hover{transform:translateY(-2px);box-shadow:0 14px 32px -8px rgba(212,175,55,.85),0 0 24px -4px rgba(74,222,128,.45)}
+.send:active{transform:scale(.95)}
+.send:disabled{opacity:.42;cursor:not-allowed;transform:none}
+.send svg{transform:scaleX(-1)}
+.hint{position:relative;z-index:1;text-align:center;font-size:.7rem;color:rgba(255,255,255,.34);padding:0 12px 10px;background:rgba(0,0,0,.38)}
+@media(hover:none){.hint{display:none}}
+@media(max-width:640px){.stage{height:calc(100vh - 64px);height:calc(100dvh - 64px);min-height:430px;padding:10px 8px 10px}.head{margin-bottom:10px}.eyebrow,.sub{display:none}h1{margin:0 0 4px;font-size:1.5rem}.chips{margin-top:4px;gap:6px}.chip{font-size:.7rem;padding:3px 9px}.shell{border-radius:20px;min-height:0}.console{border-radius:19px}.log{padding:14px 10px}.bubble{font-size:.95rem}}
+
+footer{position:relative;z-index:2;border-top:1px solid rgba(212,175,55,.1);background:rgba(3,4,10,.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+footer .in{max-width:1200px;margin:0 auto;padding:22px 18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;font-size:.84rem;color:rgba(255,255,255,.5)}
+footer .links{display:flex;flex-wrap:wrap;gap:16px}
+footer a:hover{color:var(--gold2)}
+
+/* ---------- opening sequence ---------- */
+#intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;pointer-events:none;opacity:0;visibility:hidden}
+body.intro #intro{opacity:1;visibility:visible;pointer-events:auto}
+#intro .black{position:absolute;inset:0;background:#02030a;animation:none}
+body.intro #intro .black{animation:blackout var(--d,2s) cubic-bezier(.6,0,.4,1) both}
+@keyframes blackout{0%{opacity:1}22%{opacity:.82}70%{opacity:.35}100%{opacity:0}}
+#intro .flash{position:absolute;left:50%;top:46%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:radial-gradient(circle,#fff 0,#fff6d6 30%,rgba(245,224,140,.6) 55%,rgba(74,222,128,0) 72%);box-shadow:0 0 40px 12px rgba(245,224,140,.55),0 0 90px 30px rgba(74,222,128,.25);opacity:0}
+body.intro #intro .flash{animation:energy var(--d,2s) cubic-bezier(.2,.8,.2,1) both}
+@keyframes energy{0%{opacity:0;transform:scale(.2)}10%{opacity:1;transform:scale(1)}26%{opacity:1;transform:scale(2.6)}46%{opacity:.85;transform:scale(1.4)}78%{opacity:.4;transform:scale(1)}100%{opacity:0;transform:scale(9)}}
+#intro .line{position:absolute;left:0;right:0;top:46%;height:2px;transform:translateY(-50%) scaleX(0);background:linear-gradient(90deg,transparent,#fff,#F5E08C,#4ade80,#fff,transparent);box-shadow:0 0 26px 5px rgba(245,224,140,.65);opacity:0}
+body.intro #intro .line{animation:beam var(--d,2s) cubic-bezier(.2,.8,.2,1) both}
+@keyframes beam{0%,6%{opacity:0;transform:translateY(-50%) scaleX(0)}18%{opacity:1;transform:translateY(-50%) scaleX(1)}36%{opacity:0;transform:translateY(-50%) scaleX(1.2)}100%{opacity:0}}
+#intro .title{position:relative;text-align:center;opacity:0;transform:translateY(8px) scale(.96);filter:blur(8px)}
+body.intro #intro .title{animation:title var(--d,2s) cubic-bezier(.2,.8,.2,1) both}
+@keyframes title{0%,34%{opacity:0;transform:translateY(10px) scale(.94);filter:blur(10px);letter-spacing:.6em}56%{opacity:1;transform:none;filter:none;letter-spacing:.22em}82%{opacity:1;transform:scale(1.02);filter:none}100%{opacity:0;transform:scale(1.12);filter:blur(6px)}}
+#intro .t-brand{display:block;direction:ltr;font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(1.8rem,6.5vw,3.6rem);letter-spacing:.22em;background:linear-gradient(120deg,#fff 0%,#F5E08C 35%,#D4AF37 55%,#4ade80 85%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 24px rgba(212,175,55,.45))}
+#intro .t-sub{display:block;margin-top:8px;font-weight:800;font-size:clamp(.95rem,2.8vw,1.3rem);color:rgba(255,255,255,.85);letter-spacing:.06em}
+#intro .skip{position:absolute;bottom:calc(22px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);font-size:.78rem;color:rgba(255,255,255,.5);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:6px 16px}
+/* the page waits behind the intro, then assembles */
+.rv{transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1),filter .7s ease}
+body.intro .rv{opacity:0;transform:translateY(18px) scale(.985);filter:blur(4px)}
+body.intro nav{opacity:0}
+nav{transition:opacity .6s ease}
+.rv.d1{transition-delay:.05s}.rv.d2{transition-delay:.14s}.rv.d3{transition-delay:.22s}.rv.d4{transition-delay:.3s}
+@media(prefers-reduced-motion:reduce){.shell,.eyebrow i,.gt,h1{animation:none}.msg{animation:none}.rv{transition:none}}
+</style>
+</head>
+<body>
+<canvas id="core" aria-hidden="true"></canvas>
+<div class="grid" aria-hidden="true"></div>
+<div class="veil" aria-hidden="true"></div>
+
+<div id="intro" aria-hidden="true">
+    <div class="black"></div>
+    <div class="line"></div>
+    <div class="flash"></div>
+    <div class="title"><span class="t-brand">SD GENESIS</span><span class="t-sub">مركز الذكاء الاصطناعي</span></div>
+    <button type="button" class="skip" id="introSkip">تخطّي</button>
+</div>
+
+<nav>
+    <div class="in">
+        <a href="/" class="brand" aria-label="SD GENESIS — الرئيسية"><img id="brandImg" alt="SD GENESIS" hidden><span id="brandText" class="gt">SD GENESIS</span></a>
+        <div class="navlinks">
+            <a href="/">الرئيسية</a>
+            <a href="/#services" class="hide-sm">خدماتنا</a>
+            <a href="/#apps" class="hide-sm">تطبيقاتنا</a>
+            <a href="/products.html" class="hide-sm">المنتجات</a>
+            <a href="/#contact" class="hide-sm">تواصل معنا</a>
+            <a href="/ai-chat" class="active" aria-current="page">الذكاء الاصطناعي</a>
+        </div>
+    </div>
+</nav>
+
+<main class="stage">
+    <header class="head">
+        <span class="eyebrow rv d1"><i></i>SD GENESIS · AI CORE</span>
+        <h1 class="rv d1">مركز الذكاء الاصطناعي</h1>
+        <p class="sub rv d2">اسأل مساعد SD GENESIS عن الشركة. يبحث فقط في المعلومات التي اعتمدتها الشركة ويعرض الإجابة كما هي، وإن لم تتوفر معلومة معتمدة يخبرك بذلك بصراحة دون تخمين.</p>
+        <div class="chips rv d2">
+            <span class="chip" id="chipA"><b>✓</b>إجابات معتمدة فقط</span>
+            <span class="chip"><b>✓</b>عربي بالكامل</span>
+            <span class="chip" id="chipC"><b>✓</b>بدون تخمين</span>
+            <span class="chip kb" id="kbCount" aria-live="polite">جارٍ الاتصال…</span>
+        </div>
+    </header>
+
+    <section class="shell rv d3" aria-label="محادثة مساعد SD GENESIS">
+        <div class="console">
+            <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+            <div class="bar">
+                <div class="avatar" aria-hidden="true">AI</div>
+                <div class="bar-title"><strong>مساعد SD GENESIS</strong><span><i class="dot" id="dot"></i><em id="status" style="font-style:normal">جاهز</em></span></div>
+                <button type="button" class="newchat" id="newChat" title="بدء محادثة جديدة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>محادثة جديدة</span></button>
+            </div>
+            <div class="log" id="log" role="log" aria-live="polite" aria-relevant="additions"></div>
+            <div class="typing" id="typing"><span class="dots"><i></i><i></i><i></i></span><span>جارٍ البحث في المعلومات المعتمدة…</span></div>
+            <form class="form" id="form" autocomplete="off">
+                <div class="field">
+                    <textarea class="input" id="input" rows="1" maxlength="500" placeholder="اكتب سؤالك هنا…" aria-label="اكتب سؤالك"></textarea>
+                    <span class="counter" id="counter">0/500</span>
+                </div>
+                <button type="submit" class="send" id="send" aria-label="إرسال"><svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+            </form>
+            <div class="hint">Enter للإرسال · Shift + Enter لسطر جديد</div>
+        </div>
+    </section>
+</main>
+
+<footer class="rv d4">
+    <div class="in">
+        <span>© <span id="yr"></span> <b class="gt">SD GENESIS</b> — جميع الحقوق محفوظة</span>
+        <div class="links"><a href="/">الرئيسية</a><a href="/#services">خدماتنا</a><a href="/#apps">تطبيقاتنا</a><a href="/products.html">المنتجات</a><a href="/#contact">تواصل معنا</a></div>
+    </div>
+</footer>
+
+<script>
+// ===== AI-core scene: a living network of light (particles on a 3D sphere, links, data pulses, tilted rings, data streams) =====
+// Plain canvas 2D, adaptive to the device, paused when the tab is hidden, a still frame when the user prefers reduced motion.
+(function () {
+    var cv = document.getElementById('core'), x = cv && cv.getContext ? cv.getContext('2d') : null;
+    if (!x) { window.__core = { ok: false, intro: function () {}, stats: function () { return { ok: false }; } }; return; }
+    var TAU = Math.PI * 2;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
+    var W = 0, H = 0, DPR = 1, small = false, running = false, last = 0, t = 0, quality = 0, ema = 16, slow = 0;
+    var introAt = -1, introDur = 2, mx = 0, my = 0, tmx = 0, tmy = 0;
+    function rnd(seed) { var s = seed; return function () { s = s * 16807 % 2147483647; return (s - 1) / 2147483646; }; }
+    var r = rnd(777);
+
+    // --- points on a sphere (Fibonacci), each with a far-away start position for the "gathering" intro
+    var N = weak ? 90 : (window.innerWidth < 640 ? 140 : 230), P = [], E = [], i, j;
+    for (i = 0; i < N; i++) {
+        var y = 1 - (i + .5) / N * 2, rr = Math.sqrt(1 - y * y), th = i * 2.39996;
+        var dir = [r() - .5, r() - .5, r() - .5], dl = Math.hypot(dir[0], dir[1], dir[2]) || 1, far = 3 + r() * 3;
+        P.push({ x: Math.cos(th) * rr, y: y, z: Math.sin(th) * rr, sx: dir[0] / dl * far, sy: dir[1] / dl * far, sz: dir[2] / dl * far, d: r() * .35, tw: r() * TAU, c: r() < .5 ? 0 : r() < .6 ? 1 : 2, px: 0, py: 0, pz: 0, k: 1 });
+    }
+    // links to the 3 nearest neighbours (computed once)
+    var seen = {};
+    for (i = 0; i < N; i++) {
+        var best = [];
+        for (j = 0; j < N; j++) if (j !== i) { var dx = P[i].x - P[j].x, dy = P[i].y - P[j].y, dz = P[i].z - P[j].z; best.push([dx * dx + dy * dy + dz * dz, j]); }
+        best.sort(function (a, b) { return a[0] - b[0]; });
+        for (j = 0; j < 3; j++) { var a = Math.min(i, best[j][1]), b = Math.max(i, best[j][1]), key = a + '_' + b; if (!seen[key]) { seen[key] = 1; E.push([a, b]); } }
+    }
+    var COL = ['245,224,140', '74,222,128', '217,222,230'];
+    var pulses = [];
+    // tilted rings around the core (gold / silver / green), each spinning at its own speed
+    var RINGS = [{ rad: 1.32, tx: 1.15, tz: .25, sp: .55, col: '245,224,140', w: 1.3, n: 26 }, { rad: 1.55, tx: -.6, tz: .9, sp: -.38, col: '217,222,230', w: 1, n: 22 }, { rad: 1.82, tx: .35, tz: -1.05, sp: .26, col: '74,222,128', w: 1.1, n: 30 }];
+    // incoming data streams (curves from the screen edges into the core)
+    var STREAMS = []; for (i = 0; i < (weak ? 5 : 10); i++) STREAMS.push({ a: r() * TAU, off: r(), sp: .25 + r() * .35, col: COL[i % 3], bend: (r() - .5) * 1.4 });
+    // deep particles drifting at three depths
+    var DEEP = []; for (i = 0; i < (weak ? 40 : 90); i++) DEEP.push({ x: r(), y: r(), z: .3 + r() * .7, tw: r() * TAU });
+
+    function size() {
+        W = window.innerWidth; H = window.innerHeight; small = W < 640;
+        DPR = Math.min(window.devicePixelRatio || 1, weak ? 1 : 1.5) * (quality >= 2 ? .75 : 1);
+        cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); x.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+    function ease(u) { u = Math.max(0, Math.min(1, u)); return 1 - Math.pow(1 - u, 3); }
+
+    function frame(time, dt) {
+        x.clearRect(0, 0, W, H);
+        // intro progress (0..1) -> gathering and camera push
+        var ip = introAt < 0 ? 1 : Math.max(0, Math.min(1, (time - introAt) / introDur));
+        var gather = ease((ip - .08) / .55), settle = ease((ip - .55) / .45);
+        mx += (tmx - mx) * .05; my += (tmy - my) * .05;
+        var cx = W / 2 + mx * 18, cy = H * (small ? .42 : .45) + my * 12;
+        var base = Math.min(W, H) * (small ? .30 : .27);
+        var R = base * (1.35 - .35 * settle);                       // camera push-in during the intro, then settles
+        var yaw = time * .16, pitch = .35 + .12 * Math.sin(time * .21);
+        var cyw = Math.cos(yaw), syw = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch), D = 3.2;
+        function proj(px, py, pz) {
+            var X = px * cyw + pz * syw, Z = -px * syw + pz * cyw, Y = py * cp - Z * sp; Z = py * sp + Z * cp;
+            var k = D / (D - Z); return [cx + X * k * R, cy + Y * k * R, Z, k];
+        }
+        x.globalCompositeOperation = 'lighter';
+        // deep space dust (parallax)
+        for (i = 0; i < DEEP.length; i++) {
+            var q0 = DEEP[i], dx0 = ((q0.x + time * .004 * q0.z) % 1) * W - mx * 10 * q0.z, dy0 = q0.y * H - my * 8 * q0.z, a0 = (.15 + .35 * (.5 + .5 * Math.sin(time * .8 + q0.tw))) * q0.z;
+            x.fillStyle = 'rgba(220,226,240,' + a0 + ')'; x.fillRect(dx0, dy0, q0.z * 1.6, q0.z * 1.6);
+        }
+        // core glow
+        var gl = x.createRadialGradient(cx, cy, 0, cx, cy, R * 2.2);
+        gl.addColorStop(0, 'rgba(255,240,190,' + (.30 * gather) + ')'); gl.addColorStop(.22, 'rgba(212,175,55,' + (.14 * gather) + ')'); gl.addColorStop(.5, 'rgba(74,222,128,' + (.06 * gather) + ')'); gl.addColorStop(1, 'rgba(0,0,0,0)');
+        x.fillStyle = gl; x.beginPath(); x.arc(cx, cy, R * 2.2, 0, TAU); x.fill();
+        // data streams flowing into the core
+        if (quality < 2 && gather > .2) {
+            for (i = 0; i < STREAMS.length; i++) {
+                var s = STREAMS[i], ex = cx + Math.cos(s.a) * Math.max(W, H) * .75, ey = cy + Math.sin(s.a) * Math.max(W, H) * .75;
+                var mxp = (cx + ex) / 2 + Math.sin(s.a) * s.bend * R, myp = (cy + ey) / 2 - Math.cos(s.a) * s.bend * R;
+                x.strokeStyle = 'rgba(' + s.col + ',' + (.05 * gather) + ')'; x.lineWidth = 1; x.beginPath(); x.moveTo(ex, ey); x.quadraticCurveTo(mxp, myp, cx, cy); x.stroke();
+                for (var m = 0; m < 3; m++) {                      // packets travelling along the stream
+                    var u = (s.off + time * s.sp + m / 3) % 1, iu = 1 - u, bx = iu * iu * ex + 2 * iu * u * mxp + u * u * cx, by = iu * iu * ey + 2 * iu * u * myp + u * u * cy, pa = Math.sin(u * Math.PI) * .7 * gather;
+                    x.fillStyle = 'rgba(' + s.col + ',' + pa + ')'; x.fillRect(bx - 1.2, by - 1.2, 2.4, 2.4);
+                }
+            }
+        }
+        // sphere points (gathering from far away during the intro)
+        for (i = 0; i < N; i++) {
+            var p = P[i], g = ease((gather - p.d) / (1 - p.d)), br = 1 + .04 * Math.sin(time * 1.3 + p.tw);
+            var X3 = (p.sx + (p.x * br - p.sx) * g), Y3 = (p.sy + (p.y * br - p.sy) * g), Z3 = (p.sz + (p.z * br - p.sz) * g);
+            var pr = proj(X3, Y3, Z3); p.px = pr[0]; p.py = pr[1]; p.pz = pr[2]; p.k = pr[3]; p.g = g;
+        }
+        // links
+        x.lineWidth = 1;
+        for (i = 0; i < E.length; i++) {
+            var A = P[E[i][0]], B = P[E[i][1]], la = Math.min(A.g, B.g) * (.10 + .22 * Math.max(0, (A.pz + B.pz) / 2 + .6));
+            if (la < .01) continue;
+            x.strokeStyle = 'rgba(' + COL[A.c] + ',' + la + ')'; x.beginPath(); x.moveTo(A.px, A.py); x.lineTo(B.px, B.py); x.stroke();
+        }
+        // data pulses travelling along the links
+        if (quality < 2 && gather > .6) {
+            if (dt && pulses.length < (weak ? 5 : 14) && Math.random() < .25) pulses.push({ e: E[Math.floor(Math.random() * E.length)], u: 0, sp: 1.2 + Math.random() * 1.4 });
+            for (i = pulses.length - 1; i >= 0; i--) {
+                var pu = pulses[i]; pu.u += dt * pu.sp; if (pu.u >= 1) { pulses.splice(i, 1); continue; }
+                var A2 = P[pu.e[0]], B2 = P[pu.e[1]], qx = A2.px + (B2.px - A2.px) * pu.u, qy = A2.py + (B2.py - A2.py) * pu.u;
+                var pg = x.createRadialGradient(qx, qy, 0, qx, qy, 6); pg.addColorStop(0, 'rgba(255,255,255,.95)'); pg.addColorStop(.4, 'rgba(245,224,140,.55)'); pg.addColorStop(1, 'rgba(245,224,140,0)');
+                x.fillStyle = pg; x.beginPath(); x.arc(qx, qy, 6, 0, TAU); x.fill();
+            }
+        }
+        // nodes
+        for (i = 0; i < N; i++) {
+            var n = P[i], na = (.35 + .65 * Math.max(0, (n.pz + 1) / 2)) * (.55 + .45 * Math.sin(time * 2 + n.tw)) * (.35 + .65 * n.g), ns = (1 + 1.4 * Math.max(0, n.pz)) * n.k;
+            x.fillStyle = 'rgba(' + COL[n.c] + ',' + na + ')'; x.fillRect(n.px - ns / 2, n.py - ns / 2, ns, ns);
+        }
+        // tilted rings (3D) with light particles riding on them
+        for (i = 0; i < RINGS.length; i++) {
+            var rg = RINGS[i], sc = settle * .4 + gather * .6, M = small ? 48 : 64, prev = null, ct = Math.cos(rg.tx), st = Math.sin(rg.tx), cz = Math.cos(rg.tz + time * .05 * (i + 1)), sz2 = Math.sin(rg.tz + time * .05 * (i + 1));
+            function rp(ang) { var px = Math.cos(ang) * rg.rad, pz = Math.sin(ang) * rg.rad, py = 0; var ty = py * ct - pz * st; pz = py * st + pz * ct; py = ty; var tx = px * cz - py * sz2; py = px * sz2 + py * cz; px = tx; return proj(px, py, pz); }
+            x.lineWidth = rg.w;
+            for (j = 0; j <= M; j++) {
+                var q = rp(j / M * TAU);
+                if (prev) { var depthA = .25 + .5 * Math.max(0, (q[2] + prev[2]) / 2 / rg.rad + .5); x.strokeStyle = 'rgba(' + rg.col + ',' + (depthA * .55 * sc) + ')'; x.beginPath(); x.moveTo(prev[0], prev[1]); x.lineTo(q[0], q[1]); x.stroke(); }
+                prev = q;
+            }
+            for (j = 0; j < rg.n; j++) {
+                var qa = rp(j / rg.n * TAU + time * rg.sp), tw2 = .4 + .6 * Math.abs(Math.sin(time * 1.6 + j * 1.7)), sa = tw2 * sc * (.35 + .65 * Math.max(0, qa[2] / rg.rad + .5));
+                x.fillStyle = 'rgba(' + rg.col + ',' + sa + ')'; var ds = 1.2 + 1.6 * tw2; x.fillRect(qa[0] - ds / 2, qa[1] - ds / 2, ds, ds);
+            }
+        }
+        // the AI nucleus: two counter-rotating hexagons + a bright heart
+        var hr = R * .28 * (1 + .05 * Math.sin(time * 2.2)) * (.3 + .7 * gather);
+        for (var h = 0; h < 2; h++) {
+            var rot = (h ? -1 : 1) * time * .5 + h * .52, hs = hr * (h ? .72 : 1);
+            x.strokeStyle = h ? 'rgba(74,222,128,' + (.75 * gather) + ')' : 'rgba(245,224,140,' + (.9 * gather) + ')'; x.lineWidth = h ? 1.2 : 1.6; x.beginPath();
+            for (j = 0; j <= 6; j++) { var aa = rot + j / 6 * TAU; if (j) x.lineTo(cx + Math.cos(aa) * hs, cy + Math.sin(aa) * hs * .92); else x.moveTo(cx + Math.cos(aa) * hs, cy + Math.sin(aa) * hs * .92); }
+            x.stroke();
+        }
+        var hg = x.createRadialGradient(cx, cy, 0, cx, cy, hr * .9); hg.addColorStop(0, 'rgba(255,255,255,' + (.9 * gather) + ')'); hg.addColorStop(.35, 'rgba(245,224,140,' + (.55 * gather) + ')'); hg.addColorStop(1, 'rgba(74,222,128,0)');
+        x.fillStyle = hg; x.beginPath(); x.arc(cx, cy, hr * .9, 0, TAU); x.fill();
+        x.globalCompositeOperation = 'source-over';
+    }
+
+    function loop(now) {
+        if (!running) return;
+        if (!last) last = now;
+        var raw = (now - last) / 1000, dt = Math.min(.05, raw);
+        if (raw >= (weak ? .04 : .016) - .002) {
+            t += dt; last = now;
+            try { frame(t, dt); } catch (e) { (window.__sdErrors = window.__sdErrors || []).push('core: ' + e.message); running = false; return; }
+            ema = ema * .93 + raw * 1000 * .07; if (ema > 40) slow++; else slow = Math.max(0, slow - 1);
+            if (slow > 80 && quality < 2) { quality++; slow = 0; ema = 20; if (quality === 2) size(); }
+        }
+        requestAnimationFrame(loop);
+    }
+    function start() { if (running || reduce) return; running = true; last = 0; requestAnimationFrame(loop); }
+    function stop() { running = false; }
+    size(); frame(t, 0);
+    window.addEventListener('resize', function () { size(); if (!running) frame(t, 0); });
+    window.addEventListener('pointermove', function (e) { tmx = (e.clientX / W - .5) * 2; tmy = (e.clientY / H - .5) * 2; }, { passive: true });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else start(); });
+    start();
+    window.__core = {
+        ok: true,
+        intro: function (dur) { introDur = dur; introAt = t; if (reduce) { introAt = -1; frame(t, 0); } },
+        frameAt: function (tt) { t = tt; frame(tt, .016); },
+        stats: function () { return { ok: true, points: N, links: E.length, rings: RINGS.length, streams: STREAMS.length, running: running, quality: quality, weak: weak, introAt: introAt }; },
+    };
+})();
+</script>
+
+<script>
+// ===== Opening sequence: energy -> particles gather -> SD GENESIS -> chat (about 1.2 – 2 s, skippable, not repeated on quick re-entry) =====
+(function () {
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var weak = (navigator.hardwareConcurrency || 4) <= 2 || (navigator.deviceMemory || 4) <= 2;
+    var KEY = 'sd_ai_intro_at', q = location.search, force = /[?&]intro=1/.test(q), never = /[?&]intro=0/.test(q);
+    var lastAt = 0; try { lastAt = Number(sessionStorage.getItem(KEY) || 0); } catch (e) {}
+    var play = !never && !reduce && (force || Date.now() - lastAt > 5 * 60 * 1000);
+    var D = weak ? 1.25 : 2.0, done = false, timer = null;
+    function finish() {
+        if (done) return; done = true; clearTimeout(timer);
+        document.body.classList.remove('intro'); document.body.classList.add('ready');
+        window.dispatchEvent(new Event('ai:ready'));
+    }
+    window.__intro = { played: play, duration: D, finish: finish, done: function () { return done; } };
+    if (!play) { document.body.classList.add('ready'); done = true; return; }
+    try { sessionStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+    document.documentElement.style.setProperty('--d', D + 's');
+    document.body.classList.add('intro');
+    if (window.__core) window.__core.intro(D);
+    timer = setTimeout(finish, D * 1000 - 120);
+    document.getElementById('introSkip').addEventListener('click', finish);
+    document.getElementById('intro').addEventListener('click', function (e) { if (e.target.id !== 'introSkip') finish(); });
+    window.addEventListener('keydown', function (e) { if (!done && (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ')) finish(); });
+})();
+</script>
+
+<script>
+// ===== Chat (answers come ONLY from the approved knowledge base on the server -- no external AI, nothing invented) =====
+(function () {
+    var log = document.getElementById('log'), form = document.getElementById('form'), input = document.getElementById('input'), sendBtn = document.getElementById('send');
+    var typing = document.getElementById('typing'), dot = document.getElementById('dot'), statusEl = document.getElementById('status'), kb = document.getElementById('kbCount'), counter = document.getElementById('counter');
+    var KEY = 'sd_ai_chat_v1', MAX = 500, FALLBACK = 'عذراً، لا تتوفر لدي حالياً معلومات معتمدة كافية للإجابة عن هذا السؤال. يرجى المحاولة لاحقاً.';
+    var cfg = null, messages = [], queue = [], busy = false, enabled = true, welcomed = false;
+    function safeGet() { try { return JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { return null; } }
+    function safeSet() { try { sessionStorage.setItem(KEY, JSON.stringify(messages.slice(-40))); } catch (e) {} }
+
+    var cfgReady = fetch('/api/ai/config', { headers: { Accept: 'application/json' } })
+        .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+        .then(function (c) {
+            cfg = c; enabled = c.enabled !== false;
+            kb.textContent = !enabled ? 'المساعد متوقف مؤقتًا' : c.kb_count ? c.kb_count + ' من المعلومات المعتمدة' : 'قاعدة المعرفة قيد الإعداد';
+            if (c.ai) {                                               // an AI model is switched on: describe it honestly
+                document.getElementById('chipA').innerHTML = '<b>✓</b>ذكاء اصطناعي';
+                document.getElementById('chipC').innerHTML = '<b>✓</b>معلومات الشركة من المصادر المعتمدة';
+                document.querySelector('.sub').textContent = 'اسأل مساعد SD GENESIS عن الشركة أو عن أي موضوع تقني. معلومات الشركة يأخذها فقط من المصادر التي اعتمدتها الشركة، ولا يخمّن فيها.';
+            }
+            if (!enabled) { dot.className = 'dot off'; statusEl.textContent = 'متوقف مؤقتًا'; input.disabled = true; sendBtn.disabled = true; input.placeholder = 'المساعد متوقف مؤقتًا'; }
+        })
+        .catch(function () { kb.textContent = 'تعذّر الاتصال بالخادم'; });
+
+    function linkify(text, el) {
+        var re = /(https?:\/\/[^\s<>"']+|[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Za-z0-9.-]+)/g, lastI = 0, m;
+        while ((m = re.exec(text))) {
+            if (m.index > lastI) el.appendChild(document.createTextNode(text.slice(lastI, m.index)));
+            var tx = m[0], a = document.createElement('a');
+            a.href = tx.indexOf('@') > -1 && tx.indexOf('http') !== 0 ? 'mailto:' + tx : tx; a.textContent = tx; a.target = '_blank'; a.rel = 'noopener noreferrer'; el.appendChild(a);
+            lastI = m.index + tx.length;
+        }
+        if (lastI < text.length) el.appendChild(document.createTextNode(text.slice(lastI)));
+    }
+    function scrollDown() { log.scrollTop = log.scrollHeight; }
+    function addMessage(m, persist) {
+        var row = document.createElement('div'); row.className = 'msg ' + (m.role === 'user' ? 'user' : 'bot') + (m.na ? ' na' : '') + (m.info ? ' info' : '');
+        var av = document.createElement('div'); av.className = 'av'; av.textContent = m.role === 'user' ? 'أنت' : 'AI'; av.setAttribute('aria-hidden', 'true');
+        var wrap = document.createElement('div'); wrap.className = 'wrap';
+        if (m.tag) { var tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = m.tag; wrap.appendChild(tag); wrap.appendChild(document.createElement('br')); }
+        var b = document.createElement('div'); b.className = 'bubble'; linkify(m.text, b); wrap.appendChild(b);
+        if (m.suggestions && m.suggestions.length) {
+            var s = document.createElement('div'); s.className = 'sug';
+            m.suggestions.forEach(function (qq) { var btn = document.createElement('button'); btn.type = 'button'; btn.textContent = qq; btn.addEventListener('click', function () { ask(qq); }); s.appendChild(btn); });
+            wrap.appendChild(s);
+        }
+        row.appendChild(av); row.appendChild(wrap); log.appendChild(row); scrollDown();
+        if (persist !== false) { messages.push(m); safeSet(); }
+    }
+    function welcome() {
+        if (welcomed) return; welcomed = true;
+        addMessage({ role: 'bot', info: true, text: (cfg && cfg.welcome) || 'مرحباً بك في مساعد SD GENESIS. اكتب سؤالك وسأبحث عنه في المعلومات المعتمدة فقط.' }, false);
+        addMessage({ role: 'bot', info: true, text: cfg && cfg.ai
+            ? 'طريقة الاستخدام:\n• اكتب سؤالك بوضوح ثم اضغط زر الإرسال (أو Enter).\n• اسألني عن SD GENESIS أو عن أي موضوع تقني، ويمكنك متابعة الأسئلة وأنا أتذكر سياق المحادثة.\n• معلومات الشركة أعطيك إياها من المصادر المعتمدة فقط، وإن لم تتوفر أخبرك بذلك بوضوح.\n• لبدء محادثة جديدة اضغط «محادثة جديدة».'
+            : 'طريقة الاستخدام:\n• اكتب سؤالك بوضوح ثم اضغط زر الإرسال (أو Enter).\n• يمكنك إرسال أسئلة متتابعة، وأتذكر سياق المحادثة ما دمت في هذه الجلسة.\n• أجيب من المعلومات التي اعتمدتها الشركة فقط، وإن لم أجد إجابة معتمدة أخبرك بذلك بوضوح.\n• لبدء محادثة جديدة اضغط «محادثة جديدة».' }, false);
+    }
+    function restore() { var saved = safeGet(); if (saved && saved.length) { messages = saved; saved.forEach(function (m) { addMessage(m, false); }); } }
+    function setBusy(v) { busy = v; typing.classList.toggle('on', v); dot.className = 'dot' + (v ? ' busy' : enabled ? '' : ' off'); statusEl.textContent = v ? 'يبحث في المعلومات المعتمدة…' : (enabled ? 'جاهز' : 'متوقف مؤقتًا'); scrollDown(); }
+    // last turns of the conversation (both sides) so the assistant understands follow-up questions
+    function history() { return messages.slice(0, -1).slice(-8).map(function (m) { return { role: m.role === 'user' ? 'user' : 'assistant', content: m.text }; }); }
+    function pump() {
+        if (busy || !queue.length) return;
+        var text = queue.shift(); setBusy(true);
+        var ctrl = 'AbortController' in window ? new AbortController() : null, to = setTimeout(function () { if (ctrl) ctrl.abort(); }, 28000);
+        fetch('/api/ai/ask', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ message: text, history: history() }), signal: ctrl ? ctrl.signal : undefined })
+            .then(function (res) { return res.json().catch(function () { return {}; }).then(function (d) { return { ok: res.ok, status: res.status, d: d }; }); })
+            .then(function (res) {
+                if (!res.ok) { addMessage({ role: 'bot', na: true, text: res.status === 429 ? (res.d.error || 'أرسلت أسئلة كثيرة بسرعة، انتظر قليلًا ثم حاول مجددًا.') : (res.d.error || 'تعذّر إتمام الطلب، حاول مجددًا.') }); return; }
+                var d = res.d;
+                if (d.disabled) { addMessage({ role: 'bot', na: true, text: 'المساعد متوقف مؤقتًا.' }); return; }
+                if (d.answered) addMessage({ role: 'bot', text: d.answer, tag: d.source === 'ai' ? 'مساعد ذكي' : (d.category ? 'معلومة معتمدة · ' + d.category : 'معلومة معتمدة') });
+                else addMessage({ role: 'bot', na: true, text: d.message || FALLBACK, suggestions: (d.suggestions || []).map(function (s) { return s.question; }) });
+            })
+            .catch(function () { addMessage({ role: 'bot', na: true, text: 'تعذّر الاتصال بالخادم. تأكد من الإنترنت ثم أعد المحاولة.' }); })
+            .then(function () { clearTimeout(to); setBusy(false); pump(); });
+    }
+    function ask(text) {
+        text = String(text || '').trim(); if (!text || !enabled) return;
+        if (text.length > MAX) text = text.slice(0, MAX);
+        if (queue.indexOf(text) !== -1) return;                       // never queue the same question twice
+        addMessage({ role: 'user', text: text }); queue.push(text); pump();
+    }
+    function autosize() { input.style.height = 'auto'; input.style.height = Math.min(160, input.scrollHeight) + 'px'; counter.textContent = input.value.length + '/' + MAX; }
+    input.addEventListener('input', autosize);
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); if (form.requestSubmit) form.requestSubmit(); else form.dispatchEvent(new Event('submit', { cancelable: true })); } });
+    form.addEventListener('submit', function (e) { e.preventDefault(); var v = input.value; input.value = ''; autosize(); ask(v); if (!matchMedia('(hover:none)').matches) input.focus(); });
+    document.getElementById('newChat').addEventListener('click', function () { messages = []; queue = []; welcomed = false; log.innerHTML = ''; try { sessionStorage.removeItem(KEY); } catch (e) {} welcome(); input.focus({ preventScroll: true }); });
+
+    function boot() {
+        cfgReady.then(function () {
+            restore(); if (!messages.length) welcome(); else welcomed = true;
+            if (enabled && !matchMedia('(hover:none)').matches) setTimeout(function () { input.focus({ preventScroll: true }); }, 300);
+        });
+    }
+    if (window.__intro && !window.__intro.done()) window.addEventListener('ai:ready', boot, { once: true }); else boot();
+    window.__ai = { ask: ask, state: function () { return { messages: messages.length, busy: busy, queued: queue.length, enabled: enabled }; } };
+})();
+</script>
+
+<script>
+// branding (same logo as the main site) + small helpers
+(function () {
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    fetch('/api/settings').then(function (r) { return r.ok ? r.json() : {}; }).then(function (s) {
+        if (!s || !s.logo_url) return;
+        var img = document.getElementById('brandImg');
+        img.addEventListener('load', function () { img.hidden = false; document.getElementById('brandText').hidden = true; }, { once: true });
+        img.src = s.logo_url;
+    }).catch(function () {});
+})();
+</script>
+</body>
+</html>
