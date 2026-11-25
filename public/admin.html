@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SD GENESIS - لوحة التحكم الاحترافية</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+body { font-family: 'Inter', system-ui, sans-serif; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+[data-section-panel] { display: none; }
+[data-section-panel].active { display: block; }
+[data-designs-subview] { display: none; }
+[data-designs-subview].active { display: block; }
+</style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+
+<div id="login-screen" class="fixed inset-0 z-[100] bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4 pb-32">
+<form id="login-form" class="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-xl">
+<div class="flex items-center gap-2 mb-6">
+<div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm">SD</div>
+<span class="font-bold text-lg">SD GENESIS</span>
+</div>
+<h1 class="text-xl font-bold mb-1">دخول لوحة التحكم</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-6">أدخل بياناتك للمتابعة</p>
+<label class="block mb-4"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">اسم المستخدم</span>
+<input type="text" name="username" required autocomplete="username" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block mb-6"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">كلمة المرور</span>
+<input type="password" name="password" required autocomplete="current-password" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<button type="submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">تسجيل الدخول</button>
+<p id="login-error" class="text-sm text-red-500 mt-3 hidden"></p>
+</form>
+</div>
+
+<div id="app-shell" class="hidden">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button id="sidebarToggle" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm">SD</div>
+<span class="font-bold text-lg hidden sm:block">SD GENESIS</span>
+</div>
+</div>
+<div class="flex items-center gap-2 sm:gap-4">
+<button id="themeToggle" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+<svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+</button>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold" id="avatar-initial">A</div>
+<span class="text-sm font-medium hidden sm:block" id="admin-username-label">المشرف</span>
+<button id="logout-btn" class="text-xs text-slate-400 hover:text-red-500 transition-colors mr-2">تسجيل الخروج</button>
+</div>
+</div>
+</header>
+
+<div class="flex">
+<aside id="sidebar" class="fixed lg:sticky top-0 right-0 h-screen w-64 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 transform translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 overflow-y-auto">
+<div class="p-4 space-y-1">
+<div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 px-3">القائمة الرئيسية</div>
+<button data-nav="dashboard" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+لوحة التحكم
+</button>
+<button data-nav="apps" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+إدارة التطبيقات
+</button>
+<button data-nav="analytics" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m18 0v-6a2 2 0 00-2-2h-2a2 2 0 00-2 2v6m-6 0v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m18 0V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v6"/></svg>
+التحليلات
+</button>
+<button data-nav="branding" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h14a2 2 0 012 2v9m-4 8v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6m10 0H7"/></svg>
+الهوية البصرية
+</button>
+<button data-nav="designs" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 6h16M4 6a2 2 0 012-2h12a2 2 0 012 2M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6"/></svg>
+معرض التصاميم
+</button>
+<button data-nav="videos" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+تصميم الفيديو
+</button>
+<button data-nav="ai" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:translate-x-1">
+<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+الذكاء الاصطناعي
+</button>
+</div>
+</aside>
+
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
+<main class="flex-1 p-4 lg:p-8 pb-32 overflow-x-hidden">
+
+<div data-section-panel="dashboard" class="active space-y-6">
+<div><h1 class="text-2xl font-bold">لوحة التحكم</h1><p class="text-slate-500 dark:text-slate-400 text-sm mt-1">نظرة عامة — بيانات حقيقية من قاعدة البيانات</p></div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+<div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-3">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+</div>
+<div class="text-2xl font-bold" id="stat-total-apps">—</div>
+<div class="text-sm text-slate-500 dark:text-slate-400 mt-1">إجمالي التطبيقات</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+<div class="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-3">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+</div>
+<div class="text-2xl font-bold" id="stat-total-downloads">—</div>
+<div class="text-sm text-slate-500 dark:text-slate-400 mt-1">إجمالي التنزيلات</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+<div class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-3">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+</div>
+<div class="text-lg font-bold truncate" id="stat-top-app">—</div>
+<div class="text-sm text-slate-500 dark:text-slate-400 mt-1">الأكثر تنزيلًا</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+<h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+<svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+التطبيقات الأكثر تحميلًا
+</h3>
+<div id="dash-top-apps" class="space-y-3 text-sm text-slate-400">جارٍ التحميل…</div>
+</div>
+</div>
+
+<div data-section-panel="apps" class="space-y-6">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div><h1 class="text-2xl font-bold">إدارة التطبيقات</h1><p class="text-slate-500 dark:text-slate-400 text-sm mt-1">إضافة، تعديل، حذف، ونشر التطبيقات</p></div>
+<button id="new-app-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+إضافة تطبيق جديد
+</button>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex flex-wrap gap-3">
+<input type="text" id="apps-search" placeholder="البحث في التطبيقات..." autocomplete="off" class="flex-1 min-w-[200px] bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+<select id="apps-filter" class="bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2 text-sm">
+<option value="all">جميع الحالات</option>
+<option value="published">منشور</option>
+<option value="draft">مسودة</option>
+</select>
+</div>
+<div id="apps-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"><p class="text-slate-400 text-sm">جارٍ التحميل…</p></div>
+</div>
+
+<div data-section-panel="branding" class="space-y-6">
+<div><h1 class="text-2xl font-bold">الهوية البصرية</h1><p class="text-slate-500 dark:text-slate-400 text-sm mt-1">فيديو الخلفية، الشعار الرئيسي، وشعار الشركة 2</p></div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+<h3 class="font-bold text-sm mb-3">فيديو خلفية الصفحة الرئيسية</h3>
+<div id="branding-video-current" class="text-xs text-slate-400 mb-3">جارٍ التحقق…</div>
+<input type="file" id="branding-video-input" accept="video/mp4" class="w-full text-sm text-slate-500 mb-3">
+<div class="flex gap-2">
+<button id="branding-video-upload-btn" class="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">رفع / استبدال</button>
+<button id="branding-video-remove-btn" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-red-500 rounded-lg text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">حذف</button>
+</div>
+<p id="branding-video-status" class="text-xs mt-2 hidden"></p>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+<h3 class="font-bold text-sm mb-3">الشعار الرئيسي (الهيدر)</h3>
+<div id="branding-logo-current" class="mb-3 h-16 flex items-center text-xs text-slate-400">جارٍ التحقق…</div>
+<input type="file" id="branding-logo-input" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="w-full text-sm text-slate-500 mb-3">
+<div class="flex gap-2">
+<button id="branding-logo-upload-btn" class="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">رفع / استبدال</button>
+<button id="branding-logo-remove-btn" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-red-500 rounded-lg text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">حذف</button>
+</div>
+<p id="branding-logo-status" class="text-xs mt-2 hidden"></p>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 md:col-span-2">
+<h3 class="font-bold text-sm mb-3">شعار الشركة 2 (منطقة التذييل)</h3>
+<div id="branding-logo2-current" class="mb-3 h-24 flex items-center text-xs text-slate-400">جارٍ التحقق…</div>
+<input type="file" id="branding-logo2-input" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="w-full text-sm text-slate-500 mb-3">
+<div class="flex gap-2">
+<button id="branding-logo2-upload-btn" class="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">رفع / استبدال</button>
+<button id="branding-logo2-remove-btn" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-red-500 rounded-lg text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">حذف</button>
+</div>
+<p id="branding-logo2-status" class="text-xs mt-2 hidden"></p>
+</div>
+</div>
+</div>
+
+<div data-section-panel="designs" class="space-y-6">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div><h1 class="text-2xl font-bold">معرض التصاميم</h1><p class="text-slate-500 dark:text-slate-400 text-sm mt-1">التصنيفات والتصاميم المعروضة للعملاء</p></div>
+<div class="flex gap-2">
+<button id="category-new-btn" class="px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors">+ تصنيف جديد</button>
+<button id="design-new-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">+ تصميم جديد</button>
+</div>
+</div>
+<div class="flex gap-2 border-b border-slate-200 dark:border-slate-800">
+<button data-design-type="website" class="design-type-tab px-4 py-2.5 text-sm font-medium border-b-2 border-blue-600 text-blue-600">تصاميم المواقع</button>
+<button data-design-type="app" class="design-type-tab px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-slate-500 dark:text-slate-400">تصاميم التطبيقات</button>
+</div>
+<div class="flex gap-2">
+<button data-designs-tab="categories" class="designs-subtab px-3 py-1.5 rounded-full text-xs font-medium bg-blue-600 text-white">التصنيفات</button>
+<button data-designs-tab="items" class="designs-subtab px-3 py-1.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">التصاميم</button>
+</div>
+<div data-designs-subview="categories" class="active space-y-4">
+<div id="category-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"><p class="text-slate-400 text-sm">جارٍ التحميل…</p></div>
+</div>
+<div data-designs-subview="items" class="space-y-4">
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
+<input type="text" id="design-search" placeholder="ابحث في التصاميم..." autocomplete="off" class="w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+</div>
+<div id="design-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"><p class="text-slate-400 text-sm">جارٍ التحميل…</p></div>
+</div>
+</div>
+
+<div data-section-panel="videos" class="space-y-6">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div><h1 class="text-2xl font-bold">تصميم الفيديو</h1><p class="text-slate-500 dark:text-slate-400 text-sm mt-1">الفيديوهات المعروضة في الموقع — أي تعديل يظهر مباشرة</p></div>
+<button id="video-new-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">+ فيديو جديد</button>
+</div>
+<div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"><p class="text-slate-400 text-sm">جارٍ التحميل…</p></div>
+</div>
+
+<div data-section-panel="ai" class="space-y-6">
+<div class="flex items-center justify-between flex-wrap gap-3">
+<div><h1 class="text-2xl font-bold">الذكاء الاصطناعي — قاعدة المعرفة</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">المساعد يجيب فقط من المواد المعتمدة التي تضيفها هنا. لا يوجد أي نموذج خارجي، ولا يُخترع أي جواب.</p></div>
+<div class="flex gap-2 flex-wrap">
+<button id="ai-import-btn" class="px-3 py-2 bg-slate-200 dark:bg-slate-800 rounded-lg text-sm font-medium hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">استيراد JSON</button>
+<button id="ai-export-btn" class="px-3 py-2 bg-slate-200 dark:bg-slate-800 rounded-lg text-sm font-medium hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">تصدير JSON</button>
+<button id="ai-new-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">+ مادة جديدة</button>
+</div>
+</div>
+<input type="file" id="ai-import-file" accept="application/json,.json" class="hidden">
+
+<div class="flex gap-2 flex-wrap border-b border-slate-200 dark:border-slate-800 pb-2" id="ai-tabs">
+<button data-aitab="kb" class="ai-tab px-4 py-2 rounded-lg text-sm font-semibold bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">المواد المعتمدة <span id="ai-count" class="text-xs opacity-70"></span></button>
+<button data-aitab="unanswered" class="ai-tab px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-400">أسئلة بلا إجابة <span id="ai-unans-count" class="text-xs opacity-70"></span></button>
+<button data-aitab="settings" class="ai-tab px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-400">الإعدادات</button>
+</div>
+
+<div id="ai-pane-kb" class="space-y-4">
+<div class="flex gap-3 flex-wrap">
+<input id="ai-search" type="search" placeholder="ابحث في المواد…" class="flex-1 min-w-[200px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+<select id="ai-cat-filter" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2.5 text-sm"><option value="">كل التصنيفات</option></select>
+</div>
+<div id="ai-list" class="space-y-3"><p class="text-slate-400 text-sm">جارٍ التحميل…</p></div>
+</div>
+
+<div id="ai-pane-unanswered" class="space-y-3 hidden">
+<p class="text-sm text-slate-500 dark:text-slate-400">أسئلة سألها الزوار ولم يجد المساعد لها إجابة معتمدة، مرتبة حسب التكرار. اضغط «إضافة إجابة» لتحويل السؤال إلى مادة معتمدة.</p>
+<div id="ai-unans-list" class="space-y-3"><p class="text-slate-400 text-sm">جارٍ التحميل…</p></div>
+</div>
+
+<div id="ai-pane-settings" class="hidden">
+<form id="ai-settings-form" class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 space-y-4 max-w-2xl">
+<label class="flex items-center gap-3"><input type="checkbox" name="enabled" class="w-4 h-4"><span class="text-sm font-medium">تفعيل المساعد في الموقع</span></label>
+<div class="rounded-lg border border-slate-200 dark:border-slate-700 p-4 space-y-2">
+<label class="flex items-center gap-3"><input type="checkbox" name="use_ai" class="w-4 h-4"><span class="text-sm font-medium">استخدام نموذج الذكاء الاصطناعي للرد على الأسئلة التي لا توجد لها إجابة معتمدة</span></label>
+<p id="ai-model-status" class="text-xs text-slate-500"></p>
+<div class="flex items-center gap-2 flex-wrap"><button type="button" id="ai-test-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-600 text-white hover:bg-emerald-700">اختبار الاتصال بالنموذج</button><span id="ai-test-out" class="text-xs"></span></div>
+<p class="text-xs text-slate-400">الإجابات المعتمدة تُعرض دائمًا كما كتبتها. النموذج يأخذ معلومات الشركة من المواد المعتمدة فقط. مفتاح API يوضع في Vercel ← Settings ← Environment Variables باسم <b dir="ltr">AI_API_KEY</b> ولا يُكتب هنا.</p>
+</div>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">رسالة الترحيب</span>
+<textarea name="welcome" rows="2" maxlength="600" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">رسالة «لا توجد إجابة معتمدة»</span>
+<textarea name="fallback" rows="2" maxlength="600" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">صرامة المطابقة: <b id="ai-conf-label">0.55</b></span>
+<input type="range" name="min_confidence" min="0.3" max="0.9" step="0.05" class="mt-2 w-full"><span class="text-xs text-slate-400">أعلى = أكثر صرامة (يجيب فقط عند تطابق قوي). الأنسب 0.5 – 0.65.</span></label>
+<p id="ai-settings-msg" class="text-sm hidden"></p>
+<button type="submit" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">حفظ الإعدادات</button>
+</form>
+</div>
+</div>
+
+<div data-section-panel="analytics" class="space-y-6">
+<div><h1 class="text-2xl font-bold">التحليلات</h1><p class="text-slate-500 dark:text-slate-400 text-sm mt-1">التنزيلات اليومية خلال آخر 30 يومًا</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+<div id="analytics-chart" class="h-56 flex items-end justify-start gap-1.5 overflow-x-auto scrollbar-hide"><p class="text-slate-400 text-sm">جارٍ التحميل…</p></div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+<h3 class="font-bold text-lg mb-4">الأكثر تنزيلًا</h3>
+<div id="analytics-top-apps" class="space-y-3 text-sm text-slate-400">جارٍ التحميل…</div>
+</div>
+</div>
+
+</main>
+</div>
+</div>
+
+<div id="app-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+<div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
+<button id="form-modal-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
+<h2 id="form-title" class="text-lg font-bold mb-5">تطبيق جديد</h2>
+<form id="app-form" class="space-y-4">
+<input type="hidden" name="id">
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">اسم التطبيق</span>
+<input type="text" name="name" required class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">الوصف</span>
+<textarea name="description" rows="3" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<div class="flex gap-4 items-end">
+<label class="block flex-1"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">رقم الإصدار</span>
+<input type="text" name="version" placeholder="1.0.0" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="flex items-center gap-2 pb-2.5 text-sm"><input type="checkbox" name="published" class="w-4 h-4">منشور للمستخدمين</label>
+</div>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">سجل التحديثات</span>
+<textarea name="changelog" rows="3" placeholder="- إصلاح كذا&#10;- تحسين كذا" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">أيقونة التطبيق</span>
+<input type="file" name="icon" accept="image/*" class="mt-1 w-full text-sm text-slate-500"></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">صور واجهة التطبيق (حتى 8 صور)</span>
+<input type="file" name="screenshots" accept="image/*" multiple class="mt-1 w-full text-sm text-slate-500"></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">ملف التطبيق (apk / exe / zip / dmg …)</span>
+<input type="file" name="file" class="mt-1 w-full text-sm text-slate-500"></label>
+<p id="form-error" class="text-sm text-red-500 hidden"></p>
+<button type="submit" id="form-submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">حفظ التطبيق</button>
+</form>
+</div>
+</div>
+
+<div id="design-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+<div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
+<button id="design-form-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
+<h2 id="design-form-title" class="text-lg font-bold mb-5">تصميم جديد</h2>
+<form id="design-form" class="space-y-4">
+<input type="hidden" name="id">
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">اسم التصميم</span>
+<input type="text" name="name" required class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<div class="flex gap-4">
+<label class="block flex-1"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">رقم التصميم (Design ID)</span>
+<input type="text" name="design_id" placeholder="يُنشأ تلقائيًا إن تُرك فارغًا" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block flex-1"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">التصنيف</span>
+<select name="category_id" id="design-form-category" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+<option value="">— اختر تصنيفًا —</option>
+</select></label>
+</div>
+<p id="design-form-no-categories" class="text-xs text-amber-600 hidden">لا توجد تصنيفات لهذا النوع بعد — أضف تصنيفًا من تبويب "التصنيفات" أولًا.</p>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">وصف مختصر</span>
+<textarea name="description" rows="3" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">صورة التصميم</span>
+<input type="file" name="image" accept="image/*" class="mt-1 w-full text-sm text-slate-500"></label>
+<label class="flex items-center gap-2 text-sm"><input type="checkbox" name="visible" checked class="w-4 h-4">ظاهر للعملاء</label>
+<p id="design-form-error" class="text-sm text-red-500 hidden"></p>
+<button type="submit" id="design-form-submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">حفظ التصميم</button>
+</form>
+</div>
+</div>
+
+<div id="ai-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+<div class="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[90vh] overflow-y-auto relative">
+<button id="ai-form-close" type="button" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
+<h2 id="ai-form-title" class="text-lg font-bold mb-5">مادة جديدة</h2>
+<form id="ai-form" class="space-y-4">
+<input type="hidden" name="id">
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">التصنيف</span>
+<input type="text" name="category" list="ai-cat-list" placeholder="مثال: نبذة عن الشركة" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"><datalist id="ai-cat-list"></datalist></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">السؤال *</span>
+<input type="text" name="question" required maxlength="300" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">صيغ أخرى للسؤال (كل صيغة في سطر)</span>
+<textarea name="alt_questions" rows="3" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">كلمات مفتاحية (مفصولة بفاصلة)</span>
+<input type="text" name="keywords" placeholder="مثال: من نحن، تعريف، نبذة" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">الإجابة المعتمدة * (تُعرض للزائر كما كُتبت تمامًا)</span>
+<textarea name="answer" rows="6" required maxlength="4000" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<label class="flex items-center gap-3"><input type="checkbox" name="active" class="w-4 h-4" checked><span class="text-sm font-medium">مفعّلة (تظهر في إجابات المساعد)</span></label>
+<p id="ai-form-error" class="text-red-500 text-sm hidden"></p>
+<button type="submit" id="ai-form-submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors">حفظ المادة</button>
+</form>
+</div>
+</div>
+
+<div id="video-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+<div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
+<button id="video-form-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
+<h2 id="video-form-title" class="text-lg font-bold mb-5">فيديو جديد</h2>
+<form id="video-form" class="space-y-4">
+<input type="hidden" name="id">
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">عنوان الفيديو</span>
+<input type="text" name="title" required class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">وصف الفيديو</span>
+<textarea name="description" rows="3" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<div class="flex gap-4">
+<label class="block flex-1"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">نوع الفيديو</span>
+<input type="text" name="video_type" list="video-type-list" placeholder="مثال: إعلان" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block flex-1"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">نوع التصميم</span>
+<input type="text" name="design_type" list="design-type-list" placeholder="مثال: موشن جرافيك" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+</div>
+<datalist id="video-type-list"></datalist>
+<datalist id="design-type-list"></datalist>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">ملف الفيديو (mp4 / webm / mov — حتى 49 ميجابايت)</span>
+<input type="file" name="video" accept="video/mp4,video/webm,video/quicktime" class="mt-1 w-full text-sm text-slate-500"></label>
+<p id="video-form-current" class="text-xs text-slate-400 hidden"></p>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">الصورة المصغرة</span>
+<input type="file" name="thumbnail" accept="image/png,image/jpeg,image/webp" class="mt-1 w-full text-sm text-slate-500"></label>
+<label class="flex items-center gap-2 text-sm"><input type="checkbox" name="visible" checked class="w-4 h-4">ظاهر للعملاء</label>
+<p id="video-form-error" class="text-sm text-red-500 hidden"></p>
+<button type="submit" id="video-form-submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">حفظ الفيديو</button>
+</form>
+</div>
+</div>
+
+<div id="category-form-modal" class="hidden fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+<div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl p-6 max-h-[88vh] overflow-y-auto relative">
+<button id="category-form-close" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">✕</button>
+<h2 id="category-form-title" class="text-lg font-bold mb-5">تصنيف جديد</h2>
+<form id="category-form" class="space-y-4">
+<input type="hidden" name="id">
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">اسم التصنيف</span>
+<input type="text" name="name" required placeholder="مثال: مواقع المطاعم" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">وصف قصير</span>
+<textarea name="description" rows="2" placeholder="مثال: موقع مخصص للمطاعم والمقاهي" class="mt-1 w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y"></textarea></label>
+<label class="block"><span class="text-sm font-medium text-slate-600 dark:text-slate-400">صورة التصنيف (معاينة)</span>
+<input type="file" name="image" accept="image/*" class="mt-1 w-full text-sm text-slate-500"></label>
+<p id="category-form-error" class="text-sm text-red-500 hidden"></p>
+<button type="submit" id="category-form-submit" class="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">حفظ التصنيف</button>
+</form>
+</div>
+</div>
+
+<script>
+const THEME_KEY = 'sdgenesis-theme';
+function applyTheme(t) { document.documentElement.classList.toggle('dark', t === 'dark'); }
+applyTheme(localStorage.getItem(THEME_KEY) || 'light');
+document.getElementById('themeToggle').addEventListener('click', () => {
+const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+applyTheme(next);
+localStorage.setItem(THEME_KEY, next);
+});
+
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+function toggleSidebar(open) {
+const isOpen = open ?? sidebar.classList.contains('translate-x-full');
+sidebar.classList.toggle('translate-x-full', !isOpen);
+sidebarOverlay.classList.toggle('hidden', !isOpen);
+}
+document.getElementById('sidebarToggle').addEventListener('click', () => toggleSidebar(true));
+sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
+
+const navButtons = document.querySelectorAll('.nav-item');
+const panels = document.querySelectorAll('[data-section-panel]');
+
+function navigate(section) {
+panels.forEach((p) => p.classList.toggle('active', p.dataset.sectionPanel === section));
+navButtons.forEach((b) => {
+const active = b.dataset.nav === section;
+b.classList.toggle('bg-blue-50', active);
+b.classList.toggle('dark:bg-blue-900/20', active);
+b.classList.toggle('text-blue-600', active);
+b.classList.toggle('dark:text-blue-400', active);
+b.classList.toggle('text-slate-600', !active);
+b.classList.toggle('dark:text-slate-400', !active);
+});
+if (section === 'apps') loadApps();
+if (section === 'analytics') loadAnalytics();
+if (section === 'branding') loadBranding();
+if (section === 'designs') { loadCategories(); loadDesigns(); }
+if (section === 'videos') loadVideos();
+if (section === 'ai') loadAi();
+toggleSidebar(false);
+}
+navButtons.forEach((btn) => btn.addEventListener('click', () => navigate(btn.dataset.nav)));
+navigate('dashboard');
+
+async function api(path, options = {}) {
+const res = await fetch(`/api/admin${path}`, { credentials: 'same-origin', ...options });
+if (res.status === 401) { showLogin(); throw new Error('unauthorized'); }
+const data = await res.json().catch(() => ({}));
+if (!res.ok) throw new Error(data.error || 'حدث خطأ');
+return data;
+}
+
+const loginScreen = document.getElementById('login-screen');
+const appShell = document.getElementById('app-shell');
+const loginForm = document.getElementById('login-form');
+const loginError = document.getElementById('login-error');
+
+function showLogin() { loginScreen.classList.remove('hidden'); appShell.classList.add('hidden'); }
+function showDashboard(username) {
+loginScreen.classList.add('hidden');
+appShell.classList.remove('hidden');
+document.getElementById('admin-username-label').textContent = username;
+document.getElementById('avatar-initial').textContent = username.charAt(0).toUpperCase();
+loadStats();
+loadApps();
+}
+
+async function checkSession() {
+try { const me = await api('/me'); showDashboard(me.username); }
+catch { showLogin(); }
+}
+
+loginForm.addEventListener('submit', async (e) => {
+e.preventDefault();
+loginError.classList.add('hidden');
+const fd = new FormData(loginForm);
+try {
+const res = await fetch('/api/admin/login', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
+});
+const data = await res.json();
+if (!res.ok) throw new Error(data.error);
+showDashboard(data.username);
+} catch (err) {
+loginError.textContent = err.message || 'تعذر تسجيل الدخول';
+loginError.classList.remove('hidden');
+}
+});
+
+document.getElementById('logout-btn').addEventListener('click', async () => {
+await fetch('/api/admin/logout', { method: 'POST' });
+showLogin();
+});
+
+function formatSize(bytes) {
+if (!bytes) return '—';
+const units = ['بايت', 'كيلوبايت', 'ميجابايت', 'جيجابايت'];
+let i = 0, val = bytes;
+while (val >= 1024 && i < units.length - 1) { val /= 1024; i++; }
+return `${val.toFixed(val < 10 && i > 0 ? 1 : 0)} ${units[i]}`;
+}
+
+async function loadStats() {
+try {
+const stats = await api('/stats');
+document.getElementById('stat-total-apps').textContent = stats.totals.apps;
+document.getElementById('stat-total-downloads').textContent = stats.totals.downloads.toLocaleString('en-US');
+document.getElementById('stat-top-app').textContent = stats.topApps[0]?.name || '—';
+const list = document.getElementById('dash-top-apps');
+if (!stats.topApps.length) { list.innerHTML = '<p class="text-slate-400">لا توجد تنزيلات بعد</p>'; }
+else {
+list.innerHTML = stats.topApps.map((a, i) => `
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0">${i + 1}</div>
+<div class="flex-1 min-w-0">
+<div class="font-medium text-sm truncate text-slate-800 dark:text-slate-200">${a.name}</div>
+<div class="text-xs text-slate-400">${a.download_count.toLocaleString('en-US')} تنزيل</div>
+</div>
+</div>`).join('');
+}
+window.__lastStats = stats;
+} catch {}
+}
+
+async function loadAnalytics() {
+try {
+const stats = window.__lastStats || await api('/stats');
+const chart = document.getElementById('analytics-chart');
+if (!stats.daily.length) { chart.innerHTML = '<p class="text-slate-400 text-sm">لا توجد بيانات تنزيل مسجّلة بعد.</p>'; }
+else {
+const max = Math.max(...stats.daily.map((d) => d.count), 1);
+chart.innerHTML = stats.daily.map((d) => `
+<div class="flex flex-col items-center gap-1 shrink-0" style="width:28px">
+<div class="w-full bg-gradient-to-t from-blue-500 to-purple-400 rounded-t-md" style="height:${Math.max((d.count / max) * 180, 4)}px" title="${d.day}: ${d.count}"></div>
+<span class="text-[9px] text-slate-400 rotate-45 origin-top-right">${d.day.slice(5)}</span>
+</div>`).join('');
+}
+const topList = document.getElementById('analytics-top-apps');
+topList.innerHTML = stats.topApps.length
+? stats.topApps.map((a, i) => `
+<div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="text-slate-700 dark:text-slate-300">${i + 1}. ${a.name}</span>
+<span class="font-bold text-slate-800 dark:text-slate-200">${a.download_count.toLocaleString('en-US')}</span>
+</div>`).join('')
+: '<p class="text-slate-400">لا توجد بيانات بعد</p>';
+} catch {}
+}
+
+let appsCache = [];
+const appsGrid = document.getElementById('apps-grid');
+const appsSearch = document.getElementById('apps-search');
+const appsFilter = document.getElementById('apps-filter');
+
+async function loadApps() { try { appsCache = await api('/apps'); renderApps(); } catch {} }
+
+function renderApps() {
+const q = appsSearch.value.trim().toLowerCase();
+const filter = appsFilter.value;
+const list = appsCache.filter((a) => {
+const matchesSearch = a.name.toLowerCase().includes(q);
+const matchesFilter = filter === 'all' || (filter === 'published' ? a.published : !a.published);
+return matchesSearch && matchesFilter;
+});
+if (!list.length) { appsGrid.innerHTML = '<p class="text-slate-400 text-sm col-span-full text-center py-10">لا توجد تطبيقات مطابقة</p>'; return; }
+appsGrid.innerHTML = list.map((app) => `
+<div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
+<div class="flex items-start gap-4">
+${app.icon_url
+? `<img src="${app.icon_url}" class="w-16 h-16 rounded-2xl object-cover shrink-0" alt="">`
+: `<div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-xl shrink-0">${app.name.charAt(0)}</div>`}
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-2">
+<h3 class="font-bold text-base truncate">${app.name}</h3>
+<span class="shrink-0 px-2 py-1 text-xs rounded-full ${app.published ? 'bg-green-50 dark:bg-green-900/20 text-green-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">${app.published ? 'منشور' : 'مسودة'}</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${app.description || 'لا يوجد وصف'}</p>
+<div class="flex items-center gap-4 mt-3 text-xs text-slate-400">
+<span>v${app.version}</span><span>${formatSize(app.size_bytes)}</span><span>⬇ ${(app.download_count || 0).toLocaleString('en-US')}</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+<button data-edit="${app._id}" class="flex-1 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">تعديل</button>
+<button data-delete="${app._id}" class="flex-1 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">حذف</button>
+</div>
+</div>`).join('');
+appsGrid.querySelectorAll('[data-edit]').forEach((b) => b.addEventListener('click', () => openForm(appsCache.find((a) => a._id === b.dataset.edit))));
+appsGrid.querySelectorAll('[data-delete]').forEach((b) => b.addEventListener('click', () => deleteApp(b.dataset.delete)));
+}
+appsSearch.addEventListener('input', renderApps);
+appsFilter.addEventListener('change', renderApps);
+
+async function deleteApp(id) {
+if (!confirm('هل تريد حذف هذا التطبيق نهائيًا؟')) return;
+try { await api(`/apps/${id}`, { method: 'DELETE' }); loadApps(); loadStats(); }
+catch (err) { alert(err.message); }
+}
+
+const formModal = document.getElementById('app-form-modal');
+const appForm = document.getElementById('app-form');
+const formTitle = document.getElementById('form-title');
+const formError = document.getElementById('form-error');
+
+function openForm(app = null) {
+appForm.reset();
+formError.classList.add('hidden');
+formTitle.textContent = app ? `تعديل: ${app.name}` : 'تطبيق جديد';
+appForm.elements.id.value = app?._id || '';
+if (app) {
+appForm.elements.name.value = app.name;
+appForm.elements.description.value = app.description || '';
+appForm.elements.version.value = app.version || '';
+appForm.elements.changelog.value = app.changelog || '';
+appForm.elements.published.checked = !!app.published;
+}
+formModal.classList.remove('hidden');
+}
+document.getElementById('new-app-btn').addEventListener('click', () => openForm());
+document.getElementById('form-modal-close').addEventListener('click', () => formModal.classList.add('hidden'));
+formModal.addEventListener('click', (e) => { if (e.target === formModal) formModal.classList.add('hidden'); });
+
+// Uploads each File straight to Supabase (signed URL) so Vercel's 4.5MB body limit never applies,
+// then swaps the File for a tiny marker the server understands.
+function putToSigned(signedUrl, file, onPct) {
+return new Promise((resolve, reject) => {
+const x = new XMLHttpRequest();
+x.open('PUT', signedUrl);
+x.upload.onprogress = (e) => { if (e.lengthComputable) onPct(e.loaded / e.total); };
+x.onload = () => (x.status >= 200 && x.status < 300) ? resolve() : reject(new Error('فشل رفع الملف إلى التخزين (' + x.status + ')'));
+x.onerror = () => reject(new Error('انقطع الاتصال أثناء رفع الملف'));
+const body = new FormData();
+body.append('cacheControl', '3600');
+body.append('', file);
+x.send(body);
+});
+}
+async function directUploadFiles(formData, onProgress) {
+const entries = [];
+for (const [k, v] of formData.entries()) if (v instanceof File && v.size > 0) entries.push([k, v]);
+const total = entries.reduce((a, [, f]) => a + f.size, 0) || 1;
+let done = 0;
+for (const [k] of entries) formData.delete(k);
+for (const [k, f] of entries) {
+if (f.size > 49 * 1024 * 1024) throw new Error('الحد الأقصى لحجم الملف 49 ميجابايت');
+const r = await fetch('/api/admin/upload/sign', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ filename: f.name, size: f.size }) });
+const info = await r.json().catch(() => ({}));
+if (r.status === 401) { showLogin(); throw new Error('unauthorized'); }
+if (!r.ok) throw new Error(info.error || 'تعذر تجهيز الرفع');
+await putToSigned(info.signedUrl, f, (p) => onProgress(Math.round(((done + f.size * p) / total) * 100)));
+done += f.size;
+formData.append(k, new Blob([JSON.stringify({ path: info.path, size: f.size, type: f.type })], { type: 'application/x-preuploaded' }), f.name);
+}
+onProgress(100);
+}
+
+async function uploadWithProgress(path, method, formData, onProgress) {
+await directUploadFiles(formData, onProgress);
+return new Promise((resolve, reject) => {
+const xhr = new XMLHttpRequest();
+xhr.open(method, `/api/admin${path}`);
+xhr.withCredentials = true;
+xhr.upload.onprogress = (e) => { if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100)); };
+xhr.onload = () => {
+let data = {};
+try { data = JSON.parse(xhr.responseText); } catch {}
+if (xhr.status === 401) { showLogin(); return reject(new Error('unauthorized')); }
+if (xhr.status >= 200 && xhr.status < 300) resolve(data);
+else reject(new Error(data.error || `فشل الرفع (رمز ${xhr.status})`));
+};
+xhr.onerror = () => reject(new Error('انقطع الاتصال بالخادم أثناء الرفع'));
+xhr.send(formData);
+});
+}
+
+appForm.addEventListener('submit', async (e) => {
+e.preventDefault();
+formError.classList.add('hidden');
+const id = appForm.elements.id.value;
+const fd = new FormData(appForm);
+fd.set('published', appForm.elements.published.checked ? 'true' : 'false');
+const submitBtn = document.getElementById('form-submit');
+submitBtn.disabled = true;
+let lastProgress = -1, stallTimer = null;
+const resetStallWarning = () => {
+clearTimeout(stallTimer);
+stallTimer = setTimeout(() => { submitBtn.textContent = `الرفع بطيء جدًا (متوقف عند ${lastProgress}%)… لا تغلق الصفحة`; }, 20000);
+};
+resetStallWarning();
+try {
+await uploadWithProgress(id ? `/apps/${id}` : '/apps', id ? 'PUT' : 'POST', fd, (pct) => {
+lastProgress = pct;
+submitBtn.textContent = pct < 100 ? `جارٍ رفع الملفات… ${pct}%` : 'جارٍ الحفظ في قاعدة البيانات…';
+resetStallWarning();
+});
+clearTimeout(stallTimer);
+formModal.classList.add('hidden');
+loadApps(); loadStats();
+} catch (err) {
+clearTimeout(stallTimer);
+formError.textContent = err.message;
+formError.classList.remove('hidden');
+} finally {
+submitBtn.disabled = false;
+submitBtn.textContent = 'حفظ التطبيق';
+}
+});
+
+const videoCurrent = document.getElementById('branding-video-current');
+const videoInput = document.getElementById('branding-video-input');
+const videoUploadBtn = document.getElementById('branding-video-upload-btn');
+const videoRemoveBtn = document.getElementById('branding-video-remove-btn');
+const videoStatus = document.getElementById('branding-video-status');
+const logoCurrent = document.getElementById('branding-logo-current');
+const logoInput = document.getElementById('branding-logo-input');
+const logoUploadBtn = document.getElementById('branding-logo-upload-btn');
+const logoRemoveBtn = document.getElementById('branding-logo-remove-btn');
+const logoStatus = document.getElementById('branding-logo-status');
+const logo2Current = document.getElementById('branding-logo2-current');
+const logo2Input = document.getElementById('branding-logo2-input');
+const logo2UploadBtn = document.getElementById('branding-logo2-upload-btn');
+const logo2RemoveBtn = document.getElementById('branding-logo2-remove-btn');
+const logo2Status = document.getElementById('branding-logo2-status');
+
+function showBrandingStatus(el, msg, isError) {
+el.textContent = msg; el.classList.remove('hidden'); el.style.color = isError ? '#ef4444' : '#16a34a';
+}
+
+async function loadBranding() {
+try {
+const data = await api('/branding');
+videoCurrent.innerHTML = data.hero_video_url ? `<video src="${data.hero_video_url}" muted class="w-full h-24 object-cover rounded-lg"></video>` : 'لا يوجد فيديو مرفوع.';
+logoCurrent.innerHTML = data.logo_url ? `<img src="${data.logo_url}" class="h-14" alt="">` : 'لا يوجد شعار مرفوع.';
+logo2Current.innerHTML = data.logo2_url ? `<img src="${data.logo2_url}" class="h-20" alt="">` : 'لا توجد صورة مرفوعة.';
+} catch {}
+}
+
+videoUploadBtn.addEventListener('click', async () => {
+const file = videoInput.files[0];
+if (!file) return showBrandingStatus(videoStatus, 'اختر ملف فيديو أولًا', true);
+const fd = new FormData(); fd.append('video', file);
+videoUploadBtn.disabled = true;
+try {
+await uploadWithProgress('/branding', 'POST', fd, (pct) => showBrandingStatus(videoStatus, `جارٍ الرفع… ${pct}%`, false));
+showBrandingStatus(videoStatus, 'تم رفع الفيديو بنجاح ✅', false);
+videoInput.value = ''; loadBranding();
+} catch (err) { showBrandingStatus(videoStatus, err.message, true); }
+finally { videoUploadBtn.disabled = false; }
+});
+logoUploadBtn.addEventListener('click', async () => {
+const file = logoInput.files[0];
+if (!file) return showBrandingStatus(logoStatus, 'اختر ملف شعار أولًا', true);
+const fd = new FormData(); fd.append('logo', file);
+logoUploadBtn.disabled = true;
+try {
+await uploadWithProgress('/branding', 'POST', fd, (pct) => showBrandingStatus(logoStatus, `جارٍ الرفع… ${pct}%`, false));
+showBrandingStatus(logoStatus, 'تم رفع الشعار بنجاح ✅', false);
+logoInput.value = ''; loadBranding();
+} catch (err) { showBrandingStatus(logoStatus, err.message, true); }
+finally { logoUploadBtn.disabled = false; }
+});
+logo2UploadBtn.addEventListener('click', async () => {
+const file = logo2Input.files[0];
+if (!file) return showBrandingStatus(logo2Status, 'اختر صورة أولًا', true);
+const fd = new FormData(); fd.append('logo2', file);
+logo2UploadBtn.disabled = true;
+try {
+await uploadWithProgress('/branding', 'POST', fd, (pct) => showBrandingStatus(logo2Status, `جارٍ الرفع… ${pct}%`, false));
+showBrandingStatus(logo2Status, 'تم رفع الصورة بنجاح ✅', false);
+logo2Input.value = ''; loadBranding();
+} catch (err) { showBrandingStatus(logo2Status, err.message, true); }
+finally { logo2UploadBtn.disabled = false; }
+});
+videoRemoveBtn.addEventListener('click', async () => {
+if (!confirm('حذف الفيديو الحالي؟')) return;
+try { await api('/branding/video', { method: 'DELETE' }); showBrandingStatus(videoStatus, 'تم الحذف', false); loadBranding(); }
+catch (err) { showBrandingStatus(videoStatus, err.message, true); }
+});
+logoRemoveBtn.addEventListener('click', async () => {
+if (!confirm('حذف الشعار الحالي؟')) return;
+try { await api('/branding/logo', { method: 'DELETE' }); showBrandingStatus(logoStatus, 'تم الحذف', false); loadBranding(); }
+catch (err) { showBrandingStatus(logoStatus, err.message, true); }
+});
+logo2RemoveBtn.addEventListener('click', async () => {
+if (!confirm('حذف صورة شعار الشركة 2؟')) return;
+try { await api('/branding/logo2', { method: 'DELETE' }); showBrandingStatus(logo2Status, 'تم الحذف', false); loadBranding(); }
+catch (err) { showBrandingStatus(logo2Status, err.message, true); }
+});
+
+let currentDesignType = 'website';
+let designsCache = [];
+let categoriesCache = [];
+
+document.querySelectorAll('.design-type-tab').forEach((tab) => {
+tab.addEventListener('click', () => {
+currentDesignType = tab.dataset.designType;
+document.querySelectorAll('.design-type-tab').forEach((t) => {
+const active = t === tab;
+t.classList.toggle('border-blue-600', active);
+t.classList.toggle('text-blue-600', active);
+t.classList.toggle('border-transparent', !active);
+t.classList.toggle('text-slate-500', !active);
+t.classList.toggle('dark:text-slate-400', !active);
+});
+loadCategories(); loadDesigns();
+});
+});
+
+document.querySelectorAll('.designs-subtab').forEach((tab) => {
+tab.addEventListener('click', () => {
+document.querySelectorAll('[data-designs-subview]').forEach((v) => v.classList.toggle('active', v.dataset.designsSubview === tab.dataset.designsTab));
+document.querySelectorAll('.designs-subtab').forEach((t) => {
+const active = t === tab;
+t.classList.toggle('bg-blue-600', active);
+t.classList.toggle('text-white', active);
+t.classList.toggle('bg-slate-100', !active);
+t.classList.toggle('dark:bg-slate-800', !active);
+t.classList.toggle('text-slate-600', !active);
+t.classList.toggle('dark:text-slate-300', !active);
+});
+});
+});
+
+const categoryGrid = document.getElementById('category-grid');
+
+async function loadCategories() {
+categoryGrid.innerHTML = '<p class="text-slate-400 text-sm">جارٍ التحميل…</p>';
+try {
+categoriesCache = await api(`/design-categories/${currentDesignType}`);
+renderCategories();
+populateCategorySelect();
+} catch (err) { categoryGrid.innerHTML = `<p class="text-red-500 text-sm">${err.message}</p>`; }
+}
+
+function renderCategories() {
+if (!categoriesCache.length) { categoryGrid.innerHTML = '<p class="text-slate-400 text-sm col-span-full text-center py-10">لا توجد تصنيفات بعد — أضف أول تصنيف.</p>'; return; }
+categoryGrid.innerHTML = categoriesCache.map((c) => `
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+<div class="h-28 bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+${c.image_url ? `<img src="${c.image_url}" class="w-full h-full object-cover" alt="" onerror="this.style.display='none'">` : `<span class="text-xl font-black text-slate-300">${c.name.charAt(0)}</span>`}
+</div>
+<div class="p-4">
+<h3 class="font-bold text-sm mb-1">${c.name}</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">${c.description || ''}</p>
+<div class="grid grid-cols-2 gap-1.5">
+<button data-edit-cat="${c._id}" class="py-1.5 text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/20 rounded-lg">تعديل</button>
+<button data-delete-cat="${c._id}" class="py-1.5 text-xs font-medium text-red-600 bg-red-50 dark:bg-red-900/20 rounded-lg">حذف</button>
+</div>
+</div>
+</div>`).join('');
+categoryGrid.querySelectorAll('[data-edit-cat]').forEach((b) => b.addEventListener('click', () => openCategoryForm(categoriesCache.find((c) => c._id === b.dataset.editCat))));
+categoryGrid.querySelectorAll('[data-delete-cat]').forEach((b) => b.addEventListener('click', () => deleteCategory(b.dataset.deleteCat)));
+}
+
+async function deleteCategory(id) {
+if (!confirm('حذف هذا التصنيف؟ ستفقد التصاميم المرتبطة به ربطها بالتصنيف.')) return;
+try { await api(`/design-categories/${currentDesignType}/${id}`, { method: 'DELETE' }); loadCategories(); loadDesigns(); }
+catch (err) { alert(err.message); }
+}
+
+const categoryFormModal = document.getElementById('category-form-modal');
+const categoryForm = document.getElementById('category-form');
+const categoryFormTitle = document.getElementById('category-form-title');
+const categoryFormError = document.getElementById('category-form-error');
+
+function openCategoryForm(cat = null) {
+categoryForm.reset();
+categoryFormError.classList.add('hidden');
+categoryFormTitle.textContent = cat ? `تعديل: ${cat.name}` : 'تصنيف جديد';
+categoryForm.elements.id.value = cat?._id || '';
+if (cat) { categoryForm.elements.name.value = cat.name; categoryForm.elements.description.value = cat.description || ''; }
+categoryFormModal.classList.remove('hidden');
+}
+document.getElementById('category-new-btn').addEventListener('click', () => openCategoryForm());
+document.getElementById('category-form-close').addEventListener('click', () => categoryFormModal.classList.add('hidden'));
+categoryFormModal.addEventListener('click', (e) => { if (e.target === categoryFormModal) categoryFormModal.classList.add('hidden'); });
+
+categoryForm.addEventListener('submit', async (e) => {
+e.preventDefault();
+categoryFormError.classList.add('hidden');
+const id = categoryForm.elements.id.value;
+const fd = new FormData(categoryForm);
+const submitBtn = document.getElementById('category-form-submit');
+submitBtn.disabled = true;
+try {
+await uploadWithProgress(`/design-categories/${currentDesignType}${id ? '/' + id : ''}`, id ? 'PUT' : 'POST', fd,
+(pct) => { submitBtn.textContent = pct < 100 ? `جارٍ الرفع… ${pct}%` : 'جارٍ الحفظ…'; });
+categoryFormModal.classList.add('hidden');
+loadCategories();
+} catch (err) {
+categoryFormError.textContent = err.message;
+categoryFormError.classList.remove('hidden');
+} finally {
+submitBtn.disabled = false;
+submitBtn.textContent = 'حفظ التصنيف';
+}
+});
+
+function populateCategorySelect() {
+const select = document.getElementById('design-form-category');
+const notice = document.getElementById('design-form-no-categories');
+select.innerHTML = '<option value="">— اختر تصنيفًا —</option>' + categoriesCache.map((c) => `<option value="${c._id}">${c.name}</option>`).join('');
+notice.classList.toggle('hidden', categoriesCache.length > 0);
+}
+
+const designGrid = document.getElementById('design-grid');
+const designSearch = document.getElementById('design-search');
+
+async function loadDesigns() {
+designGrid.innerHTML = '<p class="text-slate-400 text-sm">جارٍ التحميل…</p>';
+try { designsCache = await api(`/designs/${currentDesignType}`); renderDesigns(); }
+catch (err) { designGrid.innerHTML = `<p class="text-red-500 text-sm">${err.message}</p>`; }
+}
+
+function renderDesigns() {
+const q = designSearch.value.trim().toLowerCase();
+const list = designsCache.filter((d) => d.name.toLowerCase().includes(q) || (d.category || '').toLowerCase().includes(q));
+if (!list.length) { designGrid.innerHTML = '<p class="text-slate-400 text-sm col-span-full text-center py-10">لا توجد تصاميم بعد</p>'; return; }
+designGrid.innerHTML = list.map((d, i) => `
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+<div class="h-36 bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+${d.image_url ? `<img src="${d.image_url}" class="w-full h-full object-cover" alt="" onerror="this.style.display='none'">` : `<span class="text-2xl font-black text-slate-300">${d.name.charAt(0)}</span>`}
+</div>
+<div class="p-4">
+<div class="flex items-center justify-between gap-2 mb-1">
+<h3 class="font-bold text-sm truncate">${d.name}</h3>
+<span class="shrink-0 px-2 py-0.5 text-[10px] rounded-full ${d.visible ? 'bg-green-50 dark:bg-green-900/20 text-green-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">${d.visible ? 'ظاهر' : 'مخفي'}</span>
+</div>
+<p class="text-[11px] font-mono text-slate-400 mb-1">${d.design_id}</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-3">${d.category || 'بلا تصنيف'} · اختير ${d.selection_count || 0} مرة</p>
+<div class="grid grid-cols-2 gap-1.5 mb-1.5">
+<button data-edit="${d._id}" class="py-1.5 text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/20 rounded-lg">تعديل</button>
+<button data-delete="${d._id}" class="py-1.5 text-xs font-medium text-red-600 bg-red-50 dark:bg-red-900/20 rounded-lg">حذف</button>
+<button data-toggle="${d._id}" data-visible="${d.visible}" class="py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg">${d.visible ? 'إخفاء' : 'إظهار'}</button>
+<div class="flex gap-1">
+<button data-move="${d._id}" data-dir="up" class="flex-1 py-1.5 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg" ${i === 0 ? 'disabled style="opacity:.35"' : ''}>↑</button>
+<button data-move="${d._id}" data-dir="down" class="flex-1 py-1.5 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg" ${i === list.length - 1 ? 'disabled style="opacity:.35"' : ''}>↓</button>
+</div>
+</div>
+</div>
+</div>`).join('');
+designGrid.querySelectorAll('[data-edit]').forEach((b) => b.addEventListener('click', () => openDesignForm(designsCache.find((d) => d._id === b.dataset.edit))));
+designGrid.querySelectorAll('[data-delete]').forEach((b) => b.addEventListener('click', () => deleteDesign(b.dataset.delete)));
+designGrid.querySelectorAll('[data-toggle]').forEach((b) => b.addEventListener('click', () => toggleDesignVisibility(b.dataset.toggle, b.dataset.visible === 'true')));
+designGrid.querySelectorAll('[data-move]').forEach((b) => b.addEventListener('click', () => moveDesign(b.dataset.move, b.dataset.dir)));
+}
+designSearch.addEventListener('input', renderDesigns);
+
+async function deleteDesign(id) {
+if (!confirm('حذف هذا التصميم نهائيًا؟')) return;
+try { await api(`/designs/${currentDesignType}/${id}`, { method: 'DELETE' }); loadDesigns(); }
+catch (err) { alert(err.message); }
+}
+async function toggleDesignVisibility(id, currentlyVisible) {
+try {
+const fd = new FormData(); fd.set('visible', (!currentlyVisible).toString());
+await api(`/designs/${currentDesignType}/${id}`, { method: 'PUT', body: fd });
+loadDesigns();
+} catch (err) { alert(err.message); }
+}
+async function moveDesign(id, direction) {
+try {
+await api(`/designs/${currentDesignType}/${id}/move`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ direction }) });
+loadDesigns();
+} catch (err) { alert(err.message); }
+}
+
+const designFormModal = document.getElementById('design-form-modal');
+const designForm = document.getElementById('design-form');
+const designFormTitle = document.getElementById('design-form-title');
+const designFormError = document.getElementById('design-form-error');
+
+function openDesignForm(design = null) {
+designForm.reset();
+designFormError.classList.add('hidden');
+populateCategorySelect();
+designFormTitle.textContent = design ? `تعديل: ${design.name}` : 'تصميم جديد';
+designForm.elements.id.value = design?._id || '';
+if (design) {
+designForm.elements.name.value = design.name;
+designForm.elements.design_id.value = design.design_id;
+designForm.elements.category_id.value = design.category_id || '';
+designForm.elements.description.value = design.description || '';
+designForm.elements.visible.checked = design.visible;
+} else { designForm.elements.visible.checked = true; }
+designFormModal.classList.remove('hidden');
+}
+document.getElementById('design-new-btn').addEventListener('click', () => openDesignForm());
+document.getElementById('design-form-close').addEventListener('click', () => designFormModal.classList.add('hidden'));
+designFormModal.addEventListener('click', (e) => { if (e.target === designFormModal) designFormModal.classList.add('hidden'); });
+
+designForm.addEventListener('submit', async (e) => {
+e.preventDefault();
+designFormError.classList.add('hidden');
+const id = designForm.elements.id.value;
+const fd = new FormData(designForm);
+fd.set('visible', designForm.elements.visible.checked ? 'true' : 'false');
+const submitBtn = document.getElementById('design-form-submit');
+submitBtn.disabled = true;
+try {
+await uploadWithProgress(`/designs/${currentDesignType}${id ? '/' + id : ''}`, id ? 'PUT' : 'POST', fd,
+(pct) => { submitBtn.textContent = pct < 100 ? `جارٍ الرفع… ${pct}%` : 'جارٍ الحفظ…'; });
+designFormModal.classList.add('hidden');
+loadDesigns();
+} catch (err) {
+designFormError.textContent = err.message;
+designFormError.classList.remove('hidden');
+} finally {
+submitBtn.disabled = false;
+submitBtn.textContent = 'حفظ التصميم';
+}
+});
+
+// ===== Videos manager =====
+let videosCache = [];
+const videoGrid = document.getElementById('video-grid');
+const esc = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+async function loadVideos() {
+videoGrid.innerHTML = '<p class="text-slate-400 text-sm">جارٍ التحميل…</p>';
+try { videosCache = await api('/videos'); renderVideos(); }
+catch (err) { videoGrid.innerHTML = `<p class="text-red-500 text-sm">${esc(err.message)}</p>`; }
+}
+function renderVideos() {
+if (!videosCache.length) { videoGrid.innerHTML = '<p class="text-slate-400 text-sm col-span-full text-center py-10">لا توجد فيديوهات بعد — اضغط "+ فيديو جديد"</p>'; return; }
+videoGrid.innerHTML = videosCache.map((v, i) => `
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+<div class="h-40 bg-slate-100 dark:bg-slate-800 overflow-hidden">
+${v.thumbnail_url ? `<img src="${esc(v.thumbnail_url)}" class="w-full h-full object-cover" alt="">` : `<video src="${esc(v.video_url)}#t=0.5" preload="metadata" muted class="w-full h-full object-cover"></video>`}
+</div>
+<div class="p-4">
+<div class="flex items-center justify-between gap-2 mb-1">
+<h3 class="font-bold text-sm truncate">${esc(v.title)}</h3>
+<span class="shrink-0 px-2 py-0.5 text-[10px] rounded-full ${v.visible ? 'bg-green-50 dark:bg-green-900/20 text-green-600' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">${v.visible ? 'ظاهر' : 'مخفي'}</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-3">${esc(v.video_type || 'بلا نوع')} · ${esc(v.design_type || 'بلا تصميم')}</p>
+<div class="grid grid-cols-2 gap-1.5">
+<button data-vedit="${v._id}" class="py-1.5 text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/20 rounded-lg">تعديل</button>
+<button data-vdelete="${v._id}" class="py-1.5 text-xs font-medium text-red-600 bg-red-50 dark:bg-red-900/20 rounded-lg">حذف</button>
+<button data-vtoggle="${v._id}" data-visible="${v.visible}" class="py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg">${v.visible ? 'إخفاء' : 'إظهار'}</button>
+<div class="flex gap-1">
+<button data-vmove="${v._id}" data-dir="up" class="flex-1 py-1.5 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg" ${i === 0 ? 'disabled style="opacity:.35"' : ''}>↑</button>
+<button data-vmove="${v._id}" data-dir="down" class="flex-1 py-1.5 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg" ${i === videosCache.length - 1 ? 'disabled style="opacity:.35"' : ''}>↓</button>
+</div>
+</div>
+</div>
+</div>`).join('');
+videoGrid.querySelectorAll('[data-vedit]').forEach((b) => b.addEventListener('click', () => openVideoForm(videosCache.find((v) => v._id === b.dataset.vedit))));
+videoGrid.querySelectorAll('[data-vdelete]').forEach((b) => b.addEventListener('click', async () => {
+if (!confirm('حذف هذا الفيديو نهائيًا؟')) return;
+try { await api(`/videos/${b.dataset.vdelete}`, { method: 'DELETE' }); loadVideos(); } catch (err) { alert(err.message); }
+}));
+videoGrid.querySelectorAll('[data-vtoggle]').forEach((b) => b.addEventListener('click', async () => {
+try {
+const fd = new FormData(); fd.set('visible', (b.dataset.visible !== 'true').toString());
+await api(`/videos/${b.dataset.vtoggle}`, { method: 'PUT', body: fd }); loadVideos();
+} catch (err) { alert(err.message); }
+}));
+videoGrid.querySelectorAll('[data-vmove]').forEach((b) => b.addEventListener('click', async () => {
+try {
+await api(`/videos/${b.dataset.vmove}/move`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ direction: b.dataset.dir }) });
+loadVideos();
+} catch (err) { alert(err.message); }
+}));
+}
+
+const videoFormModal = document.getElementById('video-form-modal');
+const videoForm = document.getElementById('video-form');
+const videoFormError = document.getElementById('video-form-error');
+const videoFormCurrent = document.getElementById('video-form-current');
+
+function openVideoForm(v = null) {
+videoForm.reset();
+videoFormError.classList.add('hidden');
+document.getElementById('video-form-title').textContent = v ? `تعديل: ${v.title}` : 'فيديو جديد';
+videoForm.elements.id.value = v?._id || '';
+videoForm.elements.visible.checked = v ? v.visible : true;
+if (v) {
+videoForm.elements.title.value = v.title;
+videoForm.elements.description.value = v.description || '';
+videoForm.elements.video_type.value = v.video_type || '';
+videoForm.elements.design_type.value = v.design_type || '';
+videoFormCurrent.textContent = 'اترك ملف الفيديو أو الصورة فارغًا للإبقاء على الحالي.';
+videoFormCurrent.classList.remove('hidden');
+} else { videoFormCurrent.classList.add('hidden'); }
+const uniq = (k) => [...new Set(videosCache.map((x) => x[k]).filter(Boolean))];
+document.getElementById('video-type-list').innerHTML = uniq('video_type').map((t) => `<option value="${esc(t)}">`).join('');
+document.getElementById('design-type-list').innerHTML = uniq('design_type').map((t) => `<option value="${esc(t)}">`).join('');
+videoFormModal.classList.remove('hidden');
+}
+document.getElementById('video-new-btn').addEventListener('click', () => openVideoForm());
+document.getElementById('video-form-close').addEventListener('click', () => videoFormModal.classList.add('hidden'));
+videoFormModal.addEventListener('click', (e) => { if (e.target === videoFormModal) videoFormModal.classList.add('hidden'); });
+
+videoForm.addEventListener('submit', async (e) => {
+e.preventDefault();
+videoFormError.classList.add('hidden');
+const id = videoForm.elements.id.value;
+const fd = new FormData(videoForm);
+fd.set('visible', videoForm.elements.visible.checked ? 'true' : 'false');
+if (!id && !(videoForm.elements.video.files[0])) { videoFormError.textContent = 'اختر ملف الفيديو'; videoFormError.classList.remove('hidden'); return; }
+const btn = document.getElementById('video-form-submit');
+btn.disabled = true;
+try {
+await uploadWithProgress(id ? `/videos/${id}` : '/videos', id ? 'PUT' : 'POST', fd,
+(pct) => { btn.textContent = pct < 100 ? `جارٍ الرفع… ${pct}%` : 'جارٍ الحفظ…'; });
+videoFormModal.classList.add('hidden');
+loadVideos();
+} catch (err) {
+videoFormError.textContent = err.message;
+videoFormError.classList.remove('hidden');
+} finally {
+btn.disabled = false;
+btn.textContent = 'حفظ الفيديو';
+}
+});
+
+checkSession();
+
+// ===== AI assistant: approved knowledge base =====
+let aiMeta = null, aiEntries = [], aiTab = 'kb';
+const aiList = document.getElementById('ai-list');
+const aiModal = document.getElementById('ai-form-modal');
+const aiForm = document.getElementById('ai-form');
+function aiShowTab(tab) {
+aiTab = tab;
+document.querySelectorAll('.ai-tab').forEach((b) => {
+const on = b.dataset.aitab === tab;
+b.classList.toggle('bg-blue-50', on); b.classList.toggle('dark:bg-blue-900/20', on); b.classList.toggle('text-blue-600', on); b.classList.toggle('dark:text-blue-400', on);
+b.classList.toggle('text-slate-600', !on); b.classList.toggle('dark:text-slate-400', !on);
+});
+['kb', 'unanswered', 'settings'].forEach((t) => document.getElementById('ai-pane-' + t).classList.toggle('hidden', t !== tab));
+if (tab === 'unanswered') aiLoadUnanswered();
+if (tab === 'settings') aiLoadSettings();
+}
+document.querySelectorAll('.ai-tab').forEach((b) => b.addEventListener('click', () => aiShowTab(b.dataset.aitab)));
+
+async function loadAi() {
+try {
+if (!aiMeta) {
+aiMeta = await api('/ai/meta');
+const opts = aiMeta.categories.map((c) => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+document.getElementById('ai-cat-list').innerHTML = opts;
+document.getElementById('ai-cat-filter').innerHTML = '<option value="">كل التصنيفات</option>' + opts;
+}
+await aiLoadEntries();
+aiLoadUnansweredCount();
+} catch (err) { aiList.innerHTML = `<p class="text-red-500 text-sm">${esc(err.message)}</p>`; }
+}
+async function aiLoadEntries() {
+const q = document.getElementById('ai-search').value.trim();
+const c = document.getElementById('ai-cat-filter').value;
+aiEntries = await api('/ai/kb?q=' + encodeURIComponent(q) + '&category=' + encodeURIComponent(c));
+document.getElementById('ai-count').textContent = '(' + aiEntries.length + ')';
+renderAiEntries();
+}
+function renderAiEntries() {
+if (!aiEntries.length) {
+aiList.innerHTML = '<div class="bg-white dark:bg-slate-900 rounded-xl p-8 border border-dashed border-slate-300 dark:border-slate-700 text-center"><p class="font-semibold mb-1">لا توجد مواد معتمدة بعد</p><p class="text-slate-500 dark:text-slate-400 text-sm">أضف نبذة الشركة والأسئلة الشائعة والإجابات الرسمية، وسيبدأ المساعد بالإجابة منها فقط. حتى ذلك الحين يخبر الزوار أنه لا يملك معلومات كافية.</p></div>';
+return;
+}
+aiList.innerHTML = aiEntries.map((e) => `
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 ${e.active === false ? 'opacity-60' : ''}">
+<div class="flex items-start justify-between gap-3 flex-wrap">
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-2 flex-wrap mb-1"><span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 font-semibold">${esc(e.category || 'أخرى')}</span>${e.active === false ? '<span class="text-[11px] px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500">متوقفة</span>' : ''}</div>
+<p class="font-semibold text-sm">${esc(e.question)}</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1 whitespace-pre-wrap line-clamp-3">${esc(e.answer)}</p>
+${(e.alt_questions || []).length ? `<p class="text-xs text-slate-400 mt-2">صيغ أخرى: ${esc(e.alt_questions.join(' | '))}</p>` : ''}
+${(e.keywords || []).length ? `<p class="text-xs text-slate-400 mt-1">كلمات مفتاحية: ${esc(e.keywords.join('، '))}</p>` : ''}
+</div>
+<div class="flex gap-2 shrink-0">
+<button data-aitoggle="${esc(e._id)}" class="px-3 py-1.5 text-xs rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700">${e.active === false ? 'تفعيل' : 'إيقاف'}</button>
+<button data-aiedit="${esc(e._id)}" class="px-3 py-1.5 text-xs rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">تعديل</button>
+<button data-aidel="${esc(e._id)}" class="px-3 py-1.5 text-xs rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400">حذف</button>
+</div></div></div>`).join('');
+}
+aiList.addEventListener('click', async (ev) => {
+const b = ev.target.closest('button'); if (!b) return;
+try {
+if (b.dataset.aidel) { if (!confirm('حذف هذه المادة نهائيًا؟')) return; await api('/ai/kb/' + b.dataset.aidel, { method: 'DELETE' }); aiLoadEntries(); }
+else if (b.dataset.aiedit) openAiForm(aiEntries.find((x) => x._id === b.dataset.aiedit));
+else if (b.dataset.aitoggle) { const e = aiEntries.find((x) => x._id === b.dataset.aitoggle); await api('/ai/kb/' + e._id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ active: e.active === false }) }); aiLoadEntries(); }
+} catch (err) { alert(err.message); }
+});
+let aiSearchT; document.getElementById('ai-search').addEventListener('input', () => { clearTimeout(aiSearchT); aiSearchT = setTimeout(() => aiLoadEntries().catch(() => {}), 250); });
+document.getElementById('ai-cat-filter').addEventListener('change', () => aiLoadEntries().catch(() => {}));
+
+function openAiForm(entry, prefill) {
+document.getElementById('ai-form-error').classList.add('hidden');
+document.getElementById('ai-form-title').textContent = entry ? 'تعديل مادة' : 'مادة جديدة';
+aiForm.elements.id.value = entry ? entry._id : '';
+aiForm.elements.category.value = entry ? (entry.category || '') : '';
+aiForm.elements.question.value = entry ? entry.question : (prefill || '');
+aiForm.elements.alt_questions.value = entry ? (entry.alt_questions || []).join('\n') : '';
+aiForm.elements.keywords.value = entry ? (entry.keywords || []).join('، ') : '';
+aiForm.elements.answer.value = entry ? entry.answer : '';
+aiForm.elements.active.checked = entry ? entry.active !== false : true;
+aiModal.classList.remove('hidden');
+}
+document.getElementById('ai-new-btn').addEventListener('click', () => openAiForm(null));
+document.getElementById('ai-form-close').addEventListener('click', () => aiModal.classList.add('hidden'));
+aiModal.addEventListener('click', (e) => { if (e.target === aiModal) aiModal.classList.add('hidden'); });
+aiForm.addEventListener('submit', async (e) => {
+e.preventDefault();
+const err = document.getElementById('ai-form-error'); err.classList.add('hidden');
+const id = aiForm.elements.id.value;
+const body = {
+question: aiForm.elements.question.value, answer: aiForm.elements.answer.value, category: aiForm.elements.category.value,
+alt_questions: aiForm.elements.alt_questions.value, keywords: aiForm.elements.keywords.value, active: aiForm.elements.active.checked,
+};
+const btn = document.getElementById('ai-form-submit'); btn.disabled = true;
+try {
+await api('/ai/kb' + (id ? '/' + id : ''), { method: id ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+aiModal.classList.add('hidden'); aiLoadEntries(); aiLoadUnansweredCount();
+} catch (ex) { err.textContent = ex.message; err.classList.remove('hidden'); }
+finally { btn.disabled = false; }
+});
+
+async function aiLoadUnansweredCount() { try { const l = await api('/ai/unanswered'); document.getElementById('ai-unans-count').textContent = l.length ? '(' + l.length + ')' : ''; return l; } catch { return []; } }
+async function aiLoadUnanswered() {
+const box = document.getElementById('ai-unans-list');
+const l = await aiLoadUnansweredCount();
+if (!l.length) { box.innerHTML = '<p class="text-slate-400 text-sm">لا توجد أسئلة بلا إجابة حتى الآن.</p>'; return; }
+box.innerHTML = l.map((u) => `<div class="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 flex-wrap">
+<div class="min-w-0"><p class="font-medium text-sm">${esc(u.text)}</p><p class="text-xs text-slate-400 mt-1">سُئل ${u.count} مرة</p></div>
+<div class="flex gap-2"><button data-aiadd="${esc(u._id)}" data-text="${esc(u.text)}" class="px-3 py-1.5 text-xs rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">إضافة إجابة</button>
+<button data-aiundel="${esc(u._id)}" class="px-3 py-1.5 text-xs rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400">تجاهل</button></div></div>`).join('');
+}
+document.getElementById('ai-unans-list').addEventListener('click', async (ev) => {
+const b = ev.target.closest('button'); if (!b) return;
+try {
+if (b.dataset.aiadd) { openAiForm(null, b.dataset.text); }
+else if (b.dataset.aiundel) { await api('/ai/unanswered/' + b.dataset.aiundel, { method: 'DELETE' }); aiLoadUnanswered(); }
+} catch (err) { alert(err.message); }
+});
+
+const aiSetForm = document.getElementById('ai-settings-form');
+async function aiLoadSettings() {
+const s = await api('/ai/settings');
+aiSetForm.elements.enabled.checked = s.enabled !== false;
+aiSetForm.elements.use_ai.checked = s.use_ai !== false;
+const ms = document.getElementById('ai-model-status'), mi = s.ai_model || {};
+ms.textContent = mi.configured ? ('✓ المفتاح مضبوط على الخادم — المزوّد: ' + mi.provider + ' · النموذج: ' + mi.model) : '✗ لم يُضبط مفتاح API على الخادم بعد (AI_API_KEY) — المساعد يجيب من المواد المعتمدة فقط.';
+ms.className = 'text-xs ' + (mi.configured ? 'text-emerald-600' : 'text-amber-600');
+if (mi.configured) ms.textContent += ' · المفتاح: ' + mi.key_hint + ' · البحث على الإنترنت: ' + (mi.web_search ? 'مفعّل (' + mi.search_engine + ')' : 'غير مفعّل');
+if (mi.last_error) ms.textContent += '\n⚠ آخر خطأ من المزوّد (' + (mi.last_error.status || '-') + '): ' + mi.last_error.detail;
+ms.style.whiteSpace = 'pre-wrap';
+aiSetForm.elements.welcome.value = s.welcome || '';
+aiSetForm.elements.fallback.value = s.fallback || '';
+aiSetForm.elements.min_confidence.value = s.min_confidence;
+document.getElementById('ai-conf-label').textContent = Number(s.min_confidence).toFixed(2);
+}
+aiSetForm.elements.min_confidence.addEventListener('input', () => { document.getElementById('ai-conf-label').textContent = Number(aiSetForm.elements.min_confidence.value).toFixed(2); });
+document.getElementById('ai-test-btn').addEventListener('click', async () => {
+const out = document.getElementById('ai-test-out'); out.className = 'text-xs text-slate-500'; out.textContent = 'جارٍ الاختبار…';
+try {
+const r = await api('/ai/test', { method: 'POST' });
+if (r.ok) { out.className = 'text-xs text-emerald-600'; out.textContent = '✓ يعمل — ' + r.provider + ' / ' + r.model + ' (' + r.ms + ' ms)' + (r.web_search ? ' · البحث مفعّل' : ''); }
+else { out.className = 'text-xs text-red-600'; out.style.whiteSpace = 'pre-wrap'; out.textContent = '✗ ' + r.reason + (r.detail ? '\nالتفاصيل: ' + r.detail : ''); }
+} catch (err) { out.className = 'text-xs text-red-600'; out.textContent = '✗ ' + (err.message || err); }
+});
+aiSetForm.addEventListener('submit', async (e) => {
+e.preventDefault();
+const msg = document.getElementById('ai-settings-msg');
+try {
+await api('/ai/settings', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ enabled: aiSetForm.elements.enabled.checked, use_ai: aiSetForm.elements.use_ai.checked, welcome: aiSetForm.elements.welcome.value, fallback: aiSetForm.elements.fallback.value, min_confidence: aiSetForm.elements.min_confidence.value }) });
+msg.textContent = 'تم حفظ الإعدادات ✓'; msg.className = 'text-sm text-green-600';
+} catch (ex) { msg.textContent = ex.message; msg.className = 'text-sm text-red-500'; }
+setTimeout(() => msg.classList.add('hidden'), 3000);
+});
+
+document.getElementById('ai-export-btn').addEventListener('click', () => { window.location.href = '/api/admin/ai/kb/export'; });
+const aiImportFile = document.getElementById('ai-import-file');
+document.getElementById('ai-import-btn').addEventListener('click', () => aiImportFile.click());
+aiImportFile.addEventListener('change', async () => {
+const f = aiImportFile.files[0]; if (!f) return;
+try {
+const data = JSON.parse(await f.text());
+const r = await api('/ai/kb/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ entries: Array.isArray(data) ? data : data.entries }) });
+alert('تمت إضافة ' + r.added + ' مادة' + (r.skipped.length ? ' — وتم تخطي ' + r.skipped.length + ' غير صالحة' : ''));
+aiLoadEntries();
+} catch (err) { alert('ملف غير صالح: ' + err.message); }
+aiImportFile.value = '';
+});
+</script>
+</body>
+</html>
